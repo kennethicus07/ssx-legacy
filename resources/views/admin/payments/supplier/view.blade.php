@@ -1,0 +1,42 @@
+@extends('layouts.admin')
+
+@section('content')
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Supplier/Exhibitor Payments</h4>
+                <div class="ms-auto text-end">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.payments.suppliers.exhibitors.index') }}">Supplier/Exhibitor Payments</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                {{ $event->event_name }}
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <supplier-payment-view
+            :attendance='@json($attendance)'
+            :event='@json($event)'>
+        </supplier-payment-view>
+    </div>
+@endsection
+
+@push('styles')
+    <link href="/libs/toastr/build/toastr.min.css" rel="stylesheet" />
+@endpush
+
+@push('scripts')
+    <script src="/libs/toastr/build/toastr.min.js"></script>
+    @if (session('status'))
+        <script>
+            toastr.success("{{ session('status') }}", 'Success!');
+        </script>
+    @endif
+@endpush

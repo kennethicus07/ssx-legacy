@@ -1,0 +1,239 @@
+.registration-form input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+textarea {
+    background-color: #f9f1e6;
+    border: #f9f1e6 1px solid;
+    color: #000;
+    font-size: 12px;
+}
+
+.registration-form input[type=text]:disabled,
+input[type=email]:disabled,
+input[type=number]:disabled {
+    background-color: #e9ecef;
+}
+
+.registration-form input[type=radio]:checked,
+input[type=checkbox]:checked {
+    background-color: #9daa39;
+    border: #9daa39 1px solid;
+}
+
+.registration-form select {
+    background-color: #f9f1e6;
+    border: #f9f1e6 1px solid;
+    color: #000;
+    font-size: 12px;
+}
+
+.registration-form textarea {
+    background-color: #f9f1e6;
+    border: #f9f1e6 1px solid;
+    color: #000;
+    font-size: 12px;
+}
+
+.input-group-text {
+    font-size: 12px;
+    background-color: #9daa39;
+    border: 1px solid #9daa39;
+}
+
+.registration-form .form-label,
+.form-check-label {
+    font-size: 12px !important;
+}
+
+.invalid-feedback {
+    font-size: 12px;
+    color: #dc3545;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.popup {
+    background-image: url("/assets/images/event-logo-transparent.png");
+    background-color: #ffffff;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: auto;
+    border-radius: 1rem !important;
+}
+
+.cookie-holder {
+    position: fixed;
+    width: 100%;
+    min-height: 150px;
+    padding: 20px;
+    background: rgba(42, 52, 24, .95);
+    color: #fff;
+    bottom: -150px;
+    left: 0;
+    display: block;
+    z-index: 999999999;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    opacity: 0;
+    pointer-events: none;
+    -webkit-transition: .5s;
+    -moz-transition: .5s;
+    transition: .5s;
+}
+
+.cookie-holder.active {
+    bottom: 0;
+    opacity: 1;
+    pointer-events: initial;
+}
+
+.cookie-holder h2 {
+    color: #fff;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.cookie-holder p {
+    color: #fff;
+    margin-bottom: 0;
+}
+
+.cookie-holder .button_holder {
+    text-align: right;
+}
+
+.cookie-holder .button_holder .more_info {
+    background: #fff;
+    color: #231f20;
+    padding: 10px 30px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.cookie-holder .button_holder .more_info:hover {
+    text-decoration: none;
+    opacity: .6;
+}
+
+.cookie-holder .button_holder .cookie_btn {
+    background: #9daa39;
+    color: #fff;
+    padding: 10px 30px;
+    border-radius: 3px;
+    width: unset;
+    font-weight: 600;
+}
+
+span.img-text {
+    text-decoration: none;
+    outline: none;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    cursor: pointer;
+    width: 100%;
+    font-size: 23px;
+    display: block;
+    text-transform: capitalize;
+}
+
+span.img-text:hover {
+    color: #dcddde;
+}
+
+.overlay-image {
+    filter: brightness(0.5);
+}
+
+a.lightgreen-link {
+    color: #000;
+    text-decoration: none;
+}
+
+a.lightgreen-link:hover {
+    color: #9daa39;
+    text-decoration: underline;
+}
+
+a.lightgreen-link2 {
+    color: #fff;
+    text-decoration: none;
+}
+
+a.lightgreen-link2:hover {
+    color: #9daa39;
+    text-decoration: underline;
+}
+
+a.maroon-link {
+    color: #FFF;
+    text-decoration: none;
+}
+
+a.maroon-link:hover {
+    color: #671245;
+    text-decoration: underline;
+}
+
+.page-link {
+    color: #000;
+}
+
+a.page-link:hover {
+    color: #2a3418;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #9daa39;
+    border-color: #9daa39;
+}
+
+.owl-stage {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+p.loc {
+    border: 1px solid #f0ad2e;
+    border-radius: 10px;
+    color: #f0ad2e;
+    font-size: 11px;
+    margin-bottom: 0;
+    padding: 3px 5px;
+    text-transform: uppercase;
+}
+
+.event-org-logo img {
+    border-radius: 10px;
+    height: 40px;
+    max-width: 40px;
+}
+
+.hopin-container {
+    overflow: hidden;
+    padding-top: 75.25%;
+    position: relative;
+}
+
+.hopin-container iframe {
+    border: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
