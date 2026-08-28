@@ -213,7 +213,7 @@
             </div>
 
             <div class="text-center mt-5">
-                <a href="{{ asset('assets/sdg_asia_2026/SDG_Asia_2026_Lookbook.pdf') }}"
+                <a href="{{ asset('assets/sdg_asia_2026/SDG Asia 2026 Digital Directory.pdf') }}"
                     download="SDG_Asia_2026_Lookbook.pdf" class="btn sdg-btn-download">
                     Download the Lookbook
                 </a>
