@@ -86,10 +86,39 @@ $partnerBenefits = [
 ];
 
 $shiftCtas = [
-    ['icon' => 'mdi:email-fast-outline', 'color' => '#E3A72E', 'title' => 'Inquire for Sponsorship', 'text' => 'Access our 2026 Sponsorship Prospectus and discover how your brand can lead the transition.'],
-    ['icon' => 'mdi:cart-outline', 'color' => '#2A7F8E', 'title' => 'Register as a Trade Purchaser', 'text' => 'Join a network of trade purchasers and "conscientious buyers" looking to adopt eco-certified products and green production technologies.'],
-    // ['icon' => 'mdi:account-check-outline', 'color' => '#6B8E3D', 'title' => 'Register as a Delegate', 'text' => 'Join over 300 decision-makers for the 2-day SSX Conference to gain practical "how-to" knowledge on navigating the EPR Act and global green regulations.'],
-    ['icon' => 'mdi:storefront-plus-outline', 'color' => '#B5652D', 'title' => 'Apply to Exhibit', 'text' => 'Feature your sustainable solutions in our showcase, reaching a diverse audience across lifestyle, home, fashion, and smart city sectors.'],
+
+    [
+        'icon' => 'mdi:email-fast-outline',
+        'color' => '#E3A72E',
+        'title' => 'Inquire for Sponsorship',
+        'text' => 'Access our 2026 Sponsorship Prospectus and discover how your brand can lead the transition.',
+        'url' => 'https://sustainability.ph/login',
+    ],
+
+    [
+        'icon' => 'mdi:cart-outline',
+        'color' => '#2A7F8E',
+        'title' => 'Register as a Trade Purchaser',
+        'text' => 'Join a network of trade purchasers and "conscientious buyers" looking to adopt eco-certified products and green production technologies.',
+        'url' => 'https://sustainability.ph/registration/purchaser/email-validation',
+    ],
+
+    [
+        'icon' => 'mdi:account-check-outline',
+        'color' => '#6B8E3D',
+        'title' => 'Register as a Delegate',
+        'text' => 'Join over 300 decision-makers for the 2-day SSX Conference to gain practical "how-to" knowledge on navigating the EPR Act and global green regulations.',
+        'url' => 'https://sustainability.ph/conference/registration',
+    ],
+
+    [
+        'icon' => 'mdi:storefront-plus-outline',
+        'color' => '#B5652D',
+        'title' => 'Apply to Exhibit',
+        'text' => 'Feature your sustainable solutions in our showcase, reaching a diverse audience across lifestyle, home, fashion, and smart city sectors.',
+        'url' => 'https://sustainability.ph/registration/supplier/email-validation',
+    ],
+
 ];
 
 $pitchCriteria = [
@@ -631,45 +660,51 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
             <h3 class="font-display text-2xl font-bold text-forestdark mb-2">Be Part of the Green Shift.</h3>
             <p class="text-forest max-w-2xl mx-auto mb-10">Whether you are a solution provider looking to showcase innovation or a corporate leader ready to champion sustainability, now is the time to secure your place.</p>
 <div class="flex flex-wrap justify-center gap-5 text-left">
-    @foreach($shiftCtas as $cta)
+   @foreach($shiftCtas as $cta)
+
+    <div
+        class="w-full md:w-[calc(48%-10px)] flex items-center gap-4 bg-white border border-forest/20 rounded-2xl p-6 border-l-4 cursor-pointer hover:translate-x-1 hover:shadow-[0_12px_24px_rgba(31,69,34,0.12)] transition-all duration-200"
+        style="border-left-color:{{ $cta['color'] }};"
+        onclick="window.open('{{ $cta['url'] }}','_blank')">
+
+        <!-- Icon -->
         <div
-            class="w-full md:w-[calc(48%-10px)] flex items-center gap-4 bg-white border border-forest/20 rounded-2xl p-6 border-l-4 cursor-pointer hover:translate-x-1 hover:shadow-[0_12px_24px_rgba(31,69,34,0.12)] transition-all duration-200"
-            style="border-left-color:{{ $cta['color'] }};"
-            onclick="window.open('{{ route('registration.supplier') }}','_blank')">
+            class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+            style="background:{{ $cta['color'] }}22; color:{{ $cta['color'] }};">
 
-            <!-- Icon -->
-            <div
-                class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                style="background:{{ $cta['color'] }}22; color:{{ $cta['color'] }};">
-                <iconify-icon
-                    icon="{{ $cta['icon'] }}"
-                    width="24"
-                    height="24">
-                </iconify-icon>
-            </div>
-
-            <!-- Content -->
-            <div class="flex-1">
-                <h5 class="font-display font-bold text-forestdark text-sm leading-tight whitespace-nowrap">
-                    {{ $cta['title'] }}
-                </h5>
-
-                <p class="text-xs text-forest leading-relaxed">
-                    {{ $cta['text'] }}
-                </p>
-            </div>
-
-            <!-- Arrow -->
             <iconify-icon
-                icon="mdi:arrow-top-right"
-                width="20"
-                height="20"
-                class="shrink-0"
-                style="color:{{ $cta['color'] }};">
+                icon="{{ $cta['icon'] }}"
+                width="24"
+                height="24">
             </iconify-icon>
 
         </div>
-    @endforeach
+
+        <!-- Content -->
+        <div class="flex-1">
+
+            <h5 class="font-display font-bold text-forestdark text-sm leading-tight whitespace-nowrap">
+                {{ $cta['title'] }}
+            </h5>
+
+            <p class="text-xs text-forest leading-relaxed">
+                {{ $cta['text'] }}
+            </p>
+
+        </div>
+
+        <!-- Arrow -->
+        <iconify-icon
+            icon="mdi:arrow-top-right"
+            width="20"
+            height="20"
+            class="shrink-0"
+            style="color:{{ $cta['color'] }};">
+        </iconify-icon>
+
+    </div>
+
+@endforeach
 </div>
         </div>
     </section>
