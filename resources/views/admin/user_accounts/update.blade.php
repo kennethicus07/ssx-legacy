@@ -334,7 +334,7 @@
                                                         class="form-check-input"
                                                         name="permission[]"
                                                         type="checkbox"
-                                                        value="88"
+                                                        value="100"
                                                         id="review-delegates"
                                                         {{ $user->hasPermissionTo(100) ? 'checked' : '' }}
                                                     >

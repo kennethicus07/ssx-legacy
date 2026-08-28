@@ -506,9 +506,9 @@ These unauthorized communications may be sent through email, calls, SMS/text mes
                                 {{-- <li><a class="dropdown-item"
                                         href="{{ route('events-activities.sdg_asia_2025') }}">SDGAsia 2026 Participation
                                     </a></li> --}}
-                                {{-- <li><a class="dropdown-item"
-                                        href="{{ route('events-activities.sdg_asia_2025') }}">Sustainability Initiatives 
-                                    </a></li> --}}
+                                <li><a class="dropdown-item"
+                                        href="{{ route('events-activities.sdg_asia_2026') }}">SDG Asia Taiwan 2026
+                                    </a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -776,6 +776,8 @@ These unauthorized communications may be sent through email, calls, SMS/text mes
                                     <p><a class="custom-link"
                                             href="{{ route('events-activities.conference_and_exhibition') }}">SSX
                                             Conference & Exhibition</a></p>
+                                    <p><a class="custom-link"
+                                            href="{{ route('events-activities.sdg_asia_2026') }}">SDG Asia Taiwan 2026</a></p>
                                 </div>
                                 <div class="nav-set">
                                     <h4>About</h4>

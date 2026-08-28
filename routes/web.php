@@ -177,6 +177,8 @@ Route::get('/events/sponsor', [EventController::class, 'sponsor'])->name('events
 
 Route::get('events/sustainable-development-goals-asia-2025',[EventController::class, 'sdg2025'])->name('events-activities.sdg_asia_2025');
 
+Route::get('events/sustainable-development-goals-asia-2026',[EventController::class, 'sdg2026'])->name('events-activities.sdg_asia_2026');
+
 // Route::get('events/ssx-conference-and-exhibition',[EventController::class, 'conference_and_exhibition'])->name('events-activities.conference_and_exhibition');
 
 Route::post('/on-demand-resources/list', [OnDemandResourceController::class, 'on_demand_resources_list']);

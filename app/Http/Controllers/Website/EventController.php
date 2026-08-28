@@ -96,6 +96,10 @@ class EventController extends Controller
         return view('website.event.trade_fairs.sdg_2025.index');
     }
 
+    public function sdg2026(){
+        return view('website.event.trade_fairs.sdg_2026.index');
+    }
+
     public function conference_and_exhibition(){
         return  view('website.event.conference_and_exhibition');
     }
