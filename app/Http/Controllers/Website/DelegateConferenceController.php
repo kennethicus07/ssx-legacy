@@ -63,10 +63,14 @@ class DelegateConferenceController extends Controller
         
 
     
+        // $this->fees = [
+        //     'rateLocal' => $today->lte($deadline) ? 2500 : 6000,
+        //     'rateForeign' => $today->lte($deadline) ? 60 : 150
+        // ];
         
         $this->fees = [
-            'rateLocal' => $today->lte($deadline) ? 2500 : 6000,
-            'rateForeign' => $today->lte($deadline) ? 60 : 150
+            'rateLocal' => $today->lte($deadline) ? 2500 : 2500,
+            'rateForeign' => $today->lte($deadline) ? 60 : 60
         ];
     }
 

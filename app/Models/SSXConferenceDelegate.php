@@ -35,6 +35,7 @@ class SSXConferenceDelegate extends Model
         'email',
         'country_code_mobile',
         'mobile_no',
+        'is_speaker',
         'is_visitor_buyer',
         'addtnl_type',
         'senior',
@@ -47,12 +48,13 @@ class SSXConferenceDelegate extends Model
     ];
 
     protected $casts = [
-    'is_visitor_buyer' => 'boolean',
-    'senior' => 'boolean',
-    'pwd' => 'boolean',
-    'is_email_sent' => 'boolean',
-    'email_sent_at' => 'datetime',
-];
+        'is_speaker' => 'boolean',
+        'is_visitor_buyer' => 'boolean',
+        'senior' => 'boolean',
+        'pwd' => 'boolean',
+        'is_email_sent' => 'boolean',
+        'email_sent_at' => 'datetime',
+    ];
 
 
 public function delegateCategoryText()

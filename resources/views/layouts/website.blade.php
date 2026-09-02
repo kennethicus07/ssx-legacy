@@ -670,6 +670,11 @@ These unauthorized communications may be sent through email, calls, SMS/text mes
                                         </li>
                                         <li><a class="dropdown-item" href="{{ env('PURCHASER_REG_LINK') }}">Register as a
                                                 Purchaser/Buyer</a></li>
+                                          <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="{{ route('conference.registration') }}">Register as a
+                                                Conference Delegate</a></li>
                                     </ul>
                                 </div>
                             </div>

@@ -26,7 +26,7 @@ class ConferenceDelegateApproved extends Mailable
     public function build()
     {
         $fullName = trim(
-            $this->delegate->salutation . ' ' .
+            $this->delegate->salutation . '. ' .
             $this->delegate->fname . ' ' .
             $this->delegate->lname
         );

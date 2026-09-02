@@ -351,23 +351,43 @@
                                     </div>
 
                                     <div class="card-body">
-                                        <div class="form-check">
+                                        <div class="form-check mb-3">
                                             <input
                                                 class="form-check-input"
                                                 type="checkbox"
+                                                id="isVisitorBuyer"
                                                 v-model="
                                                     delegate.is_visitor_buyer
                                                 "
                                             />
 
-                                            <label class="form-check-label">
+                                            <label
+                                                class="form-check-label"
+                                                for="isVisitorBuyer"
+                                            >
                                                 Visitor / Buyer
                                             </label>
                                         </div>
 
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                id="isSpeaker"
+                                                v-model="delegate.is_speaker"
+                                            />
+
+                                            <label
+                                                class="form-check-label"
+                                                for="isSpeaker"
+                                            >
+                                                Speaker
+                                            </label>
+                                        </div>
+
                                         <small class="text-muted d-block mt-2">
-                                            Mark this delegate as a visitor or
-                                            buyer.
+                                            A delegate can be either a Visitor /
+                                            Buyer or a Speaker.
                                         </small>
                                     </div>
                                 </div>
@@ -526,6 +546,7 @@ export default {
                 mobile_no: "",
                 business_type: "local",
                 addtnl_type: "",
+                is_speaker: false,
                 is_visitor_buyer: false,
                 senior: false,
                 pwd: false,
@@ -587,6 +608,18 @@ export default {
                 this.resetForm();
             }
         },
+
+        "delegate.is_visitor_buyer"(val) {
+            if (val) {
+                this.delegate.is_speaker = false;
+            }
+        },
+
+        "delegate.is_speaker"(val) {
+            if (val) {
+                this.delegate.is_visitor_buyer = false;
+            }
+        },
     },
 
     methods: {
@@ -634,6 +667,7 @@ export default {
                 mobile_no: "",
                 business_type: "local",
                 addtnl_type: "",
+                is_speaker: false,
                 is_visitor_buyer: false,
                 senior: false,
                 pwd: false,
@@ -665,6 +699,7 @@ export default {
             this.loading = true;
 
             const formData = new FormData();
+            formData.append("is_speaker", this.delegate.is_speaker ? 1 : 0);
             formData.append(
                 "is_visitor_buyer",
                 this.delegate.is_visitor_buyer ? 1 : 0

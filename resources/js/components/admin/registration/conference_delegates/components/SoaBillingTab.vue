@@ -800,7 +800,7 @@ export default {
         approveBilling() {
             this.$swal({
                 title: "Approve Billing?",
-                text: "This will approve the generated SOA/Billing.",
+                text: "This will approve the generated SOA/Billing and email the Statement of Account to the person who registered the delegate(s).",
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonText: "Yes, Approve",

@@ -134,9 +134,7 @@
                     style="background:#f8f8f8;padding:25px 30px;text-align:center;"
                 >
 
-                    <div
-                        style="margin:18px auto 0;width:60px;border-top:1px solid #dddddd;"
-                    ></div>
+                 
 
                     <p
                         style="margin:0;font-size:12px;font-weight:bold;color:#333;"

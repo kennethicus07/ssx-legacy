@@ -943,7 +943,7 @@
                                         - Delegate Pass to SSX Conference on 15-17 October 2026<br>
                                         - Access to ManilaFame and SSX exhibitions <br>
                                         - Conference kit (bag, booklet, and pen)<br>
-                                        - Meals ​for 2-day conference<br>
+                                        - Meals for 2-day conference<br>
                                         - Access to live recorded sessions and/or conference materials<br>
                                         - Printed and/or e-copy of the certificate of attendance
                                     </td>

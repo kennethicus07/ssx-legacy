@@ -26,7 +26,7 @@ class ConferenceVisitorBuyerApproved extends Mailable
         $this->delegate = $delegate;
 
         $this->fullName = trim(
-            $delegate->salutation . ' ' .
+            $delegate->salutation . '. ' .
             $delegate->fname . ' ' .
             $delegate->lname
         );

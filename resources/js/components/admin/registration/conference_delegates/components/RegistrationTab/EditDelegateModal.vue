@@ -285,9 +285,7 @@
                             <div class="col-lg-4">
                                 <div class="card shadow-sm mb-4">
                                     <div class="card-header bg-white">
-                                        <h5 class="mb-0">
-                                            Delegate Classification
-                                        </h5>
+                                        <h5 class="mb-0">Classification</h5>
                                     </div>
 
                                     <div class="card-body">
@@ -308,6 +306,22 @@
                                         <small class="text-muted d-block mt-2">
                                             Mark this delegate as a visitor or
                                             buyer.
+                                        </small>
+
+                                        <div class="form-check mt-3">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                v-model="delegate.is_speaker"
+                                            />
+
+                                            <label class="form-check-label">
+                                                Speaker
+                                            </label>
+                                        </div>
+
+                                        <small class="text-muted d-block mt-2">
+                                            Mark this delegate as a speaker.
                                         </small>
                                     </div>
                                 </div>
@@ -534,6 +548,17 @@ export default {
                 }
             },
         },
+        "delegate.is_visitor_buyer"(value) {
+            if (value) {
+                this.delegate.is_speaker = false;
+            }
+        },
+
+        "delegate.is_speaker"(value) {
+            if (value) {
+                this.delegate.is_visitor_buyer = false;
+            }
+        },
     },
 
     methods: {
@@ -596,11 +621,13 @@ export default {
                     formData.append(key, this.delegate[key] ?? "");
                 }
             });
+            formData.append("is_speaker", this.delegate.is_speaker ? 1 : 0);
 
             formData.append(
                 "is_visitor_buyer",
                 this.delegate.is_visitor_buyer ? 1 : 0
             );
+
             formData.append("senior", this.delegate.senior ? 1 : 0);
             formData.append("pwd", this.delegate.pwd ? 1 : 0);
 

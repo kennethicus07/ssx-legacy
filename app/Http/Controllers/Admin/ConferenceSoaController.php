@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Models\SSXConference;
 use App\Models\SSXConferenceSoa;
 use App\Models\SSXConferenceBreakdown;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\ConferenceStatementOfAccount;
+use App\Models\Supplier\Event;
 
 class ConferenceSoaController extends Controller
 {
@@ -234,16 +238,14 @@ class ConferenceSoaController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $participantCount =
-            $baseBreakdown
-                ? (int) $baseBreakdown->count
-                : $conference
-                    ->conferenceDelegates
-                    ->where(
-                        'is_visitor_buyer',
-                        0
-                    )
-                    ->count();
+    $participantCount =
+    $baseBreakdown
+        ? (int) $baseBreakdown->count
+        : $conference
+            ->conferenceDelegates
+            ->where('is_visitor_buyer', 0)
+            ->where('is_speaker', 0)
+            ->count();
 
 
         /*
@@ -719,14 +721,8 @@ class ConferenceSoaController extends Controller
         ], 404);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Validate Billing Status
-    |--------------------------------------------------------------------------
-    |
-    | Only generated SOA/Billing can be submitted for approval.
-    |
-    */
+// Only generated SOA/Billing can be submitted for approval.
+    
 
     if ((int) $conference->billing_status !== SSXConference::BILLING_GENERATED) {
         return response()->json([
@@ -734,11 +730,8 @@ class ConferenceSoaController extends Controller
         ], 422);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Submit for Approval
-    |--------------------------------------------------------------------------
-    */
+   // Submit for Approval
+  
 
     $conference->billing_status =
         SSXConference::BILLING_FOR_APPROVAL;
@@ -761,23 +754,16 @@ public function returnToGenerated($id)
         ], 404);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Validate Billing Status
-    |--------------------------------------------------------------------------
-    */
-
+   // Validate Billing Status
+  
     if ((int) $conference->billing_status !== SSXConference::BILLING_FOR_APPROVAL) {
         return response()->json([
             'message' => 'Only billing submitted for approval can be returned.',
         ], 422);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Get Latest SOA
-    |--------------------------------------------------------------------------
-    */
+   // Get Latest SOA
+   
 
     $soa = SSXConferenceSoa::where(
         'ssx_conference_id',
@@ -786,11 +772,8 @@ public function returnToGenerated($id)
     ->latest('id')
     ->first();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Reject SOA
-    |--------------------------------------------------------------------------
-    */
+   // Reject SOA
+   
 
     if ($soa) {
         $soa->status = SSXConferenceSoa::STATUS_REJECTED;
@@ -798,11 +781,8 @@ public function returnToGenerated($id)
         $soa->save();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Return Billing to Generated
-    |--------------------------------------------------------------------------
-    */
+   // Return Billing to Generated
+  
 
     $conference->billing_status =
         SSXConference::BILLING_GENERATED;
@@ -838,50 +818,91 @@ public function approveBilling($id)
     |--------------------------------------------------------------------------
     */
 
-    if ((int) $conference->billing_status !== SSXConference::BILLING_FOR_APPROVAL) {
+    if (
+        (int) $conference->billing_status
+        !== SSXConference::BILLING_FOR_APPROVAL
+    ) {
         return response()->json([
-            'message' => 'Only billing submitted for approval can be approved.',
+            'message' =>
+                'Only billing submitted for approval can be approved.',
         ], 422);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Get Latest SOA
-    |--------------------------------------------------------------------------
-    */
-
+   // Get Latest SOA
     $soa = SSXConferenceSoa::where(
         'ssx_conference_id',
         $conference->id
     )
-    ->latest('id')
-    ->first();
+        ->latest('id')
+        ->first();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Approve SOA
-    |--------------------------------------------------------------------------
-    */
+    if (!$soa) {
+        return response()->json([
+            'message' => 'Statement of Account not found.',
+        ], 422);
+    }
 
-if ($soa) {
+    $event = Event::where(
+        'fair_code',
+        $conference->fair_code
+    )->first();
+
+    // Approve SOA
+
     $soa->status = SSXConferenceSoa::STATUS_APPROVED;
     $soa->updated_by = Auth::id();
     $soa->save();
 
-    // Store the approved SOA file as the conference billing file
+   // Store Approved SOA as Conference Billing File
+  
     $conference->billing_file = $soa->soa_file;
-}
 
-    /*
-    |--------------------------------------------------------------------------
-    | Approve Billing
-    |--------------------------------------------------------------------------
-    */
+  // Approve Billing
+   
 
     $conference->billing_status =
         SSXConference::BILLING_APPROVED;
 
     $conference->save();
+
+ // Send SOA Email
+   
+if (!empty($conference->company_email)) {
+
+    $soaPath = public_path(
+        'conference/billing/' . $soa->soa_file
+    );
+
+    if (!file_exists($soaPath)) {
+
+        Log::error('SSX SOA file not found.', [
+            'conference_id' => $conference->id,
+            'soa_file' => $soa->soa_file,
+            'soa_path' => $soaPath,
+        ]);
+
+    } else {
+
+       $mail = new ConferenceStatementOfAccount(
+            $conference,
+            $soaPath,
+            $event
+        );
+
+        if (env('APP_ENV') === 'local') {
+
+            Mail::to(
+                'kgtecson.citem@gmail.com'
+            )->send($mail);
+
+        } else {
+
+            Mail::to(
+                $conference->company_email
+            )->send($mail);
+        }
+    }
+}
 
     return response()->json([
         'message' =>
@@ -891,20 +912,16 @@ if ($soa) {
             $conference->billing_status,
 
         'soa_status' =>
-            $soa ? $soa->status : null,
+            $soa->status,
     ], 200);
 }
 
-    /**
-     * Get the latest SOA for a conference.
-     */
+    // Get the latest SOA for a conference.
+   
     public function show($conf_id)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | Get Conference
-        |--------------------------------------------------------------------------
-        */
+      // Get Conference
+      
 
         $conference =
             SSXConference::find(

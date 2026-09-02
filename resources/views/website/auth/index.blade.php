@@ -49,11 +49,13 @@
                             </div>
                         </form>
                         <h4>Don't have an account?</h4>
-                        <div class="flex link-border">
+                        <div class=" link-border">
                             <a href="{{ route('registration.supplier') }}" class="lightgreen_btn arrow_btn">Register as a
                                 Supplier/Exhibitor</a>
-                            <a href="{{ route('registration.buyer') }}" class="orange_btn arrow_btn">Register as a
+                            <a href="{{ route('registration.buyer') }}" class="orange_btn2 arrow_btn">Register as a
                                 Purchaser/Buyer</a>
+                                   <a href="{{ route('conference.registration') }}" class="blue_btn arrow_btn">Register as a
+                                Conference Delegate</a>
                         </div>
                     </div>
                 </div>
@@ -63,6 +65,34 @@
 @endsection
 
 @push('styles')
+<style>
+  .link-border .blue_btn {
+            background: #2A7F8E;
+            border: #2A7F8E 2px solid;
+            color: #fff;
+        }
+
+        
+        .link-border .blue_btn:hover {
+            background: #fff;
+            border: #2A7F8E 2px solid;
+            color: #2A7F8E;
+        }
+
+     
+        .link-border .orange_btn2 {
+            background: #f0ad2e;
+            border: #f0ad2e 2px solid;
+            color: #fff;
+        }
+
+        .link-border .orange_btn2:hover {
+            background: #fff;
+            border: #f0ad2e 2px solid;
+            color: #f0ad2e;
+        }
+
+    </style>
 @endpush
 @push('scripts')
 @endpush

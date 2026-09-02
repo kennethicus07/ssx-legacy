@@ -236,7 +236,9 @@
                     <span class="badge bg-success">
                         {{
                             conference.conference_delegates.filter(
-                                (delegate) => !delegate.is_visitor_buyer
+                                (delegate) =>
+                                    !delegate.is_visitor_buyer &&
+                                    !delegate.is_speaker
                             ).length
                         }}
                         Delegate(s)
@@ -265,9 +267,10 @@
                                     <th style="min-width: 170px">
                                         Delegate Type
                                     </th>
+                                    <!-- <th style="min-width: 90px">Speaker</th>
                                     <th style="min-width: 90px">
                                         Visitor/Buyer
-                                    </th>
+                                    </th> -->
                                     <th style="min-width: 140px">
                                         Email Status
                                     </th>
@@ -290,11 +293,44 @@
                                     <td>{{ index + 1 }}</td>
 
                                     <td>
-                                        <strong>
-                                            {{ delegate.salutation }}
-                                            {{ delegate.fname }}
-                                            {{ delegate.lname }}
-                                        </strong>
+                                        <div
+                                            class="d-flex justify-content-between align-items-center gap-2"
+                                        >
+                                            <strong>
+                                                {{ delegate.salutation }}
+                                                {{ delegate.fname }}
+                                                {{ delegate.lname }}
+                                            </strong>
+
+                                            <span
+                                                v-if="
+                                                    Number(
+                                                        delegate.is_speaker
+                                                    ) === 1
+                                                "
+                                                class="badge bg-warning text-white"
+                                            >
+                                                Speaker
+                                            </span>
+
+                                            <span
+                                                v-else-if="
+                                                    Number(
+                                                        delegate.is_visitor_buyer
+                                                    ) === 1
+                                                "
+                                                class="badge bg-info text-white"
+                                            >
+                                                Visitor/Buyer
+                                            </span>
+
+                                            <span
+                                                v-else
+                                                class="badge bg-success"
+                                            >
+                                                Delegate
+                                            </span>
+                                        </div>
                                     </td>
 
                                     <td>{{ delegate.email }}</td>
@@ -328,6 +364,17 @@
                                     </td>
 
                                     <td>{{ delegate.addtnl_type || "-" }}</td>
+                                    <!-- <td class="text-center">
+                                        <i
+                                            :class="
+                                                Number(delegate.is_speaker) ===
+                                                1
+                                                    ? 'mdi-check-circle text-success'
+                                                    : 'mdi-close-circle text-danger'
+                                            "
+                                            class="mdi fs-5"
+                                        ></i>
+                                    </td>
                                     <td class="text-center">
                                         <i
                                             :class="
@@ -339,7 +386,7 @@
                                             "
                                             class="mdi fs-5"
                                         ></i>
-                                    </td>
+                                    </td> -->
                                     <td class="text-center">
                                         <span
                                             v-if="
@@ -426,7 +473,10 @@
                                                 <!-- Send Email -->
                                                 <li
                                                     v-if="
-                                                        canSendEmail(delegate)
+                                                        canSendEmail(
+                                                            delegate
+                                                        ) &&
+                                                        !delegate.is_speaker
                                                     "
                                                 >
                                                     <button

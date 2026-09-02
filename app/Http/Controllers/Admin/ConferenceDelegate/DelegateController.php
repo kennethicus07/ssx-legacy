@@ -710,6 +710,9 @@ public function details($id)
                     'additional_type' =>
                         $delegate->addtnl_type,
 
+                    'is_speaker' =>
+                        $delegate->is_speaker,
+
                     'is_visitor_buyer' =>
                         $delegate->is_visitor_buyer,
 
@@ -951,6 +954,7 @@ public function details($id)
             'addtnl_type' => 'required|string',
             'delegate_category' => 'required|integer',
             'delegate_category_other' => 'nullable|string|max:255',
+            'is_speaker' => 'boolean',
             'is_visitor_buyer' => 'boolean',
             'senior' => 'boolean',
             'pwd' => 'boolean',
@@ -980,6 +984,7 @@ public function details($id)
             'addtnl_type' => $request->addtnl_type,
             'delegate_category' => $request->delegate_category,
             'delegate_category_other' => $request->delegate_category_other,
+            'is_speaker' => $request->boolean('is_speaker'),
             'is_visitor_buyer' => $request->boolean('is_visitor_buyer'),
             'senior' => $request->boolean('senior'),
             'pwd' => $request->boolean('pwd'),
@@ -1011,6 +1016,7 @@ public function details($id)
                 'delegate_category_text' => $delegate->delegateCategoryText(),
                 'delegate_category_other' => $delegate->delegate_category_other,
                 'addtnl_type' => $delegate->addtnl_type,
+                'is_speaker' => $delegate->is_speaker,
                 'is_visitor_buyer' => $delegate->is_visitor_buyer,
                 'senior' => $delegate->senior,
                 'pwd' => $delegate->pwd,
@@ -1069,6 +1075,7 @@ public function details($id)
             'addtnl_type' => 'required|string',
             'delegate_category' => 'required|integer',
             'delegate_category_other' => 'nullable|string|max:255',
+            'is_speaker' => 'boolean',
             'is_visitor_buyer' => 'boolean',
             'senior' => 'boolean',
             'pwd' => 'boolean',
@@ -1139,6 +1146,8 @@ public function details($id)
             'delegate_category' => $request->delegate_category,
 
             'delegate_category_other' => $request->delegate_category_other,
+
+            'is_speaker' => $request->boolean('is_speaker'),
             
             'is_visitor_buyer' => $request->boolean('is_visitor_buyer'),
 
@@ -1171,6 +1180,7 @@ public function details($id)
                 'delegate_category_text' => $delegate->delegateCategoryText(),
                 'delegate_category_other' => $delegate->delegate_category_other,
                 'addtnl_type' => $delegate->addtnl_type,
+                'is_speaker' => $delegate->is_speaker,
                 'is_visitor_buyer' => $delegate->is_visitor_buyer,
                 'senior' => $delegate->senior,
                 'pwd' => $delegate->pwd,
@@ -1377,11 +1387,9 @@ public function scanQr($token)
 
         'delegate' => [
             'id' => $delegate->id,
-
             'salutation' => $delegate->salutation,
             'fname' => $delegate->fname,
             'lname' => $delegate->lname,
-
             'name' => trim(
                 $delegate->salutation . ' ' .
                 $delegate->fname . ' ' .

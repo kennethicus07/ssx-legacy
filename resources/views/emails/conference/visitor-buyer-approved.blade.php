@@ -14,11 +14,18 @@
 
             <!-- Header -->
             <tr>
-                <td style="background:#9daa39;border-bottom:#343a40 5px solid;">
+                <td style="background:#9daa39;border-bottom:#343a40 5px solid;padding:20px 30px;">
+
                     <a href="{{ env('APP_URL') }}" style="display:block;">
-                        <img src="{{ url('https://sustainability.ph/assets/images/ssx-full-logo-white.png') }}"
-                            style="width:70%;max-width:160px;">
+
+                        <img
+                            src="{{ url('https://sustainability.ph/assets/images/ssx-full-logo-white.png') }}"
+                            alt="SSX Conference"
+                            style="width:70%;max-width:160px;"
+                        >
+
                     </a>
+
                 </td>
             </tr>
 
@@ -27,7 +34,7 @@
                 <td style="padding:40px;font-size:14px;line-height:24px;color:#333333;">
 
                     <p>
-                        Dear Mr./Ms. {{ $fullName }},
+                        Dear {{ $fullName }},
                     </p>
 
                     <p>
@@ -52,7 +59,7 @@
 
                     <br>
 
-                    <p>
+                   <p style="text-align: center;">
                         <strong>
                             THIS IS A SYSTEM-GENERATED EMAIL. PLEASE DO NOT REPLY.
                         </strong>
@@ -65,7 +72,7 @@
             <tr>
                 <td style="background:#f8f8f8;padding:25px 30px;text-align:center;">
 
-                    <div style="margin:18px auto 0;width:60px;border-top:1px solid #dddddd;"></div>
+                   
 
                     <p style="margin:0;font-size:12px;font-weight:bold;color:#333;">
                         Sustainability Solutions Exchange 2026
