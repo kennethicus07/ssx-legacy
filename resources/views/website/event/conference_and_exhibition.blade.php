@@ -2,139 +2,40 @@
 
 @section('content')
 @php
-$pillars = [
-    ['title' => 'THE HABITAT PILLAR', 'subtitle' => 'Resources & Utilities', 'image' => 'https://elements-resized.envatousercontent.com/envato-dam-assets-production/EVA/TRX/f9/c1/f2/33/30/v1_E11/E11NJ7N.jpg?w=1600&cf_fit=scale-down&mark-alpha=18&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark4.png&q=85&format=auto&s=1287a8fd94d5542c6bfb01fd055f73a9d07f97cd33b65620458b8d23e660c337', 'color' => '#E3A72E', 'icon' => 'mdi:solar-power',
-        'items' => ['Clean Energy','Water','Waste','Decarbonization','Carbon Capture','Water Recovery','Waste-to-Energy etc.']],
-    ['title' => 'THE URBAN PILLAR', 'subtitle' => 'Built Environment', 'image' => 'https://elements-resized.envatousercontent.com/envato-dam-assets-production/EVA/TRX/b9/4a/c3/7c/34/v1_E10/E101FRBV.jpg?w=1600&cf_fit=scale-down&mark-alpha=18&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark4.png&q=85&format=auto&s=29db8bb135d38073159b889eb3748b6aec539dcdcac81c1b142d776f8e80b117', 'color' => '#2A7F8E', 'icon' => 'mdi:city-variant-outline',
-        'items' => ['Smart Cities','Green Construction','Sustainable Interiors','Smart Grids','Green Interior Solutions','Sustainable Architecture','Urban Planning etc.']],
-    ['title' => 'THE ENGINE PILLAR', 'subtitle' => 'Agri-Food & Bio-Tech', 'image' => 'https://elements-resized.envatousercontent.com/envato-dam-assets-production/EVA/TRX/76/f9/eb/91/06/v1_E11/E117RYY1.jpg?w=1600&cf_fit=scale-down&mark-alpha=18&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark4.png&q=85&format=auto&s=25f73d10af16d463e2b1419863c266143399071d2bef88110baa8a99d75aa70c', 'color' => '#6B8E3D', 'icon' => 'mdi:sprout-outline',
-        'items' => ['Agri-Tech','Food Innovation','Manufacturing','Precision Farming','Alternative Proteins','Food R&D','Cold Chain','Sustainable Manufacturing etc.']],
-    ['title' => 'THE RECOVERY PILLAR', 'subtitle' => 'Circular Economy and Materials', 'image' => 'https://elements-resized.envatousercontent.com/envato-dam-assets-production/EVA/TRX/6c/f7/fc/0b/c2/v1_E11/E11MP6Y.jpg?w=1600&cf_fit=scale-down&mark-alpha=18&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark4.png&q=85&format=auto&s=9bf516b65eee3fe3272c522ee3184be6b97850da1a68ec61d24956ea70575b4c', 'color' => '#B5652D', 'icon' => 'mdi:recycle-variant',
-        'items' => ['Sustainable Packaging','Plastic Alternatives','Lifestyle Design','Biomaterials etc.']],
-    ['title' => 'THE STEWARD PILLAR', 'subtitle' => 'Governance, Finance and Policy', 'image' => 'https://elements-resized.envatousercontent.com/envato-dam-assets-production/EVA/TRX/e6/ec/0d/08/fd/v1_E10/E10CG85.jpg?w=1600&cf_fit=scale-down&mark-alpha=18&mark=https%3A%2F%2Felements-assets.envato.com%2Fstatic%2Fwatermark4.png&q=85&format=auto&s=60624bf971d2ce3d5b4132c60af4201513aacb13a0c36e44d11570c8361fa53d', 'color' => '#5C6B5E', 'icon' => 'mdi:bank-outline',
-        'items' => ['Green Finance','ESG','Certifiers','Scalable R&D Programs','Academe and Government collaboration etc.']],
-];
+$programs = config('ssx_october_2026.programs');
+$eventPartners = config('ssx_october_2026_partners.event_partners');
+$sessionPartners = config('ssx_october_2026_partners.session_partners');
+$governmentPartners = config('ssx_october_2026_partners.government_partners');
+$institutionalPartners = config('ssx_october_2026_partners.institutional_partners');
+$officialTrainingEventPartners = config('ssx_october_2026_partners.official_training_and_event_partners');
+$officialBusinessLoungePartners = config('ssx_october_2026_partners.official_business_lounge_partners');
+$officialTokenPartners = config('ssx_october_2026_partners.official_token_partners');
 
+// All other static content now lives in config/ssx_conference_2026_other_data.php
+$otherData = config('ssx_conference_2026_data');
 
-
-$stats = [
-    ['icon' => 'mdi:storefront-outline', 'color' => '#E3A72E', 'label' => 'Exhibitors', 'y2022' => '165 Exhibitors', 'y2025' => '95 Exhibitors'],
-    ['icon' => 'mdi:account-group-outline', 'color' => '#2A7F8E', 'label' => 'Delegates', 'y2022' => '1,204 Delegates', 'y2025' => '129 Delegates'],
-    ['icon' => 'mdi:presentation', 'color' => '#6B8E3D', 'label' => 'Thought Leadership', 'y2022' => '15 Plenary/Breakout Sessions', 'y2025' => '12 Plenary/Breakout Sessions'],
-    ['icon' => 'mdi:microphone-outline', 'color' => '#B5652D', 'label' => 'Expert Speaker', 'y2022' => '60+ Resource Speakers', 'y2025' => '55 Speakers'],
-    ['icon' => 'mdi:handshake-outline', 'color' => '#357937', 'label' => 'Trade Buyers', 'y2022' => '138 Buyers', 'y2025' => '1,111 Buyers'],
-    ['icon' => 'mdi:email-multiple-outline', 'color' => '#5C6B5E', 'label' => 'Business Leads', 'y2022' => '1,807 inquiries', 'y2025' => '14,997 inquiries'],
-];
-
-$delegateRates = [
-    ['type' => 'Early Bird Rate', 'note' => '10% discount until March 31, 2026', 'amount' => '₱ 2,250.00'],
-    ['type' => 'Regular Rate', 'note' => 'after March 31, 2026', 'amount' => '₱ 2,500.00'],
-    ['type' => 'Walk-in', 'note' => 'event proper', 'amount' => '₱ 2,750.00'],
-    ['type' => 'Group', 'note' => '5+1 Free', 'amount' => '₱ 12,500.00'],
-    ['type' => 'PWD / SC / Govt / Academe', 'note' => '20% discount', 'amount' => '₱ 2,000.00'],
-    ['type' => 'Special Rate for Registered IFEX Exhibitor', 'note' => '30% discount', 'amount' => '₱ 1,750.00'],
-];
-
-$inclusions = ['Delegate Pass','3-day IFEX Philippines x SSX exhibits access','2-day SSX Conference access','Conference kit (bag, booklet, pen)','Conference meals','Conference materials','Certificate of attendance'];
-
-$localBooths = [
-    ['type' => 'Corner Raw Space', 'size' => '4 sqm', 'discount' => '₱3,553.00', 'full' => '₱3,740.00', 'base' => '₱14,960.00'],
-    ['type' => 'Inner Raw Space', 'size' => '4 sqm', 'discount' => '₱3,230.00', 'full' => '₱3,400.00', 'base' => '₱13,600.00'],
-    ['type' => 'Corner Booth System', 'size' => '4 sqm', 'discount' => '₱4,389.00', 'full' => '₱4,620.00', 'base' => '₱18,480.00'],
-    ['type' => 'Inner Booth System', 'size' => '4 sqm', 'discount' => '₱3,990.00', 'full' => '₱4,200.00', 'base' => '₱16,800.00'],
-];
-
-$intlBooths = [
-    ['type' => 'Corner Raw Space', 'size' => '4 sqm', 'discount' => 'USD 219.45', 'full' => 'USD 231', 'base' => 'USD 924'],
-    ['type' => 'Inner Raw Space', 'size' => '4 sqm', 'discount' => 'USD 199.50', 'full' => 'USD 210', 'base' => 'USD 840'],
-    ['type' => 'Corner Booth System', 'size' => '4 sqm', 'discount' => 'USD 261.25', 'full' => 'USD 275', 'base' => 'USD 1100'],
-    ['type' => 'Inner Booth System', 'size' => '4 sqm', 'discount' => 'USD 237.50', 'full' => 'USD 250', 'base' => 'USD 1000'],
-];
-
-$benefits = [
-    ['icon' => 'mdi:earth', 'color' => '#E3A72E', 'title' => 'Market Access', 'text' => 'Connect with local and international buyers, food manufacturers, policymakers, and industry leaders actively seeking sustainable solutions.'],
-    ['icon' => 'mdi:eye-outline', 'color' => '#2A7F8E', 'title' => 'Visibility & Branding', 'text' => 'Showcase your innovations and advocacy to a broad cross-section of industries and communities committed to environmental and social sustainability.'],
-    ['icon' => 'mdi:account-network-outline', 'color' => '#6B8E3D', 'title' => 'Networking & Partnerships', 'text' => 'Meet potential partners, clients, and collaborators from both government and private sectors.'],
-    ['icon' => 'mdi:lightbulb-on-outline', 'color' => '#B5652D', 'title' => 'Thought Leadership', 'text' => 'Position your organization as an advocate and changemaker in advancing sustainability in the Philippines and across Asia.'],
-    ['icon' => 'mdi:recycle-variant', 'color' => '#5C6B5E', 'title' => 'Impact & Advocacy', 'text' => 'Shape the future of circular economies and responsible consumption by bridging the gap between traditional industry and modern urban living.'],
-];
-
-$eligibilityDocs = [
-    ['icon' => 'mdi:file-certificate-outline', 'color' => '#E3A72E', 'text' => 'Copy of business registration from the Department of Trade and Industry (DTI) or Securities and Exchange Commission (SEC), including complete Articles of Incorporation'],
-    ['icon' => 'mdi:receipt-text-outline', 'color' => '#2A7F8E', 'text' => 'Copy of Bureau of Internal Revenue (BIR) Certificate of Registration (Form 2303) and/or Certificate of VAT-Exempt'],
-    ['icon' => 'mdi:license', 'color' => '#6B8E3D', 'text' => 'Copy of valid License to Operate (LTO)'],
-    ['icon' => 'mdi:file-document-check-outline', 'color' => '#B5652D', 'text' => 'Copy of valid Certificate of Product Registration (CPR) for food and/or pharmaceutical products'],
-    ['icon' => 'mdi:leaf-circle-outline', 'color' => '#5C6B5E', 'text' => 'Copies of relevant and valid food or environmental certifications, if available (e.g., Fairtrade, FSC, Green Choice, HACCP, Halal, ISO, etc.)'],
-];
-
-$exhibitionFeatures = [
-    ['icon' => 'mdi:sofa-outline', 'color' => '#E3A72E', 'title' => 'Business Meeting Lounge', 'text' => 'A dedicated, professional hub for pre-arranged consultations designed to facilitate high-level collaboration, supply chain adaptation, and strategic financing between sustainable suppliers and global purchasers.'],
-    ['icon' => 'mdi:account-tie-outline', 'color' => '#2A7F8E', 'title' => 'Consultancy Clinics', 'text' => 'One-on-one sessions with "enablers," including government agencies, certifiers, and green financing institutions, to navigate regulatory requirements.'],
-    ['icon' => 'mdi:image-frame', 'color' => '#6B8E3D', 'title' => 'The Green Gallery', 'text' => 'A visual gallery highlighting the Philippines\' progress in circularity and award-winning sustainable innovations.'],
-];
-
-$partnerTiers = [
-    ['name' => 'Gold Partner', 'price' => '₱500,000.00', 'desc' => 'Maximum visibility and prime booth placement.', 'accent' => '#E3A72E', 'text' => '#B5850F'],
-    ['name' => 'Silver Partner', 'price' => '₱300,000.00', 'desc' => 'Strong brand presence and strategic exposure.', 'accent' => '#9AA79E', 'text' => '#6B7A70'],
-    ['name' => 'Bronze Partner', 'price' => '₱100,000.00', 'desc' => 'Strategic entry-level visibility in the green ecosystem.', 'accent' => '#B5652D', 'text' => '#B5652D'],
-];
-
-$partnerBenefits = [
-    ['icon' => 'mdi:bullhorn-outline', 'color' => '#E3A72E', 'title' => 'Media Mileages', 'text' => 'Social media spotlight posts, logo inclusion on partnership e-cards, and live onsite acknowledgments.'],
-    ['icon' => 'mdi:storefront-outline', 'color' => '#2A7F8E', 'title' => 'Onsite Presence', 'text' => 'Premium booth systems (up to 8sqm), brand placement in show guides and sponsor loops, and promotional video slots.'],
-    ['icon' => 'mdi:key-star', 'color' => '#6B8E3D', 'title' => 'Exclusive Access', 'text' => 'VIP Lounge passes, exhibitor badges for IFEX and Manila FAME, and complimentary seats at the SSX Conference.'],
-];
-
-$shiftCtas = [
-
-    [
-        'icon' => 'mdi:email-fast-outline',
-        'color' => '#E3A72E',
-        'title' => 'Inquire for Sponsorship',
-        'text' => 'Access our 2026 Sponsorship Prospectus and discover how your brand can lead the transition.',
-        'url' => 'https://sustainability.ph/login',
-    ],
-
-    [
-        'icon' => 'mdi:cart-outline',
-        'color' => '#2A7F8E',
-        'title' => 'Register as a Trade Purchaser',
-        'text' => 'Join a network of trade purchasers and "conscientious buyers" looking to adopt eco-certified products and green production technologies.',
-        'url' => 'https://sustainability.ph/registration/purchaser/email-validation',
-    ],
-
-    [
-        'icon' => 'mdi:account-check-outline',
-        'color' => '#6B8E3D',
-        'title' => 'Register as a Delegate',
-        'text' => 'Join over 300 decision-makers for the 2-day SSX Conference to gain practical "how-to" knowledge on navigating the EPR Act and global green regulations.',
-        'url' => 'https://sustainability.ph/conference/registration',
-    ],
-
-    [
-        'icon' => 'mdi:storefront-plus-outline',
-        'color' => '#B5652D',
-        'title' => 'Apply to Exhibit',
-        'text' => 'Feature your sustainable solutions in our showcase, reaching a diverse audience across lifestyle, home, fashion, and smart city sectors.',
-        'url' => 'https://sustainability.ph/registration/supplier/email-validation',
-    ],
-
-];
-
-$pitchCriteria = [
-    ['title' => 'Age of the Business', 'items' => ['Less than 5 years old.', 'Still in the early or growing stages of development and market establishment.']],
-    ['title' => 'Funding Readiness', 'items' => ['May be self-funded, grant-awardee, or in early stages of investor engagement.']],
-    ['title' => 'Team Capacity & Commitment', 'items' => ['Should have a dedicated founding or management team with the skills, knowledge, and commitment to drive both the business and sustainability goals.']],
-    ['title' => 'Innovation & Impact', 'items' => ['Offers a novel product, service, or business model that directly addresses environmental and/or social challenges.']],
-];
+$pillars            = $otherData['pillars'];
+$stats              = $otherData['stats'];
+$delegateRates      = $otherData['delegateRates'];
+$inclusions         = $otherData['inclusions'];
+$localBooths        = $otherData['localBooths'];
+$intlBooths         = $otherData['intlBooths'];
+$benefits           = $otherData['benefits'];
+$eligibilityDocs    = $otherData['eligibilityDocs'];
+$exhibitionFeatures = $otherData['exhibitionFeatures'];
+$partnerTiers       = $otherData['partnerTiers'];
+$partnerBenefits    = $otherData['partnerBenefits'];
+$shiftCtas          = $otherData['shiftCtas'];
+$pitchCriteria      = $otherData['pitchCriteria'];
 
 $btn = "inline-block appearance-none border-0 outline-none bg-forest hover:bg-forestdark text-white font-bold rounded-full px-10 py-3.5 transition-all duration-200 shadow-lg";
 $card = "bg-white border-2 border-forest rounded-[24px] shadow-[8px_8px_0_rgba(31,69,34,0.14)]";
 $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_rgba(31,69,34,0.14)]";
+
 @endphp
 
 <main id="ssxApp">
-    
+
     <section class="relative min-h-[620px] flex items-center justify-center overflow-hidden">
         <div class="relative z-10 text-center text-white max-w-3xl px-6 py-16">
             <span class="inline-block text-xs font-bold tracking-widest uppercase bg-white/10 border border-white/40 rounded-full px-5 py-2 mb-6">October 15&ndash;17, 2026 <br> PTTC, Pasay City</span>
@@ -154,7 +55,7 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
 </button>
             </div>
         </div>
-       
+
     </section>
 
     <section class="relative h-10 overflow-hidden ">
@@ -162,38 +63,6 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
             <path d="M0,40 C240,90 480,0 720,30 C960,60 1200,10 1440,40 L1440,80 L0,80 Z" fill="#FAFAEA"></path>
         </svg>
 </section>
-
-    {{-- SIGNATURE: the five pillars, one spectrum --}}
-    {{-- <div class="flex w-full h-2.5">
-        @foreach($pillars as $pillar)
-            <div class="flex-1 hover:flex-[1.6] transition-all duration-300" style="background:{{ $pillar['color'] }};" title="{{ $pillar['subtitle'] }}"></div>
-        @endforeach
-    </div> --}}
-    {{-- <section class=" bg-cream border-y border-forest/10 overflow-hidden py-2">
-    <div class="ssx-marquee">
-        
-        <div class="ssx-marquee-track">
-
-            <img
-                src="{{ asset('assets/show-info_2026/marquee-ssx-space.png') }}"
-                alt="SSX Categories"
-                class="ssx-marquee-img pr-12"
-                onclick="window.location='#exhibition'"
-            >
-
-            <!-- Duplicate for seamless looping -->
-            <img
-                src="{{ asset('assets/show-info_2026/marquee-ssx-space.png') }}"
-                alt=""
-                aria-hidden="true"
-                class="ps-2 ssx-marquee-img "
-            >
-
-        </div>
-    </div>
-    
-    
-</section> --}}
 
 <section class="relative h-10 overflow-hidden bg-white">
     <svg
@@ -209,14 +78,10 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
     </svg>
 </section>
 
-
-
-    {{-- <p class="text-center text-xs font-semibold text-stone bg-cream py-2">Five pillars, five colors &mdash; the map you'll see used throughout SSX 2026</p> --}}
-
     {{-- ===========================================
          INTRO + PERFORMANCE STATS
     =========================================== --}}
-    
+
     <section id="ssxIntro" class=" bg-white pt-5 pb-16 md:py-20 px-6 md:px-16">
         <div class="max-w-4xl mx-auto text-center space-y-5">
             <p class="text-forest font-medium leading-relaxed">
@@ -299,40 +164,9 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
 </div>
         </div>
 
-<div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
- <a
-    href="{{ asset('assets/show-info_2026/SSX_Partnership_Catalogue.pdf') }}"
-    download
-    class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-forest text-white font-semibold rounded-lg hover:bg-forestdark transition-colors no-underline hover:no-underline">
-    <iconify-icon
-        icon="solar:download-outline"
-        width="20"
-        height="20">
-    </iconify-icon>
-    Download Partnership Catalog
-</a>
 
-    <a
-        href="mailto:sustainabilityph@citem.com.ph?subject=SSX%202026%20Partnership%20Inquiry"
-        class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-forest text-white font-semibold rounded-lg hover:bg-forestdark transition-colors no-underline hover:no-underline">
-        <iconify-icon
-            icon="solar:handshake-outline"
-            width="20"
-            height="20">
-        </iconify-icon>
-        Partner with Us
-    </a>
-</div>
     </section>
 
-    {{-- <section class="relative bg-white h-10 overflow-hidden ">
-    <svg class="absolute left-0 right-0 -bottom-px w-full h-10 z-10" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,40 C240,90 480,0 720,30 C960,60 1200,10 1440,40 L1440,80 L0,80 Z" fill="#FAFAEA"></path>
-        </svg>
-</section> --}}
-    {{-- ===========================================
-         CONFERENCE
-    =========================================== --}}
     <section id="conference" class="bg-cream py-16 md:py-20 px-6 md:px-16">
         <div class="max-w-5xl mx-auto text-center">
             <iconify-icon icon="mdi:presentation" width="64" height="64" class="text-forest"></iconify-icon>
@@ -343,26 +177,448 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
                 <img src="{{ asset('assets/show-info_2026/ssx_2026_conference_img.jpg') }}" alt="SSX Conference plenary session" loading="lazy" class="w-full h-72 md:h-96 object-cover">
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8 text-left {{ $card }} p-8 md:p-10 mb-12">
-                <div>
-                    <h3 class="font-display text-xl font-bold text-forestdark mb-4">Plenary</h3>
-                    <ul class="list-disc list-inside space-y-2 text-forest">
-                        <li>The Philippines in the Global Green Economy</li>
-                        <li>Scaling the Green Shift: What's Bankable and Buildable?</li>
-                        <li>Philippine Sustainability Outlook</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-display text-xl font-bold text-forestdark mb-4">Streams / Breakout Sessions</h3>
-                    <ul class="list-disc list-inside space-y-2 text-forest">
-                        <li>Resources & Utilities</li>
-                        <li>Build Environment</li>
-                        <li>Agri-food & Bio-tech</li>
-                        <li>Circular Economy and Materials</li>
-                        <li>Governance & Finance</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="space-y-5 mb-5">
+
+            @foreach($programs as $dayIndex => $day)
+
+                {{-- ONLY THIS IS AN ACCORDION --}}
+                <details
+                    class="group bg-white border-2 border-forest rounded-[24px] shadow-[8px_8px_0_rgba(31,69,34,0.14)] overflow-hidden"
+                >
+
+                    {{-- DAY HEADER --}}
+                    <summary class="cursor-pointer list-none px-6 md:px-8 py-6 flex items-center justify-between gap-6 hover:bg-gray-50 transition">
+
+                        <div class="flex items-center gap-5">
+
+                            <div class="text-left">
+
+                                <div class="flex flex-wrap items-center gap-3">
+
+                                    <h3 class="text-2xl md:text-3xl font-extrabold text-forest">
+                                        {{ $day['day_label'] }}
+                                    </h3>
+
+                                    @if(!empty($day['date']))
+                                        <span class="px-3 py-1 mb-2 rounded-full bg-cream text-sm font-semibold text-gray-600">
+                                            {{ \Carbon\Carbon::parse($day['date'])->format('F d, Y') }}
+                                        </span>
+                                    @endif
+
+                                </div>
+
+                                @if(!empty($day['theme']))
+                                    <p class="mt-1 text-gray-600">
+                                        {{ $day['theme'] }}
+                                    </p>
+                                @endif
+
+                            </div>
+
+                        </div>
+
+                        <iconify-icon
+                            icon="mdi:chevron-down"
+                            class="text-3xl text-forest transition-transform group-open:rotate-180"
+                        ></iconify-icon>
+
+                    </summary>
+
+
+                    {{-- =====================================================
+                        DAY CONTENT
+                    ====================================================== --}}
+                    <div class="border-t-2 border-forest/10">
+
+
+                        {{-- =================================================
+                            PLENARY SESSIONS
+                        ================================================== --}}
+                        @if(!empty($day['sessions']))
+
+                            <div class="p-6 md:p-8 ">
+
+                                <div class="mb-3 text-center" >
+
+                                    <h4 class="text-xl font-extrabold text-forest">
+                                        Plenary Sessions
+                                    </h4>
+
+                                </div>
+
+
+                                {{-- TABLE --}}
+                          <div class="overflow-x-auto rounded-xl border border-gray-200">
+    <table class="w-full min-w-[800px] border-collapse text-sm">
+
+        <thead>
+            <tr class="bg-forest text-white">
+                <th class="text-left px-4 py-3 w-[130px] font-bold">
+                    TIME
+                </th>
+
+                  <th class="text-left px-4 py-3 w-[100px] font-bold">
+                    DURATION
+                </th>
+
+                <th class="text-left px-4 py-3 font-bold">
+                    PROGRAM
+                </th>
+
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach($day['sessions'] as $session)
+                <tr class="border-t border-gray-200 hover:bg-cream/50 transition">
+
+                    {{-- TIME --}}
+<td class="px-4 py-3 align-top">
+    <div class="font-bold text-forest whitespace-nowrap">
+        {{ \Carbon\Carbon::parse($session['start_time'])->format('g:i A') }}
+
+        @if(!empty($session['end_time']))
+            – {{ \Carbon\Carbon::parse($session['end_time'])->format('g:i A') }}
+        @endif
+    </div>
+</td>
+ {{-- TYPE --}}
+                    <td class="px-4 py-3 align-top">
+
+                        @if(!empty($session['duration']))
+                            <div class=" text-gray-500">
+                                {{ $session['duration'] }}
+                            </div>
+                        @endif
+
+                    </td>
+
+                    {{-- PROGRAM --}}
+                    <td class="px-4 py-3 align-top text-start">
+
+                        <div class="font-bold text-gray-900">
+                            {{ $session['title'] }}
+                        </div>
+
+                        @if(!empty($session['description']))
+                            <p class="mt-1 text-sm text-gray-600 leading-relaxed">
+                                {{ $session['description'] }}
+                            </p>
+                        @endif
+
+                        @if(!empty($session['speakers']))
+                            <div class="mt-2">
+                                <span class="text-xs font-bold uppercase tracking-wide text-forest">
+                                    Speakers:
+                                </span>
+
+                                @foreach($session['speakers'] as $speaker)
+                                    <div class="text-sm leading-6">
+                                        <span class="font-semibold text-gray-900">
+                                            {{ $speaker['name'] }}
+                                        </span>
+
+                                        @if(!empty($speaker['position']))
+                                            <span class="text-gray-500">
+                                                — {{ $speaker['position'] }}
+                                            </span>
+                                        @endif
+
+                                        @if(!empty($speaker['organization']))
+                                            <span class="text-forest font-medium">
+                                                · {{ $speaker['organization'] }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        @if(!empty($session['moderators']))
+                            <div class="mt-2">
+                                <span class="text-xs font-bold uppercase tracking-wide text-forest">
+                                    Moderator:
+                                </span>
+
+                                @foreach($session['moderators'] as $moderator)
+                                    <div class="text-sm leading-6">
+                                        <span class="font-semibold text-gray-900">
+                                            {{ $moderator['name'] }}
+                                        </span>
+
+                                        @if(!empty($moderator['organization']))
+                                            <span class="text-forest font-medium">
+                                                · {{ $moderator['organization'] }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+
+                    </td>
+
+                </tr>
+            @endforeach
+        </tbody>
+
+    </table>
+</div>
+
+                            </div>
+
+                        @endif
+
+
+
+                        {{-- =================================================
+                            BREAKOUT
+                        ================================================== --}}
+                        @if(!empty($day['breakout']))
+
+                            <div class="px-6 md:px-8 pb-8">
+
+                                {{-- BREAKOUT HEADER --}}
+                                <div class="mb-3 pt-2 text-center">
+
+                                    <h4 class="text-xl font-extrabold text-forest">
+                                        {{ $day['breakout']['title'] }}
+                                    </h4>
+
+                                    @if(!empty($day['breakout']['subtitle']))
+
+                                        <p class="text-sm text-gray-500 mt-1">
+                                            {{ $day['breakout']['subtitle'] }}
+                                        </p>
+
+                                    @endif
+
+                                </div>
+
+                             {{-- TRACK TABLE --}}
+                        <div class="overflow-x-auto rounded-xl border border-gray-200">
+
+                            <table class="w-full min-w-[900px] border-collapse text-sm">
+
+                                <thead>
+                                    <tr class="bg-forest text-white">
+
+                                        <th class="text-left px-4 py-3 w-[235px] font-bold">
+                                            TRACK
+                                        </th>
+
+                                        <th class="text-left px-4 py-3 w-[130px] font-bold">
+                                            TIME
+                                        </th>
+
+                                        <th class="text-left px-4 py-3 font-bold">
+                                            SESSION
+                                        </th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach($day['breakout']['tracks'] as $track)
+
+                                        @foreach($track['sessions'] as $sessionIndex => $session)
+
+                                            <tr class="border-t border-gray-200 hover:bg-cream/50 transition">
+
+                                                {{-- TRACK --}}
+                                                @if($sessionIndex === 0)
+                                                    <td
+                                                        class="px-4 py-3 align-top"
+                                                        rowspan="{{ count($track['sessions']) }}"
+                                                    >
+                                                        <div class="flex items-start gap-2.5">
+
+                                                            {{-- Track Details --}}
+                                                            <div>
+                                                                <div class="font-bold text-forest leading-tight">
+                                                                    {{ $track['track_name'] }}
+                                                                </div>
+
+                                                                @if(!empty($track['track_category']))
+                                                                    <div class="text-xs text-gray-500 mt-0.5 leading-relaxed">
+                                                                        {{ $track['track_category'] }}
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+
+                                                        </div>
+                                                    </td>
+                                                @endif
+
+
+                                                {{-- TIME --}}
+                                                <td class="px-4 py-3 align-top">
+                                                    <div class="font-bold text-forest whitespace-nowrap">
+                                                        {{ \Carbon\Carbon::parse($session['start_time'])->format('g:i A') }}
+
+                                                        @if(!empty($session['end_time']))
+                                                            – {{ \Carbon\Carbon::parse($session['end_time'])->format('g:i A') }}
+                                                        @endif
+                                                    </div>
+                                                </td>
+
+
+                                                {{-- SESSION --}}
+                                                <td class="px-4 py-3 align-top text-start">
+
+                                                    {{-- Session Title --}}
+                                                    <div class="font-bold text-gray-900 leading-snug">
+                                                        {{ $session['title'] }}
+                                                    </div>
+
+                                                    {{-- Description --}}
+                                                    @if(!empty($session['description']))
+                                                        <p class="mt-1 text-sm text-gray-600 leading-relaxed">
+                                                            {{ $session['description'] }}
+                                                        </p>
+                                                    @endif
+
+
+                                                    {{-- SPEAKERS --}}
+                                                    @if(!empty($session['speakers']))
+                                                        <div class="mt-2">
+
+                                                            <div class="text-xs font-bold uppercase tracking-wide text-forest mb-1">
+                                                                Speakers
+                                                            </div>
+
+                                                            <div class="space-y-0.5">
+                                                                @foreach($session['speakers'] as $speaker)
+
+                                                                    <div class="text-sm leading-6">
+
+                                                                        <span class="font-semibold text-gray-900">
+                                                                            {{ $speaker['name'] }}
+                                                                        </span>
+
+                                                                        @if(!empty($speaker['position']))
+                                                                            <span class="text-gray-500">
+                                                                                — {{ $speaker['position'] }}
+                                                                            </span>
+                                                                        @endif
+
+                                                                        @if(!empty($speaker['organization']))
+                                                                            <span class="text-forest font-medium">
+                                                                                · {{ $speaker['organization'] }}
+                                                                            </span>
+                                                                        @endif
+
+                                                                    </div>
+
+                                                                @endforeach
+                                                            </div>
+
+                                                        </div>
+                                                    @endif
+
+
+                                                    {{-- MODERATORS --}}
+                                                    @if(!empty($session['moderators']))
+                                                        <div class="mt-2">
+
+                                                            <div class="text-xs font-bold uppercase tracking-wide text-forest mb-1">
+                                                                Moderator
+                                                            </div>
+
+                                                            <div class="space-y-0.5">
+                                                                @foreach($session['moderators'] as $moderator)
+
+                                                                    <div class="text-sm leading-6">
+
+                                                                        <span class="font-semibold text-gray-900">
+                                                                            {{ $moderator['name'] }}
+                                                                        </span>
+
+                                                                        @if(!empty($moderator['position']))
+                                                                            <span class="text-gray-500">
+                                                                                — {{ $moderator['position'] }}
+                                                                            </span>
+                                                                        @endif
+
+                                                                        @if(!empty($moderator['organization']))
+                                                                            <span class="text-forest font-medium">
+                                                                                · {{ $moderator['organization'] }}
+                                                                            </span>
+                                                                        @endif
+
+                                                                    </div>
+
+                                                                @endforeach
+                                                            </div>
+
+                                                        </div>
+                                                    @endif
+
+
+                                                    {{-- FACILITATORS --}}
+                                                    @if(!empty($session['facilitators']))
+                                                        <div class="mt-2">
+
+                                                            <div class="text-xs font-bold uppercase tracking-wide text-forest mb-1">
+                                                                Facilitator
+                                                            </div>
+
+                                                            <div class="space-y-0.5">
+                                                                @foreach($session['facilitators'] as $facilitator)
+
+                                                                    <div class="text-sm leading-6">
+
+                                                                        <span class="font-semibold text-gray-900">
+                                                                            {{ $facilitator['name'] }}
+                                                                        </span>
+
+                                                                        @if(!empty($facilitator['position']))
+                                                                            <span class="text-gray-500">
+                                                                                — {{ $facilitator['position'] }}
+                                                                            </span>
+                                                                        @endif
+
+                                                                        @if(!empty($facilitator['organization']))
+                                                                            <span class="text-forest font-medium">
+                                                                                · {{ $facilitator['organization'] }}
+                                                                            </span>
+                                                                        @endif
+
+                                                                    </div>
+
+                                                                @endforeach
+                                                            </div>
+
+                                                        </div>
+                                                    @endif
+
+                                                </td>
+
+                                            </tr>
+
+                                        @endforeach
+
+                                    @endforeach
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                            </div>
+
+                        @endif
+
+                    </div>
+
+                </details>
+
+            @endforeach
+
+              <button type="button" class="mt-5 {{ $btn }}" onclick="window.open('{{ route('conference.registration') }}','_blank')">Reserve a seat</button>
+
+        </div>
 
             <h3 class="font-display text-2xl font-bold text-forestdark mb-6">Delegate Registration</h3>
             <div class="grid lg:grid-cols-[1.4fr_1fr] gap-6 text-left">
@@ -557,7 +813,7 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
     @endforeach
 </div>
       <div class="flex items-center gap-4 bg-forestdark text-white rounded-2xl p-6 md:p-7 text-left max-w-4xl mx-auto">
-                    
+
                     <iconify-icon icon="mdi:badge-account-horizontal-outline" width="28" height="28" class="text-solar flex-shrink-0 mt-0.5"></iconify-icon>
                     <p class="text-sm text-white/90 m-0">While the physical set-up varies depending on your chosen size and booth type, every exhibitor is provided with a professional foundation for success such as access via official badges, digital reach thru a featured listing in the SSX Website E-Directory, and integrated promotion in print, social media, and web marketing.</p>
                 </div>
@@ -594,7 +850,7 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
             <div class="mb-16">
                 <span class="block text-xs font-bold tracking-widest uppercase text-stone mb-1">On-Site</span>
                 <h3 class="font-display text-2xl font-bold text-forestdark mb-8">Exhibition Features</h3>
-                <div class="grid md:grid-cols-3 gap-6 text-left">
+                <div class="grid md:grid-cols-4 gap-6 text-left">
                     @foreach($exhibitionFeatures as $f)
                         <div class="bg-white border-2 rounded-2xl p-7 hover:-translate-y-1.5 transition-transform duration-200" style="border-color:{{ $f['color'] }};">
                             <div class="w-14 h-14 rounded-full flex items-center justify-center text-white mb-2" style="background:{{ $f['color'] }};">
@@ -617,8 +873,6 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
     =========================================== --}}
     <section>
              <div class="relative h-64 md:h-72 overflow-hidden">
-            {{-- <img src="https://picsum.photos/seed/ssx-partnership/1920/500" alt="SSX partners and sponsors collaborating" loading="lazy" class="absolute inset-0 w-full h-full object-cover"> --}}
-            {{-- <div class="absolute inset-0 bg-gradient-to-r from-forestdark/90 to-forest/70"></div> --}}
             <div class="relative z-10 h-full flex flex-col items-center justify-center gap-2 text-white">
                 <iconify-icon icon="mdi:handshake" width="60" height="60"></iconify-icon>
                 <h2 class="font-display text-3xl md:text-4xl font-bold">Partnership & Sponsorship</h2>
@@ -626,7 +880,7 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
         </div>
     </section>
     <section id="partnership" class="bg-cream">
-   
+
 
         <div class="max-w-5xl mx-auto text-center px-6 py-16 md:py-20">
             <h4 class="font-display text-xl font-bold text-forestdark mb-6">Collaborate for a Circular Future</h4>
@@ -657,13 +911,721 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
                 @endforeach
             </div>
 
+{{-- EVENT PARTNERS CAROUSEL --}}
+<div class="mb-16">
+
+    <h3 class="text-3xl md:text-4xl font-bold text-forest mt-2 mb-8">
+        Event Partners
+    </h3>
+
+    <div class="relative max-w-6xl mx-auto">
+
+        {{-- LEFT BUTTON --}}
+        <button
+            type="button"
+            onclick="scrollEventPartners(-1)"
+            class="ssx-partner-arrow ssx-partner-arrow-left"
+            aria-label="Previous partner"
+        >
+            <iconify-icon
+                icon="mdi:chevron-left"
+                class="text-2xl text-forest">
+            </iconify-icon>
+        </button>
+
+
+        {{-- CAROUSEL TRACK --}}
+        <div
+            id="eventPartnersCarousel"
+            class="ssx-partners-track"
+        >
+
+            @foreach($eventPartners as $partner)
+
+                <div class="event-partner-card">
+
+                    <div
+                        class="h-full bg-white
+                               border-2 border-forest/10
+                               rounded-2xl overflow-hidden
+                               shadow-sm hover:shadow-lg
+                               transition
+                               flex flex-col"
+                    >
+
+                        {{-- IMAGE --}}
+                        <div
+                            class="h-40 bg-white
+                                   flex items-center justify-center
+                                   p-6"
+                        >
+                            <img
+                                src="{{ asset($partner['image']) }}"
+                                alt="{{ $partner['name'] }}"
+                                loading="lazy"
+                                class="max-h-full max-w-full object-contain"
+                                style="
+                                    width: {{ $partner['image_width'] ?? 'auto' }};
+                                "
+                            >
+                        </div>
+
+
+                        {{-- CONTENT --}}
+                        <div
+                            class="p-6 flex flex-col flex-1 text-left"
+                        >
+
+                            <h4
+                                class="text-lg font-bold text-forest mb-3"
+                            >
+                                {{ $partner['name'] }}
+                            </h4>
+
+
+                            @if(!empty($partner['description']))
+
+                                <p
+                                    class="text-sm text-gray-600
+                                           leading-relaxed line-clamp-5"
+                                >
+                                    {{ $partner['description'] }}
+                                </p>
+
+                            @endif
+
+
+                            @if(!empty($partner['website']))
+
+                                <div class="mt-auto pt-5">
+
+                                    <a
+                                        href="{{ $partner['website'] }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="inline-flex items-center
+                                               gap-2 text-sm
+                                               font-semibold text-forest
+                                               hover:underline"
+                                    >
+                                        Visit Website
+
+                                        <iconify-icon
+                                            icon="mdi:open-in-new"
+                                            class="text-base">
+                                        </iconify-icon>
+
+                                    </a>
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+
+        {{-- RIGHT BUTTON --}}
+        <button
+            type="button"
+            onclick="scrollEventPartners(1)"
+            class="ssx-partner-arrow ssx-partner-arrow-right"
+            aria-label="Next partner"
+        >
+            <iconify-icon
+                icon="mdi:chevron-right"
+                class="text-2xl text-forest">
+            </iconify-icon>
+        </button>
+
+    </div>
+
+</div>
+{{-- SESSION PARTNERS CAROUSEL --}}
+
+<div class="mb-16">
+
+    <h3 class="text-3xl md:text-4xl font-bold text-forest mt-2 mb-8">
+        Session Partners
+    </h3>
+
+    <div class="relative max-w-6xl mx-auto">
+
+        {{-- LEFT BUTTON --}}
+        <button
+            type="button"
+            onclick="scrollSessionPartners(-1)"
+            class="ssx-partner-arrow ssx-partner-arrow-left"
+            aria-label="Previous session partner"
+        >
+            <iconify-icon
+                icon="mdi:chevron-left"
+                class="text-2xl text-forest">
+            </iconify-icon>
+        </button>
+
+
+        {{-- CAROUSEL TRACK --}}
+        <div
+            id="sessionPartnersCarousel"
+            class="ssx-partners-track"
+        >
+
+            @foreach($sessionPartners as $partner)
+
+                <div class="event-partner-card">
+
+                    <div
+                        class="h-full bg-white
+                               border-2 border-forest/10
+                               rounded-2xl overflow-hidden
+                               shadow-sm hover:shadow-lg
+                               transition
+                               flex flex-col"
+                    >
+
+                        {{-- IMAGE --}}
+                        <div
+                            class="h-40 bg-white
+                                   flex items-center justify-center
+                                   p-6"
+                        >
+
+                            <img
+                                src="{{ asset($partner['img']) }}"
+                                alt="{{ $partner['company_name'] }}"
+                                loading="lazy"
+                                class="max-h-full max-w-full object-contain"
+                                  style="
+                                    width: {{ $partner['image_width'] ?? 'auto' }};
+                                "
+                            >
+
+                        </div>
+
+
+                        {{-- CONTENT --}}
+                        <div
+                            class="p-6 flex flex-col flex-1 text-left"
+                        >
+
+                            <h4
+                                class="text-lg font-bold text-forest mb-3"
+                            >
+                                {{ $partner['company_name'] }}
+                            </h4>
+
+
+                            @if(!empty($partner['description']))
+
+                                <p
+                                    class="text-sm text-gray-600
+                                           leading-relaxed line-clamp-5"
+                                >
+                                    {{ $partner['description'] }}
+                                </p>
+
+                            @endif
+
+
+                            @if(!empty($partner['website']))
+
+                                <div class="mt-auto pt-5">
+
+                                    <a
+                                        href="{{ $partner['website'] }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="inline-flex items-center
+                                               gap-2 text-sm
+                                               font-semibold text-forest
+                                               hover:underline"
+                                    >
+
+                                        Visit Website
+
+                                        <iconify-icon
+                                            icon="mdi:open-in-new"
+                                            class="text-base">
+                                        </iconify-icon>
+
+                                    </a>
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+
+        {{-- RIGHT BUTTON --}}
+        <button
+            type="button"
+            onclick="scrollSessionPartners(1)"
+            class="ssx-partner-arrow ssx-partner-arrow-right"
+            aria-label="Next partner"
+        >
+
+            <iconify-icon
+                icon="mdi:chevron-right"
+                class="text-2xl text-forest">
+            </iconify-icon>
+
+        </button>
+
+    </div>
+
+</div>
+
+{{-- GOVERNMENT PARTNERS --}}
+<div class="mb-16">
+    <h3 class="text-3xl md:text-4xl font-bold text-forest mt-2 mb-8">
+        Government Partners
+    </h3>
+
+    <div class="relative max-w-6xl mx-auto">
+
+        {{-- LEFT BUTTON --}}
+        <button type="button"
+                onclick="scrollGovernmentPartners(-1)"
+                class="ssx-partner-arrow ssx-partner-arrow-left"
+                aria-label="Previous government partner">
+            <iconify-icon
+                icon="mdi:chevron-left"
+                class="text-2xl text-forest">
+            </iconify-icon>
+        </button>
+
+        {{-- CAROUSEL --}}
+        <div id="governmentPartnersCarousel"
+             class="ssx-partners-track">
+
+            @foreach($governmentPartners as $partner)
+
+                <div class="event-partner-card">
+
+                    <div class="h-full bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col">
+
+                        {{-- LOGO --}}
+                        <div class="h-40 bg-white flex items-center justify-center p-6">
+                            <img
+                                src="{{ asset($partner['img']) }}"
+                                alt="{{ $partner['company_name'] }}"
+                                loading="lazy"
+                                class="max-h-full max-w-full object-contain"
+                                  style="
+                                    width: {{ $partner['image_width'] ?? 'auto' }};
+                                "
+                                >
+                                
+                        </div>
+
+                        {{-- CONTENT --}}
+                        <div class="p-6 flex flex-col flex-1 text-left">
+
+                            <h4 class="text-lg font-bold text-forest mb-3">
+                                {{ $partner['company_name'] }}
+                            </h4>
+
+                            @if(!empty($partner['description']))
+                                <p class="text-sm text-gray-600 leading-relaxed line-clamp-5">
+                                    {{ $partner['description'] }}
+                                </p>
+                            @endif
+
+                            {{-- WEBSITE --}}
+                            @if(!empty($partner['website']))
+                                <div class="mt-auto pt-5">
+
+                                    <a
+                                        href="{{ $partner['website'] }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline">
+
+                                        Visit Website
+
+                                        <iconify-icon
+                                            icon="mdi:open-in-new"
+                                            class="text-base">
+                                        </iconify-icon>
+
+                                    </a>
+
+                                </div>
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+        {{-- RIGHT BUTTON --}}
+        <button type="button"
+                onclick="scrollGovernmentPartners(1)"
+                class="ssx-partner-arrow ssx-partner-arrow-right"
+                aria-label="Next government partner">
+
+            <iconify-icon
+                icon="mdi:chevron-right"
+                class="text-2xl text-forest">
+            </iconify-icon>
+
+        </button>
+
+    </div>
+</div>
+
+{{-- INSTITUTIONAL PARTNERS --}}
+<div class="mb-16">
+    <h3 class="text-3xl md:text-4xl font-bold text-forest mt-2 mb-8">
+        Institutional Partners
+    </h3>
+
+    <div class="relative max-w-6xl mx-auto">
+
+        {{-- LEFT BUTTON --}}
+        <button type="button"
+                onclick="scrollInstitutionalPartners(-1)"
+                class="ssx-partner-arrow ssx-partner-arrow-left"
+                aria-label="Previous institutional partner">
+
+            <iconify-icon
+                icon="mdi:chevron-left"
+                class="text-2xl text-forest">
+            </iconify-icon>
+
+        </button>
+
+        {{-- CAROUSEL --}}
+        <div id="institutionalPartnersCarousel"
+             class="ssx-partners-track">
+
+            @foreach($institutionalPartners as $partner)
+
+                <div class="event-partner-card">
+
+                    <div class="h-full bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col">
+
+                        {{-- LOGO --}}
+                        <div class="h-40 bg-white flex items-center justify-center p-6">
+
+                            <img
+                                src="{{ asset($partner['img']) }}"
+                                alt="{{ $partner['company_name'] }}"
+                                loading="lazy"
+                                class="max-h-full max-w-full object-contain"
+                                 style="
+                                    width: {{ $partner['image_width'] ?? 'auto' }};
+                                "
+                                >
+
+                        </div>
+
+                        {{-- CONTENT --}}
+                        <div class="p-6 flex flex-col flex-1 text-left">
+
+                            <h4 class="text-lg font-bold text-forest mb-3">
+                                {{ $partner['company_name'] }}
+                            </h4>
+
+                            @if(!empty($partner['description']))
+                                <p class="text-sm text-gray-600 leading-relaxed line-clamp-5">
+                                    {{ $partner['description'] }}
+                                </p>
+                            @endif
+
+                            {{-- WEBSITE --}}
+                            @if(!empty($partner['website']))
+                                <div class="mt-auto pt-5">
+
+                                    <a
+                                        href="{{ $partner['website'] }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline">
+
+                                        Visit Website
+
+                                        <iconify-icon
+                                            icon="mdi:open-in-new"
+                                            class="text-base">
+                                        </iconify-icon>
+
+                                    </a>
+
+                                </div>
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+        {{-- RIGHT BUTTON --}}
+        <button type="button"
+                onclick="scrollInstitutionalPartners(1)"
+                class="ssx-partner-arrow ssx-partner-arrow-right"
+                aria-label="Next institutional partner">
+
+            <iconify-icon
+                icon="mdi:chevron-right"
+                class="text-2xl text-forest">
+            </iconify-icon>
+
+        </button>
+
+    </div>
+</div>
+
+{{-- OFFICIAL PARTNERS --}}
+<div class="mb-16">
+
+    <h3 class="text-3xl md:text-4xl font-bold text-forest mt-2 mb-8">
+        Official Partners
+    </h3>
+
+    <div class="grid md:grid-cols-3 gap-6 text-left">
+
+        {{-- OFFICIAL TRAINING & EVENT PARTNER --}}
+        @foreach($officialTrainingEventPartners as $partner)
+
+            <div class="bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col">
+
+                {{-- LOGO --}}
+                <div class="h-40 bg-white flex items-center justify-center p-6">
+
+                    <img
+                        src="{{ asset($partner['img']) }}"
+                        alt="{{ $partner['company_name'] }}"
+                        loading="lazy"
+                        class="max-h-full max-w-full object-contain"
+                        style="width: {{ $partner['image_width'] ?? 'auto' }};"
+                    >
+
+                </div>
+
+                {{-- CONTENT --}}
+                <div class="p-6 flex flex-col flex-1 text-left">
+
+                    <span class="text-xs font-bold uppercase tracking-widest text-stone mb-2">
+                        Official Training & Event Partner
+                    </span>
+
+                    <h4 class="text-lg font-bold text-forest mb-3">
+                        {{ $partner['company_name'] }}
+                    </h4>
+
+                    @if(!empty($partner['description']))
+                        <p class="text-sm text-gray-600 leading-relaxed line-clamp-6">
+                            {{ $partner['description'] }}
+                        </p>
+                    @endif
+
+                    @if(!empty($partner['website']))
+                        <div class="mt-auto pt-5">
+
+                            <a
+                                href="{{ $partner['website'] }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline"
+                            >
+                                Visit Website
+
+                                <iconify-icon
+                                    icon="mdi:open-in-new"
+                                    class="text-base">
+                                </iconify-icon>
+
+                            </a>
+
+                        </div>
+                    @endif
+
+                </div>
+
+            </div>
+
+        @endforeach
+
+
+        {{-- OFFICIAL BUSINESS LOUNGE PARTNER --}}
+        @foreach($officialBusinessLoungePartners as $partner)
+
+            <div class="bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col">
+
+                {{-- LOGO --}}
+                <div class="h-40 bg-white flex items-center justify-center p-6">
+
+                    <img
+                        src="{{ asset($partner['img']) }}"
+                        alt="{{ $partner['company_name'] }}"
+                        loading="lazy"
+                        class="max-h-full max-w-full object-contain"
+                        style="width: {{ $partner['image_width'] ?? 'auto' }};"
+                    >
+
+                </div>
+
+                {{-- CONTENT --}}
+                <div class="p-6 flex flex-col flex-1 text-left">
+
+                    <span class="text-xs font-bold uppercase tracking-widest text-stone mb-2">
+                        Official Business Lounge Partner
+                    </span>
+
+                    <h4 class="text-lg font-bold text-forest mb-3">
+                        {{ $partner['company_name'] }}
+                    </h4>
+
+                    @if(!empty($partner['description']))
+                        <p class="text-sm text-gray-600 leading-relaxed line-clamp-6">
+                            {{ $partner['description'] }}
+                        </p>
+                    @endif
+
+                    @if(!empty($partner['website']))
+                        <div class="mt-auto pt-5">
+
+                            <a
+                                href="{{ $partner['website'] }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline"
+                            >
+                                Visit Website
+
+                                <iconify-icon
+                                    icon="mdi:open-in-new"
+                                    class="text-base">
+                                </iconify-icon>
+
+                            </a>
+
+                        </div>
+                    @endif
+
+                </div>
+
+            </div>
+
+        @endforeach
+
+
+        {{-- OFFICIAL TOKEN PARTNER --}}
+        @foreach($officialTokenPartners as $partner)
+
+            <div class="bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col">
+
+                {{-- LOGO --}}
+                <div class="h-40 bg-white flex items-center justify-center p-6">
+
+                    <img
+                        src="{{ asset($partner['img']) }}"
+                        alt="{{ $partner['company_name'] }}"
+                        loading="lazy"
+                        class="max-h-full max-w-full object-contain"
+                        style="width: {{ $partner['image_width'] ?? 'auto' }};"
+                    >
+
+                </div>
+
+                {{-- CONTENT --}}
+                <div class="p-6 flex flex-col flex-1 text-left">
+
+                    <span class="text-xs font-bold uppercase tracking-widest text-stone mb-2">
+                        Official Token Partner
+                    </span>
+
+                    <h4 class="text-lg font-bold text-forest mb-3">
+                        {{ $partner['company_name'] }}
+                    </h4>
+
+                    @if(!empty($partner['description']))
+                        <p class="text-sm text-gray-600 leading-relaxed line-clamp-6">
+                            {{ $partner['description'] }}
+                        </p>
+                    @endif
+
+                    @if(!empty($partner['website']))
+                        <div class="mt-auto pt-5">
+
+                            <a
+                                href="{{ $partner['website'] }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline"
+                            >
+                                Visit Website
+
+                                <iconify-icon
+                                    icon="mdi:open-in-new"
+                                    class="text-base">
+                                </iconify-icon>
+
+                            </a>
+
+                        </div>
+                    @endif
+
+                </div>
+
+            </div>
+
+        @endforeach
+
+    </div>
+
+</div>
+          
+
+        </div>
+
+    </section>
+        <section id="partnership" class="bg-white">
+
+
+        <div class="max-w-5xl mx-auto text-center px-6 py-16 md:py-20">
+          
+
+
+
+
+
+
             <h3 class="font-display text-2xl font-bold text-forestdark mb-2">Be Part of the Green Shift.</h3>
             <p class="text-forest max-w-2xl mx-auto mb-10">Whether you are a solution provider looking to showcase innovation or a corporate leader ready to champion sustainability, now is the time to secure your place.</p>
 <div class="flex flex-wrap justify-center gap-5 text-left">
    @foreach($shiftCtas as $cta)
 
     <div
-        class="w-full md:w-[calc(48%-10px)] flex items-center gap-4 bg-white border border-forest/20 rounded-2xl p-6 border-l-4 cursor-pointer hover:translate-x-1 hover:shadow-[0_12px_24px_rgba(31,69,34,0.12)] transition-all duration-200"
+        class="w-full md:w-[calc(100%-10px)] flex items-center gap-4 bg-white border border-forest/20 rounded-2xl p-6 border-l-4 cursor-pointer hover:translate-x-1 hover:shadow-[0_12px_24px_rgba(31,69,34,0.12)] transition-all duration-200"
         style="border-left-color:{{ $cta['color'] }};"
         onclick="window.open('{{ $cta['url'] }}','_blank')">
 
@@ -706,68 +1668,32 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
 
 @endforeach
 </div>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+ <a
+    href="{{ asset('assets/show-info_2026/SSX_Partnership_Catalogue.pdf') }}"
+    download
+    class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-forest text-white font-semibold rounded-lg hover:bg-forestdark transition-colors no-underline hover:no-underline">
+    <iconify-icon
+        icon="solar:download-outline"
+        width="20"
+        height="20">
+    </iconify-icon>
+    Download Partnership Catalog
+</a>
+
+    <a
+        href="mailto:sustainabilityph@citem.com.ph?subject=SSX%202026%20Partnership%20Inquiry"
+        class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-forest text-white font-semibold rounded-lg hover:bg-forestdark transition-colors no-underline hover:no-underline">
+        <iconify-icon
+            icon="solar:handshake-outline"
+            width="20"
+            height="20">
+        </iconify-icon>
+        Partner with Us
+    </a>
+</div>
         </div>
-    </section>
 
-    {{-- ===========================================
-         PITCHING COMPETITION
-    =========================================== --}}
-    <section id="pitching" class="bg-forestdark py-16 md:py-20 px-6 md:px-16">
-        <div class="max-w-4xl mx-auto text-center text-white">
-            <iconify-icon icon="mdi:presentation-play" width="60" height="60"></iconify-icon>
-            <h2 class="font-display text-3xl md:text-4xl font-bold mt-3 mb-4">Pitching Competition</h2>
-            <p class="text-white/85 mb-10">Future Proof: The Green Innovation Pitch &mdash; a flagship event where sustainability startups present innovations to venture capitalists and industry experts.</p>
-
-            <div class="border-2 border-white/70 rounded-[24px] p-8 md:p-10 text-left">
-                <h3 class="font-display text-xl font-bold mb-3">Eligibility</h3>
-                <p class="mb-6"><strong>Participants must be an approved SSX exhibitor and meet the criteria below.</strong></p>
-
-                <div class="grid md:grid-cols-2 gap-6 mb-8">
-                    @foreach($pitchCriteria as $criterion)
-                        <div>
-                            <h5 class="font-bold mb-2">{{ $criterion['title'] }}</h5>
-                            <ul class="list-disc list-inside space-y-1 text-white/85 text-sm">
-                                @foreach($criterion['items'] as $item)
-                                    <li>{{ $item }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endforeach
-                </div>
-
-                <hr class="border-white/40 mb-6">
-
-                <h3 class="font-display text-xl font-bold mb-4">Pitching Competition Guidelines</h3>
-                <ol class="list-decimal list-inside space-y-3 mb-6">
-                    <li>Register as an exhibitor via Sustainability.ph and select the <strong>"Pitching Competition"</strong> option (limit of one entry per category).</li>
-                    <li>
-                        Submit a concise paper covering:
-                        <ul class="list-disc list-inside ml-5 mt-2 space-y-1 text-white/85 text-sm">
-                            <li>Introduction & Problem Statement</li>
-                            <li>Proposed Solution & Sustainability Impact</li>
-                            <li>Scalability & Future Plans</li>
-                            <li>Conclusion / Call to Action</li>
-                        </ul>
-                    </li>
-                    <li>Submit a pitch video (maximum 3 minutes) highlighting your key innovations.</li>
-                </ol>
-
-                <div class="bg-white/95 text-forestdark rounded-xl p-4 mb-6 text-sm">
-                    <strong>Note:</strong> Overtime submissions will incur score deductions.
-                </div>
-
-                <h5 class="font-bold mb-2">Submission Format</h5>
-                <ul class="text-sm text-white/85 space-y-1">
-                    <li><strong>Paper:</strong> Pitching Paper_Company Name</li>
-                    <li><strong>Video:</strong> Video Presentation_Company Name</li>
-                </ul>
-            </div>
-
-            <button type="button" class="bg-white hover:bg-cream text-forestdark font-bold rounded-full px-10 py-3.5 mt-8 transition-all duration-200 hover:-translate-y-0.5"
-                onclick="window.open('{{ route('registration.supplier') }}','_blank')">
-                Register Now
-            </button>
-        </div>
     </section>
 
 </main>
@@ -798,7 +1724,7 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
                         stone: '#5C6B5E',
                     },
                     fontFamily: {
-                        display: ['Harabara', 'serif'],
+                        display: ['DIN-Bold,Open Sans,Helvetica,sans-serif'],
                         sans: ['Inter', 'sans-serif'],
                     },
                 }
@@ -882,12 +1808,400 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
         transform: translateX(-50%);
     }
 }
+
+/* ==========================================================
+   EVENT PARTNERS CAROUSEL
+   Hard-coded CSS (not relying on Tailwind CDN JIT for
+   bracket-notation classes) so this always renders as a true
+   horizontal, one-card-at-a-time carousel on every screen size.
+   ========================================================== */
+
+.ssx-partners-track {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 24px;
+    padding: 8px 8px 16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.ssx-partners-track::-webkit-scrollbar {
+    display: none;
+}
+
+.ssx-partners-track .event-partner-card {
+    flex: 0 0 auto !important;
+    width: 85vw;
+    scroll-snap-align: start;
+}
+
+@media (min-width: 640px) {
+    .ssx-partners-track .event-partner-card { width: 80vw; }
+}
+
+@media (min-width: 768px) {
+    .ssx-partners-track .event-partner-card { width: calc((100% - 24px) / 2); }
+}
+
+@media (min-width: 1024px) {
+    .ssx-partners-track .event-partner-card { width: calc((100% - 48px) / 3); }
+}
+
+.ssx-partner-arrow {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 20 !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    background: #fff !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15) !important;
+    border: 1px solid rgba(31,69,34,0.1);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+}
+
+.ssx-partner-arrow:hover {
+    transform: translateY(-50%) scale(1.08) !important;
+}
+
+.ssx-partner-arrow-left { left: 4px !important; }
+.ssx-partner-arrow-right { right: 4px !important; }
+
+@media (min-width: 768px) {
+    .ssx-partner-arrow-left { left: -20px !important; }
+    .ssx-partner-arrow-right { right: -20px !important; }
+    .ssx-partner-arrow { width: 48px; height: 48px; }
+}
     </style>
 @endpush
 
 @push('scripts')
 <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
-<script> 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | REUSABLE PARTNER CAROUSEL
+    |--------------------------------------------------------------------------
+    */
+
+    function initPartnerCarousel(carouselId, scrollFunctionName) {
+
+        const carousel = document.getElementById(carouselId);
+
+        if (!carousel) return;
+
+        const originalCards = Array.from(
+            carousel.querySelectorAll('.event-partner-card')
+        );
+
+        if (originalCards.length === 0) return;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CREATE CLONES
+        |--------------------------------------------------------------------------
+        */
+
+        const clonesBefore = originalCards.map(card =>
+            card.cloneNode(true)
+        );
+
+        const clonesAfter = originalCards.map(card =>
+            card.cloneNode(true)
+        );
+
+
+        // Add clones BEFORE originals
+        clonesBefore.reverse().forEach(card => {
+            carousel.insertBefore(
+                card,
+                carousel.firstChild
+            );
+        });
+
+
+        // Add clones AFTER originals
+        clonesAfter.forEach(card => {
+            carousel.appendChild(card);
+        });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CALCULATE ORIGINAL SET WIDTH
+        |--------------------------------------------------------------------------
+        */
+
+        function getOriginalSetWidth() {
+
+            const cards = Array.from(
+                carousel.querySelectorAll('.event-partner-card')
+            );
+
+            const firstSet = cards.slice(
+                originalCards.length,
+                originalCards.length * 2
+            );
+
+            if (firstSet.length === 0) return 0;
+
+            const gap = 24;
+
+            const cardWidth = firstSet.reduce(
+                (total, card) => {
+                    return total + card.offsetWidth;
+                },
+                0
+            );
+
+            return cardWidth +
+                ((firstSet.length - 1) * gap);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | MOVE TO ORIGINAL SET
+        |--------------------------------------------------------------------------
+        */
+
+        function moveToOriginalSet() {
+
+            const cards = Array.from(
+                carousel.querySelectorAll('.event-partner-card')
+            );
+
+            const firstOriginalCard =
+                cards[originalCards.length];
+
+            if (!firstOriginalCard) return;
+
+            carousel.scrollLeft =
+                firstOriginalCard.offsetLeft -
+                carousel.offsetLeft;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | INITIAL POSITION
+        |--------------------------------------------------------------------------
+        */
+
+        setTimeout(function () {
+            moveToOriginalSet();
+        }, 100);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | NEXT / PREVIOUS BUTTON
+        |--------------------------------------------------------------------------
+        */
+
+        window[scrollFunctionName] = function (direction) {
+
+            const card =
+                carousel.querySelector('.event-partner-card');
+
+            if (!card) return;
+
+            const gap = 24;
+
+            const cardWidth =
+                card.offsetWidth;
+
+            carousel.scrollBy({
+                left:
+                    direction * (cardWidth + gap),
+                behavior: 'smooth'
+            });
+        };
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | INFINITE CAROUSEL
+        |--------------------------------------------------------------------------
+        */
+
+        let isResetting = false;
+
+        carousel.addEventListener('scroll', function () {
+
+            if (isResetting) return;
+
+            const totalOriginalWidth =
+                getOriginalSetWidth();
+
+            if (!totalOriginalWidth) return;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | LEFT
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                carousel.scrollLeft <=
+                totalOriginalWidth * 0.1
+            ) {
+
+                isResetting = true;
+
+                carousel.scrollLeft +=
+                    totalOriginalWidth;
+
+                requestAnimationFrame(function () {
+                    isResetting = false;
+                });
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | RIGHT
+            |--------------------------------------------------------------------------
+            */
+
+            else if (
+                carousel.scrollLeft >=
+                totalOriginalWidth * 1.9
+            ) {
+
+                isResetting = true;
+
+                carousel.scrollLeft -=
+                    totalOriginalWidth;
+
+                requestAnimationFrame(function () {
+                    isResetting = false;
+                });
+            }
+        });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | AUTO MOVE
+        |--------------------------------------------------------------------------
+        */
+
+        let autoScrollTimer;
+
+        function startAutoScroll() {
+
+            clearInterval(autoScrollTimer);
+
+            autoScrollTimer = setInterval(function () {
+
+                const card =
+                    carousel.querySelector('.event-partner-card');
+
+                if (!card) return;
+
+                const gap = 24;
+
+                const cardWidth =
+                    card.offsetWidth;
+
+                carousel.scrollBy({
+                    left: cardWidth + gap,
+                    behavior: 'smooth'
+                });
+
+            }, 2500);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PAUSE WHEN MOUSE IS OVER CAROUSEL
+        |--------------------------------------------------------------------------
+        */
+
+        carousel.addEventListener('mouseenter', function () {
+            clearInterval(autoScrollTimer);
+        });
+
+        carousel.addEventListener('mouseleave', function () {
+            startAutoScroll();
+        });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | START AUTO SCROLL
+        |--------------------------------------------------------------------------
+        */
+
+        setTimeout(function () {
+            startAutoScroll();
+        }, 1000);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | HANDLE RESIZE
+        |--------------------------------------------------------------------------
+        */
+
+        let resizeTimer;
+
+        window.addEventListener('resize', function () {
+
+            clearTimeout(resizeTimer);
+
+            resizeTimer = setTimeout(function () {
+                moveToOriginalSet();
+            }, 150);
+
+        });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | INITIALIZE ALL PARTNER CAROUSELS
+    |--------------------------------------------------------------------------
+    */
+
+    initPartnerCarousel(
+        'eventPartnersCarousel',
+        'scrollEventPartners'
+    );
+
+    initPartnerCarousel(
+        'sessionPartnersCarousel',
+        'scrollSessionPartners'
+    );
+
+    initPartnerCarousel(
+        'governmentPartnersCarousel',
+        'scrollGovernmentPartners'
+    );
+
+    initPartnerCarousel(
+        'institutionalPartnersCarousel',
+        'scrollInstitutionalPartners'
+    );
+
+});
+</script>
+<script>
 
 function ssxToggle(id) {
     const currentPanel = document.getElementById(id);
@@ -915,5 +2229,9 @@ function ssxToggle(id) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () { document.querySelectorAll('.ssx-drag-scroll').forEach((slider) => { let isDown = false, startX, scrollLeft; slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('dragging'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; }); slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('dragging'); }); slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('dragging'); }); slider.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 1.5; slider.scrollLeft = scrollLeft - walk; }); }); if (window.jQuery) { $('#nav-events').addClass('active'); } }); </script>
+document.addEventListener('DOMContentLoaded', function () { document.querySelectorAll('.ssx-drag-scroll').forEach((slider) => { let isDown = false, startX, scrollLeft; slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('dragging'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; }); slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('dragging'); }); slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('dragging'); }); slider.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 1.5; slider.scrollLeft = scrollLeft - walk; }); }); if (window.jQuery) { $('#nav-events').addClass('active'); } });
+
+
+
+</script>
 @endpush

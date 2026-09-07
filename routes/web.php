@@ -278,3 +278,7 @@ Route::get('/conforme/{token}/{status}', [ConformeController::class, 'handle_con
     ->where(['status' => '[01]']);
 
 
+// B2B SSO Endpoint Sync Function 
+// This route is used to authorize the user and send them back to the B2B portal with a signed token.
+// DO NOT DELETE this route as it is used for SSO between the main site and the B2B portal.
+Route::get('/sso/authorize', [\App\Http\Controllers\SSOController::class, 'authorizeB2B']);

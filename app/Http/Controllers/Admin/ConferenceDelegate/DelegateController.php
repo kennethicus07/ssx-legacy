@@ -229,17 +229,17 @@ private function recalculateConferenceAmount(SSXConference $conference)
         );
     }
 
-    if (!empty($filters['contact_email'])) {
+    if (!empty($filters['company_email'])) {
         $query->where(
-            'contact_email',
+            'company_email',
             'like',
-            '%' . $filters['contact_email'] . '%'
+            '%' . $filters['company_email'] . '%'
         );
     }
 
     if (!empty($filters['fair_code'])) {
         $query->where('fair_code', $filters['fair_code']);
-    }
+    }         
 
     if (isset($filters['status']) && $filters['status'] !== '') {
         $query->where('status', $filters['status']);
@@ -262,7 +262,7 @@ private function recalculateConferenceAmount(SSXConference $conference)
         'registration_number',
         'company_name',
         'contact_person',
-        'contact_email',
+        'company_email',
         'participant_count',
         'fair_code',
         'status',
@@ -306,7 +306,7 @@ private function recalculateConferenceAmount(SSXConference $conference)
 
             'contact_person' => $conference->contact_person,
 
-            'contact_email' => $conference->contact_email,
+            'company_email' => $conference->company_email,
 
             'contact_number' => $conference->contact_number,
 

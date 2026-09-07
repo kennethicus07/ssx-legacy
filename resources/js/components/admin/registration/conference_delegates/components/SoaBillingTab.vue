@@ -500,7 +500,7 @@ export default {
             return (
                 this.conference.permissions &&
                 (this.conference.permissions.is_super_admin ||
-                    this.conference.permissions.can_generate_billing) &&
+                    this.conference.permissions.can_generate_soa) &&
                 Number(this.conference.billing_status) !== 2 &&
                 Number(this.conference.billing_status) !== 1
             );
@@ -510,7 +510,7 @@ export default {
             return (
                 this.conference.permissions &&
                 (this.conference.permissions.is_super_admin ||
-                    this.conference.permissions.can_submit_billing) &&
+                    this.conference.permissions.can_approval_soa) &&
                 Number(this.conference.billing_status) === 3
             );
         },
@@ -519,7 +519,7 @@ export default {
             return (
                 this.isSuperAdmin ||
                 (this.conference.permissions &&
-                    this.conference.permissions.can_return_billing)
+                    this.conference.permissions.can_revert_soa)
             );
         },
 
@@ -527,14 +527,14 @@ export default {
             return (
                 this.isSuperAdmin ||
                 (this.conference.permissions &&
-                    this.conference.permissions.can_approve_billing)
+                    this.conference.permissions.can_approved_soa)
             );
         },
         canReturnBilling() {
             return (
                 this.conference.permissions &&
                 (this.conference.permissions.is_super_admin ||
-                    this.conference.permissions.can_return_billing) &&
+                    this.conference.permissions.can_revert_soa) &&
                 Number(this.conference.billing_status) === 2
             );
         },
@@ -543,7 +543,7 @@ export default {
             return (
                 this.conference.permissions &&
                 (this.conference.permissions.is_super_admin ||
-                    this.conference.permissions.can_approve_billing) &&
+                    this.conference.permissions.can_approved_soa) &&
                 Number(this.conference.billing_status) === 2
             );
         },

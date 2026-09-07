@@ -66,6 +66,17 @@
     @endif
 
     <div class="section ssx-info darkgreen-bg" id="event-component">
+          <div class="content white">
+            <div class="desc">
+                <center>
+                    <h3>Join us at the Sustainable Solutions Exchange</h3>
+                </center>
+                <!-- <div class="flex link-border">
+                    <x-registerbuttons />
+                    <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#attendee_modal" class="maroon_btn arrow_btn">Register as an Attendee</a>
+                </div> -->
+            </div>
+        </div>
         <div class="content white pt-5">
             <div class="desc">
                 <widgets :id="33"></widgets>
@@ -81,19 +92,9 @@
                 <widgets :id="35"></widgets>
             </div>
         </div>
-        <div class="content white">
-            <div class="desc">
-                <center>
-                    <h3>Join us at the Sustainable Solutions Exchange</h3>
-                </center>
-                <!-- <div class="flex link-border">
-                    <x-registerbuttons />
-                    <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#attendee_modal" class="maroon_btn arrow_btn">Register as an Attendee</a>
-                </div> -->
-            </div>
-        </div>
+      
     </div>
-    <div class="container-fluid section event-component beige-bg" id="Explore">
+    {{-- <div class="container-fluid section event-component beige-bg" id="Explore">
         <div class="content">
             <h2 class="lightgreen">Explore</h2>
             <h3>Exhibition</h3>
@@ -109,9 +110,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    @if($educate_event)
+    {{-- @if($educate_event)
     <div class="container-fluid section event-component" id="Educate">
         <div class="content">
             <div class="double flex">
@@ -154,9 +155,9 @@
             </div>
         </div>
     </div>
-    @endif
+    @endif --}}
 
-    <div class="container-fluid section event-component beige-bg" id="Enable">
+    {{-- <div class="container-fluid section event-component beige-bg" id="Enable">
         <div class="content">
             <div class="double flex-rev">
                 <div class="left featured">
@@ -170,12 +171,12 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container-fluid section event-component" id="Elevate">
+    </div> --}}
+    {{-- <div class="container-fluid section event-component" id="Elevate">
         <div class="content">
             <widgets :id="36"></widgets>
         </div>
-    </div>
+    </div> --}}
 
     <div class="section ssx-info contact beige-bg">
         <div class="content">

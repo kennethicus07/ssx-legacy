@@ -663,12 +663,12 @@ These unauthorized communications may be sent through email, calls, SMS/text mes
                                         Register
                                     </a>
                                     <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuLink">
-                                        <li><a class="dropdown-item" href="{{ env('SUPPLIER_REG_LINK') }}">Register as a
+                                        <li><a class="dropdown-item" href="{{ route('registration.supplier.email.validation') }}">Register as a
                                                 Supplier/Exhibitor</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li><a class="dropdown-item" href="{{ env('PURCHASER_REG_LINK') }}">Register as a
+                                        <li><a class="dropdown-item" href="{{route('registration.buyer.email.validation') }}">Register as a
                                                 Purchaser/Buyer</a></li>
                                           <li>
                                             <hr class="dropdown-divider">

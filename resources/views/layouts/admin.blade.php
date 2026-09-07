@@ -111,6 +111,13 @@
                                 </a>
                             </li>
                         @endif
+                          <li class="sidebar-item" id="nav-booth-system">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                id="subnav-b2b-system" href="https://b2b.sustainability.ph/" target="_blank"
+                                aria-expanded="false">
+                                <i class="mdi mdi-sync"></i><span class="hide-menu">B2B System</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item" id="nav-registration">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" id="nav-registration-a"
                                 href="javascript:void(0)" aria-expanded="false"><i

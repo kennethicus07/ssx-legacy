@@ -50,9 +50,9 @@
                         </form>
                         <h4>Don't have an account?</h4>
                         <div class=" link-border">
-                            <a href="{{ route('registration.supplier') }}" class="lightgreen_btn arrow_btn">Register as a
+                            <a href="{{ route('registration.supplier.email.validation') }}" class="lightgreen_btn arrow_btn">Register as a
                                 Supplier/Exhibitor</a>
-                            <a href="{{ route('registration.buyer') }}" class="orange_btn2 arrow_btn">Register as a
+                            <a href="{{ route('registration.buyer.email.validation') }}" class="orange_btn2 arrow_btn">Register as a
                                 Purchaser/Buyer</a>
                                    <a href="{{ route('conference.registration') }}" class="blue_btn arrow_btn">Register as a
                                 Conference Delegate</a>

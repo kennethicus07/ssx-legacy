@@ -68,7 +68,7 @@
                                     type="email"
                                     class="form-control form-control-sm"
                                     v-model="
-                                        serverParams.columnFilters.contact_email
+                                        serverParams.columnFilters.company_email
                                     "
                                     placeholder="Search email"
                                 />
@@ -211,10 +211,10 @@
                                     <span
                                         v-else-if="
                                             props.column.field ==
-                                            'contact_email'
+                                            'company_email'
                                         "
                                     >
-                                        {{ props.row.contact_email }}
+                                        {{ props.row.company_email }}
                                     </span>
 
                                     <!-- Participants -->
@@ -489,7 +489,7 @@ export default {
 
                 {
                     label: "Email",
-                    field: "contact_email",
+                    field: "company_email",
                     sortable: true,
                     tdClass: "align-middle",
                 },
@@ -563,7 +563,7 @@ export default {
                     registration_number: "",
                     company_name: "",
                     contact_person: "",
-                    contact_email: "",
+                    company_email: "",
                     fair_code: "",
                     status: "",
                 },
@@ -640,7 +640,7 @@ export default {
                 registration_number: "",
                 company_name: "",
                 contact_person: "",
-                contact_email: "",
+                company_email: "",
                 fair_code: this.events.length ? this.events[0].fair_code : "",
                 status: "",
             };
@@ -710,7 +710,7 @@ export default {
 
                         <p>
                             <strong>Email</strong><br>
-                            ${row.contact_email}
+                            ${row.company_email}
                         </p>
 
                         <hr>
