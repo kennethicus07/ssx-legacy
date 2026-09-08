@@ -32,6 +32,9 @@ $btn = "inline-block appearance-none border-0 outline-none bg-forest hover:bg-fo
 $card = "bg-white border-2 border-forest rounded-[24px] shadow-[8px_8px_0_rgba(31,69,34,0.14)]";
 $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_rgba(31,69,34,0.14)]";
 
+// Running counter used to give every speaker-with-profile a unique modal id.
+$speakerModalCounter = 0;
+
 @endphp
 
 <main id="ssxApp">
@@ -314,10 +317,31 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
                                 </span>
 
                                 @foreach($session['speakers'] as $speaker)
+                                    @php
+                                        $hasProfile = !empty($speaker['status']) && (int) $speaker['status'] === 1;
+                                        if ($hasProfile) {
+                                            $speakerModalCounter++;
+                                            $modalId = 'speaker-modal-' . $speakerModalCounter;
+                                        }
+                                    @endphp
+
                                     <div class="text-sm leading-6">
-                                        <span class="font-semibold text-gray-900">
-                                            {{ $speaker['name'] }}
-                                        </span>
+
+                                        @if($hasProfile)
+                                            <span
+                                                class="speaker-trigger font-semibold text-gray-900 cursor-pointer underline decoration-dotted decoration-forest/60 underline-offset-2 hover:text-forest transition"
+                                                onclick="toggleSpeakerModal('{{ $modalId }}', event)"
+                                                role="button"
+                                                tabindex="0"
+                                                onkeydown="if(event.key==='Enter'){toggleSpeakerModal('{{ $modalId }}', event);}"
+                                            >
+                                                {{ $speaker['name'] }}
+                                            </span>
+                                        @else
+                                            <span class="font-semibold text-gray-900">
+                                                {{ $speaker['name'] }}
+                                            </span>
+                                        @endif
 
                                         @if(!empty($speaker['position']))
                                             <span class="text-gray-500">
@@ -330,6 +354,58 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
                                                 · {{ $speaker['organization'] }}
                                             </span>
                                         @endif
+
+                                        @if($hasProfile)
+                                            {{-- SPEAKER PROFILE MODAL --}}
+                                            <div id="{{ $modalId }}" class="speaker-modal-overlay hidden" onclick="closeSpeakerModalOnOverlay(event, '{{ $modalId }}')">
+                                                <div class="speaker-modal-content" onclick="event.stopPropagation()">
+
+                                                    <button type="button" class="speaker-modal-close" onclick="toggleSpeakerModal('{{ $modalId }}', event)" aria-label="Close">
+                                                        <iconify-icon icon="mdi:close" width="22" height="22"></iconify-icon>
+                                                    </button>
+
+                                                    @if(!empty($speaker['image']))
+                                                        <img src="{{ asset($speaker['image']) }}" alt="{{ $speaker['name'] }}" class="speaker-modal-img">
+                                                    @endif
+
+                                                    <h4 class="font-display font-bold text-lg text-forestdark mb-1">
+                                                        {{ $speaker['name'] }}
+                                                    </h4>
+
+                                                    @if(!empty($speaker['position']))
+                                                        <p class="text-sm text-gray-600 mb-0.5">
+                                                            {{ $speaker['position'] }}
+                                                        </p>
+                                                    @endif
+
+                                                    @if(!empty($speaker['organization']))
+                                                        <p class="text-sm font-semibold text-forest mb-3">
+                                                            {{ $speaker['organization'] }}
+                                                        </p>
+                                                    @endif
+
+                                                    @if(!empty($speaker['profile']))
+                                                        <p class="text-sm text-gray-700 leading-relaxed speaker-modal-bio">
+                                                    {!! $speaker['profile'] !!}
+                                                        </p>
+                                                    @endif
+
+                                                    @if(!empty($speaker['website']))
+                                                        <a
+                                                            href="{{ $speaker['website'] }}"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline mt-3"
+                                                        >
+                                                            Visit Website
+                                                            <iconify-icon icon="mdi:open-in-new" class="text-base"></iconify-icon>
+                                                        </a>
+                                                    @endif
+
+                                                </div>
+                                            </div>
+                                        @endif
+
                                     </div>
                                 @endforeach
                             </div>
@@ -490,12 +566,31 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
 
                                                             <div class="space-y-0.5">
                                                                 @foreach($session['speakers'] as $speaker)
+                                                                    @php
+                                                                        $hasProfile = !empty($speaker['status']) && (int) $speaker['status'] === 1;
+                                                                        if ($hasProfile) {
+                                                                            $speakerModalCounter++;
+                                                                            $modalId = 'speaker-modal-' . $speakerModalCounter;
+                                                                        }
+                                                                    @endphp
 
                                                                     <div class="text-sm leading-6">
 
-                                                                        <span class="font-semibold text-gray-900">
-                                                                            {{ $speaker['name'] }}
-                                                                        </span>
+                                                                        @if($hasProfile)
+                                                                            <span
+                                                                                class="speaker-trigger font-semibold text-gray-900 cursor-pointer underline decoration-dotted decoration-forest/60 underline-offset-2 hover:text-forest transition"
+                                                                                onclick="toggleSpeakerModal('{{ $modalId }}', event)"
+                                                                                role="button"
+                                                                                tabindex="0"
+                                                                                onkeydown="if(event.key==='Enter'){toggleSpeakerModal('{{ $modalId }}', event);}"
+                                                                            >
+                                                                                {{ $speaker['name'] }}
+                                                                            </span>
+                                                                        @else
+                                                                            <span class="font-semibold text-gray-900">
+                                                                                {{ $speaker['name'] }}
+                                                                            </span>
+                                                                        @endif
 
                                                                         @if(!empty($speaker['position']))
                                                                             <span class="text-gray-500">
@@ -507,6 +602,57 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
                                                                             <span class="text-forest font-medium">
                                                                                 · {{ $speaker['organization'] }}
                                                                             </span>
+                                                                        @endif
+
+                                                                        @if($hasProfile)
+                                                                            {{-- SPEAKER PROFILE MODAL --}}
+                                                                            <div id="{{ $modalId }}" class="speaker-modal-overlay hidden" onclick="closeSpeakerModalOnOverlay(event, '{{ $modalId }}')">
+                                                                                <div class="speaker-modal-content" onclick="event.stopPropagation()">
+
+                                                                                    <button type="button" class="speaker-modal-close" onclick="toggleSpeakerModal('{{ $modalId }}', event)" aria-label="Close">
+                                                                                        <iconify-icon icon="mdi:close" width="22" height="22"></iconify-icon>
+                                                                                    </button>
+
+                                                                                    @if(!empty($speaker['image']))
+                                                                                        <img src="{{ asset($speaker['image']) }}" alt="{{ $speaker['name'] }}" class="speaker-modal-img">
+                                                                                    @endif
+
+                                                                                    <h4 class="font-display font-bold text-lg text-forestdark mb-1">
+                                                                                        {{ $speaker['name'] }}
+                                                                                    </h4>
+
+                                                                                    @if(!empty($speaker['position']))
+                                                                                        <p class="text-sm text-gray-600 mb-0.5">
+                                                                                            {{ $speaker['position'] }}
+                                                                                        </p>
+                                                                                    @endif
+
+                                                                                    @if(!empty($speaker['organization']))
+                                                                                        <p class="text-sm font-semibold text-forest mb-3">
+                                                                                            {{ $speaker['organization'] }}
+                                                                                        </p>
+                                                                                    @endif
+
+                                                                                    @if(!empty($speaker['profile']))
+                                                                                        <p class="text-sm text-gray-700 leading-relaxed speaker-modal-bio">
+                                                                                       {!! $speaker['profile'] !!}
+                                                                                        </p>
+                                                                                    @endif
+
+                                                                                    @if(!empty($speaker['website']))
+                                                                                        <a
+                                                                                            href="{{ $speaker['website'] }}"
+                                                                                            target="_blank"
+                                                                                            rel="noopener noreferrer"
+                                                                                            class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline mt-3"
+                                                                                        >
+                                                                                            Visit Website
+                                                                                            <iconify-icon icon="mdi:open-in-new" class="text-base"></iconify-icon>
+                                                                                        </a>
+                                                                                    @endif
+
+                                                                                </div>
+                                                                            </div>
                                                                         @endif
 
                                                                     </div>
@@ -616,11 +762,12 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
 
             @endforeach
 
-              <button type="button" class="mt-5 {{ $btn }}" onclick="window.open('{{ route('conference.registration') }}','_blank')">Reserve a seat</button>
+           
 
         </div>
 
             <h3 class="font-display text-2xl font-bold text-forestdark mb-6">Delegate Registration</h3>
+            <p></p>
             <div class="grid lg:grid-cols-[1.4fr_1fr] gap-6 text-left">
                 <div class="{{ $card }} p-6 md:p-8 overflow-x-auto ssx-drag-scroll cursor-grab">
                     <div class="min-w-[480px]">
@@ -656,6 +803,7 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
 </ul>
                 </div>
             </div>
+               <button type="button" class="mt-5 {{ $btn }}" onclick="window.open('{{ route('conference.registration') }}','_blank')">Reserve a seat</button>
         </div>
     </section>
 
@@ -885,18 +1033,6 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
         <div class="max-w-5xl mx-auto text-center px-6 py-16 md:py-20">
             <h4 class="font-display text-xl font-bold text-forestdark mb-6">Collaborate for a Circular Future</h4>
             <p class="text-forest mb-14 max-w-3xl mx-auto">The Sustainability Solutions Exchange (SSX) 2026 employs a "Whole-of-Nation" strategy, transitioning into a collaborative mission involving government leaders, international grant partners, and corporate pioneers. By joining as a partner, your brand becomes a central part of the country's first platform promoting sustainable practices to the world's essential industries.</p>
-
-            <h3 class="font-display text-2xl font-bold text-forestdark mb-8">Major Partnership Packages</h3>
-            <div class="grid md:grid-cols-3 gap-6 mb-16 text-center">
-                @foreach($partnerTiers as $tier)
-                    <div class="bg-white rounded-2xl p-8 border-2 hover:-translate-y-1.5 transition-transform duration-200" style="border-color:{{ $tier['accent'] }};">
-                        <iconify-icon icon="mdi:medal-outline" width="34" height="34" style="color:{{ $tier['text'] }};"></iconify-icon>
-                        <h5 class="font-display font-bold text-forestdark mt-2 mb-2">{{ $tier['name'] }}</h5>
-                        <p class="font-display text-2xl font-bold mb-3" style="color:{{ $tier['text'] }};">{{ $tier['price'] }}</p>
-                        <p class="text-sm text-forest">{{ $tier['desc'] }}</p>
-                    </div>
-                @endforeach
-            </div>
 
             <h3 class="font-display text-2xl font-bold text-forestdark mb-8">Benefits and Inclusions</h3>
             <div class="grid md:grid-cols-3 gap-6 mb-16 text-left">
@@ -1410,7 +1546,7 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
         Official Partners
     </h3>
 
-    <div class="grid md:grid-cols-3 gap-6 text-left">
+    <div class="grid md:grid-cols-2 gap-6 text-left">
 
         {{-- OFFICIAL TRAINING & EVENT PARTNER --}}
         @foreach($officialTrainingEventPartners as $partner)
@@ -1539,11 +1675,11 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
 
 
         {{-- OFFICIAL TOKEN PARTNER --}}
-        @foreach($officialTokenPartners as $partner)
+        {{-- @foreach($officialTokenPartners as $partner)
 
             <div class="bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col">
 
-                {{-- LOGO --}}
+               
                 <div class="h-40 bg-white flex items-center justify-center p-6">
 
                     <img
@@ -1556,7 +1692,6 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
 
                 </div>
 
-                {{-- CONTENT --}}
                 <div class="p-6 flex flex-col flex-1 text-left">
 
                     <span class="text-xs font-bold uppercase tracking-widest text-stone mb-2">
@@ -1598,7 +1733,7 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
 
             </div>
 
-        @endforeach
+        @endforeach --}}
 
     </div>
 
@@ -1682,7 +1817,7 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
 </a>
 
     <a
-        href="mailto:sustainabilityph@citem.com.ph?subject=SSX%202026%20Partnership%20Inquiry"
+        href="mailto:mlquimson.citem@gmail.com?subject=SSX%202026%20Partnership%20Inquiry"
         class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-forest text-white font-semibold rounded-lg hover:bg-forestdark transition-colors no-underline hover:no-underline">
         <iconify-icon
             icon="solar:handshake-outline"
@@ -1880,11 +2015,131 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
     .ssx-partner-arrow-right { right: -20px !important; }
     .ssx-partner-arrow { width: 48px; height: 48px; }
 }
+
+/* ==========================================================
+   SPEAKER PROFILE MODAL (status = 1 speakers)
+   ========================================================== */
+
+.speaker-modal-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(15, 30, 15, 0.6) !important;
+    z-index: 9999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+}
+
+.speaker-modal-overlay.hidden {
+    display: none !important;
+}
+
+.speaker-modal-content {
+    background: #fff;
+    border-radius: 20px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 28px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    border: 2px solid #357937;
+    text-align: left;
+}
+
+.speaker-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 9999px;
+    background: #FAFAEA;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1F4522;
+}
+
+.speaker-modal-close:hover {
+    background: #357937;
+    color: #fff;
+}
+
+.speaker-modal-img {
+    width: 96px;
+    height: 96px;
+    border-radius: 9999px;
+    object-fit: cover;
+    margin-bottom: 14px;
+    border: 3px solid #357937;
+}
+
+.speaker-modal-bio {
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+.speaker-trigger:focus-visible {
+    outline: 2px solid #357937;
+    outline-offset: 2px;
+    border-radius: 3px;
+}
     </style>
 @endpush
 
 @push('scripts')
 <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
+<script>
+/* ==========================================================
+   SPEAKER PROFILE MODAL
+   - Click a speaker name (status = 1) to open their profile.
+   - Clicking a different speaker closes the current one and
+     opens the new one.
+   - Clicking the dark overlay, the close (X) button, or
+     pressing Escape closes the open modal.
+   ========================================================== */
+
+window.toggleSpeakerModal = function (id, event) {
+    if (event) {
+        event.stopPropagation();
+    }
+
+    // Close every other open modal first.
+    document.querySelectorAll('.speaker-modal-overlay').forEach(function (modal) {
+        if (modal.id !== id) {
+            modal.classList.add('hidden');
+        }
+    });
+
+    var target = document.getElementById(id);
+    if (!target) return;
+
+    // Toggle the requested modal.
+    target.classList.toggle('hidden');
+};
+
+window.closeSpeakerModalOnOverlay = function (event, id) {
+    var target = document.getElementById(id);
+    if (target) {
+        target.classList.add('hidden');
+    }
+};
+
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.speaker-modal-overlay').forEach(function (modal) {
+            modal.classList.add('hidden');
+        });
+    }
+});
+</script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 

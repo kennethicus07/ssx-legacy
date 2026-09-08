@@ -310,10 +310,19 @@ return [
                         //     'organization' => 'NEO',
                         // ],
 
-                        [
+             [
+                            'status' => 1,
+                              'image' => '/assets/show-info_2026/speakers/erwin_peralta.png',
                             'name' => 'Mr. Erwin Kenneth R. Peralta',
                             'position' => 'Vice President, Investment Promotions and Marketing Department',
                             'organization' => 'Bases Conversion and Development Authority',
+                            'profile' => "Ken currently serves as the Vice President for the Investment Promotions and Marketing Department of the Bases Conversion and Development Authority (BCDA). In this role, he is responsible for developing the agency's comprehensive marketing plan aimed at achieving its corporate objectives. He leads the marketing and promotional activities for BCDA properties, economic zones, and investment projects, targeting both foreign and local investors. 
+                            <br></br>
+                            Prior to his current position, Ken was the Vice President for the Business Development Department at BCDA. He also held the position of Head of the City Investment and Promotions Center for the City of San Juan Government. During his tenure there, he oversaw Public-Private Partnership (PPP) projects and managed the Cities and Municipalities Competitive Index (MCI) for the Department of Trade and Industry (DTI). Additionally, he spearheaded the Philippine Economic Zone Authority (PEZA) programs in San Juan, focusing on the IT and Business Process Management (BPM) industry. 
+                            <br><br>
+                            Ken also has extensive experience in tourism management, having served as Tourism Manager, Promotions and Marketing, and Executive Director at the Subic Bay Metropolitan Authority for nine years. 
+                            <br></br>
+                            He holds a master's degree in management from the University of the Philippines and a bachelor's degree in behavioral science from De La Salle University. "
                         ],
 
                         // [
@@ -348,10 +357,14 @@ return [
 
                     'speakers' => [
 
-                        [
+                        [   
+                            'status' => 1,
+                            'image' => '/assets/show-info_2026/speakers/alita_sangalang.png',
                             'name' => 'Ms. Alita Sangalang',
-                            'position' => 'Senior Ecosystems Management Specialist, Biodiversity Management Bureau - Coastal and Marine Division',
-                            'organization' => 'DENR',
+                            'position' => 'Senior Ecosystems Management Specialist',
+                            'organization' => 'DENR - Biodiversity Management Bureau- Coastal and Marine Division',
+                            'website' => 'https://www.bmb.gov.ph/',
+                            'profile' => "Ms. Alita Sangalang is a graduate of Civil Engineering and holds a Master’s degree from the University of the Philippines. She began her government service with the country’s national mapping agency and, in 2015, transferred to the DENR–Biodiversity Management Bureau. <br></br> She formulates policies, guidelines, plans, and programs related to Integrated Coastal Management and stakeholder engagement in and marine litter management in the context of biodiversity conservation. She provides technical assistance to DENR offices and other stakeholders.  <br></br> Ms. Sangalang actively shares her expertise as a resource speaker in various events and activities, promoting best practices and exchanging knowledge on biodiversity conservation both locally and internationally.<br></br> With many years dedicated to protected area management, biodiversity conservation, and marine litter management in the context of biodiversity conservation, she continues to pursue meaningful and impactful work for the environment. She upholds integrity, values continuous learning, and finds fulfilment in serving the government, her family, and the broader community. "
                         ],
 
                         [
@@ -402,7 +415,7 @@ return [
                     'duration' => '60 mins',
 
                     'title' => 'Climate-Resilient Food Manufacturing: Integrating Smart Agriculture with Advanced Food Processing',
-
+ 
                     'description' => 'Learn how food processors and agribusinesses can integrate low-impact manufacturing methodologies with precision agriculture to secure a stable, high-yield raw material supply that complies with global export regulations.',
 
                     'type' => 'technical_session',
@@ -548,9 +561,20 @@ return [
                     'speakers' => [
 
                         [
-                            'name' => 'Mr. Rolando Enoc',
-                            'position' => null,
+                            'status' => 1,
+                            'image' => '/assets/show-info_2026/speakers/rolando_enoc.png',
+                            'name' => 'Mr. Rolando "Chock" Enoc ',
+                            'position' => 'Supervising Environmental Management Specialist (SEMS)',
                             'organization' => 'DENR Environmental Management Bureau (DENR-EMB)',
+                            
+                            'profile' => "Mr. Rolando 'Chock' Enoc serves as a Supervising Environmental Management Specialist (SEMS) at the Environmental Management Bureau (EMB) – Environmental Education and Information Division (EEID), bringing extensive expertise in public policy, environmental advocacy, and sustainable development. 
+                            <br></br>
+                            With a career dedicated to environmental governance since 2017, they play a vital role in national capacity-building programs, public awareness campaigns, and multi-sectoral stakeholder engagement. Their leadership extends to key national initiatives, including serving as Vice-Chairperson of the National Ecology Center (NEC) Project Management Team for the Extended Producer Responsibility (EPR) Portal, contributing to the implementation of RA 11898 and Circular Economy frameworks, and representing the agency in technical working groups such as the National Solid Waste Management Commission.
+                            <br></br>
+                            In addition to policy and public education, they are an IRCA-certified ISO 14001:2015 Lead Auditor, actively driving the agency's Environmental and Quality Management Systems. Blending professional dedication with creative communication, they are also a singer-songwriter who uses music—such as environmental Zumba tracks (ZumVironment)—to champion environmental protection and sustainability. 
+                            <br></br>
+                            They hold a Master in Public Management and Governance (MPMG) from the Universidad de Manila and a Bachelor's degree in Public Administration.",
+                            ]
                         ],
 
                         [
@@ -560,9 +584,11 @@ return [
                         ],
 
                         [
+                            'status' => 0,
                             'name' => 'Ms. Athalie Reyes',
                             'position' => null,
                             'organization' => 'PCX Solutions',
+                            'profile' => 'Athalie Reyes is a licensed chemical engineer with 14 years of professional and technical experience through which she has headed and contributed to several environmental/ circular economy projects focused on plastic responsibility, Extended Producer Responsibility (EPR), waste management, greenhouse gas emissions (GHG), water stewardship, and many others. As the senior manager for EPR & Projects at PCX Solutions, she leads their Producer Responsibility Organization, which is responsible for more than 120 member companies. She also leads the implementation of Plastic Reboot in the Philippines as the Project Manager. She co-chairs the National Plastic Action Partnership (NPAP) upstream working group and is a member of the technical working committee for the upcoming Circular Economy Act of the Philippines. ',
                         ],
 
                         [
@@ -644,11 +670,8 @@ return [
                     'start_time' => '15:00',
                     'end_time' => '16:00',
                     'duration' => '60 mins',
-
                     'title' => 'Accessing Dedicated Green Commercial Credit: Structuring Effective Capital Expense Plans for Eco-loans',
-
                     'description' => 'Learn how to structure capital expenditure documents, calculate green returns on investment (ROI), and present clear sustainability metrics to pass strict bank credit assessments and access low-interest eco-loans.',
-
                     'type' => 'technical_session',
 
                     'speakers' => [
@@ -683,7 +706,7 @@ return [
 
     ],
 ],
-        ],
+        
 
 
   
@@ -795,9 +818,18 @@ return [
                         // ],
 
                         [
+                            'status' => 1,
+                              'image' => '/assets/show-info_2026/speakers/erwin_peralta.png',
                             'name' => 'Mr. Erwin Kenneth R. Peralta',
                             'position' => 'Vice President, Investment Promotions and Marketing Department',
                             'organization' => 'Bases Conversion and Development Authority',
+                            'profile' => "Ken currently serves as the Vice President for the Investment Promotions and Marketing Department of the Bases Conversion and Development Authority (BCDA). In this role, he is responsible for developing the agency's comprehensive marketing plan aimed at achieving its corporate objectives. He leads the marketing and promotional activities for BCDA properties, economic zones, and investment projects, targeting both foreign and local investors. 
+                            <br></br>
+                            Prior to his current position, Ken was the Vice President for the Business Development Department at BCDA. He also held the position of Head of the City Investment and Promotions Center for the City of San Juan Government. During his tenure there, he oversaw Public-Private Partnership (PPP) projects and managed the Cities and Municipalities Competitive Index (MCI) for the Department of Trade and Industry (DTI). Additionally, he spearheaded the Philippine Economic Zone Authority (PEZA) programs in San Juan, focusing on the IT and Business Process Management (BPM) industry. 
+                            <br><br>
+                            Ken also has extensive experience in tourism management, having served as Tourism Manager, Promotions and Marketing, and Executive Director at the Subic Bay Metropolitan Authority for nine years. 
+                            <br></br>
+                            He holds a master's degree in management from the University of the Philippines and a bachelor's degree in behavioral science from De La Salle University. "
                         ],
 
                         [
@@ -897,10 +929,13 @@ return [
                             'organization' => 'ECOCERT',
                         ],
 
-                        [
+                        [   
+                            'status' => 1,
+                            'image' => '/assets/show-info_2026/speakers/thomas_meulen.png',
                             'name' => 'Mr. Thomas Van Der Meulen',
                             'position' => 'Managing Director',
                             'organization' => 'Control Union Philippine',
+                            'profile' => 'Tom van der Meulen is the Managing Director of Control Union Philippines, part of the global Control Union Group, a leading provider of inspection, testing, certification, and sustainability assurance services. He works with manufacturers, retailers, exporters, agricultural producers, and supply chain stakeholders to help them meet international sustainability, quality, and compliance requirements. With more than a decade of international experience across Europe, Middle East and Asia, Tom has supported organizations in navigating complex certification schemes, sustainability standards, responsible sourcing programs, and regulatory frameworks. His expertise spans food safety, sustainable agriculture, recycling and circular economy initiatives, ESG assurance, supply chain traceability, and market-access certifications. Based in the Philippines, Tom actively works with businesses seeking to access global markets by aligning their operations with internationally recognized standards and certification programs. At SSX 2026, he will share practical insights on how companies can navigate green labels and certification pathways to meet retailer expectations, build consumer trust, and strengthen their competitive position in international markets. Short Version (for Event Program) Tom van der Meulen is the Managing Director of Control Union Philippines and a sustainability assurance professional with extensive international experience in inspection, testing, certification, and supply chain compliance. He works with exporters, manufacturers, and retailers to achieve internationally recognized certifications that support responsible sourcing, market access, and sustainable business growth. At SSX 2026, he will discuss how businesses can leverage green labels and certification programs to secure placement in global retail markets. '
                         ],
 
                     ],
@@ -1343,9 +1378,19 @@ return [
 
             'speakers' => [
                 [
+                    'status' => 1,
+                    'image' => '/assets/show-info_2026/speakers/alwyn_rosel.png',
                     'name' => 'Ms. Alwyn Rosel',
                     'position' => 'Executive Director',
                     'organization' => 'QBO Innovation Hub & IdeaSpace / QBO Innovation Hub / IdeaSpace Foundation',
+                    'website' => 'https://www.qboinnovation.com ',
+                    'profile' => "Alwyn Joy Rosel is an innovation leader with over a decade of experience in the startup industry, focused on advancing the Philippine startup ecosystem, guiding ventures from idea stage to scaling, and forging impactful cross-sector partnerships. 
+                    <br></br>
+                    As Executive Director of IdeaSpace and QBO Innovation, she leads overall strategic execution and day-to-day operations. She provides complete fiscal oversight and directs cross-functional teams to ensure the seamless execution of key innovation efforts, strategic initiatives, and core organizational projects—overseeing an ecosystem platform that has supported over 700 ventures and accelerated 250+ tech startups nationwide. At the core of her work is driving stakeholder engagement and ecosystem building—Alwyn actively builds relationships across the public and private sectors, aligning government agencies, corporations, investors, and international partners to unlock funding, resources, and growth opportunities for Philippine startups.
+                    <br></br>
+                    Representing IdeaSpace and QBO across local, regional, and international forums, she actively engages with the tech community as a speaker, panelist, competition judge, and mentor. In these roles, she provides strategic direction and guidance to founders, ecosystem peers, and partner institutions—evaluating early-stage ideas, student innovations, and scaling ventures while sharing insights on the Philippine startup landscape, key technology initiatives, and flagship incubation and acceleration programs. 
+                    <br></br>
+                    Beyond her leadership at IdeaSpace and QBO, Alwyn serves as a consultant for the Department of Science and Technology (DOST). In this capacity, she advises on technology commercialization and startup incubation, evaluating high-potential projects and supporting the establishment of innovation centers to strengthen the country’s research, development, and technology landscape. "
                 ],
                 [
                     'name' => 'Mr. Paulo Aguas',
@@ -1371,7 +1416,6 @@ return [
 
     ],
 ],
+] ];
 
-    ],
-
-];
+    

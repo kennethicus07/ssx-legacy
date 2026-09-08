@@ -25,13 +25,13 @@ return [
             'website' => 'https://www.parms.com.ph/',
         ],
 
-        [
-            'image' => 'assets/show-info_2026/eu.webp',
-            'name' => 'European Union',
-            'description' => 'The European Union is an economic and political union of 27 European countries. It is founded on the values of respect for human dignity, freedom, democracy, equality, the rule of law and respect for human rights, including the rights of persons belonging to minorities. It acts globally to promote sustainable development of societies, environment and economies, so that everyone can benefit.',
-            'website' => 'https://european-union.europa.eu/index_en',
-                'image_width' => '150px',
-        ],
+        // [
+        //     'image' => 'assets/show-info_2026/eu.webp',
+        //     'name' => 'European Union',
+        //     'description' => 'The European Union is an economic and political union of 27 European countries. It is founded on the values of respect for human dignity, freedom, democracy, equality, the rule of law and respect for human rights, including the rights of persons belonging to minorities. It acts globally to promote sustainable development of societies, environment and economies, so that everyone can benefit.',
+        //     'website' => 'https://european-union.europa.eu/index_en',
+        //         'image_width' => '150px',
+        // ],
     ],
 
  'session_partners' => [
@@ -124,13 +124,13 @@ return [
 ],
 
 'institutional_partners' => [
-    [
-        'img' => '/assets/show-info_2026/ecocert.jpg',
-        'company_name' => 'Ecocert',
-        'description' => 'Founded on a commitment to sustainable development, Ecocert is a global pioneer in certification, consulting, and training services. Operating in over 130 countries, the group provides trusted solutions to promote sound environmental and societal practices across diverse sectors, including agri-food, cosmetics, textiles, and forestry. By ensuring rigorous standards in organic farming, fair trade, and corporate social responsibility, Ecocert helps organizations build stakeholder trust and act for a sustainable world.',
-        'website' => 'https://www.ecocert.com/en/home',
-        'image_width' => '170px',
-    ],
+    // [
+    //     'img' => '/assets/show-info_2026/ecocert.jpg',
+    //     'company_name' => 'Ecocert',
+    //     'description' => 'Founded on a commitment to sustainable development, Ecocert is a global pioneer in certification, consulting, and training services. Operating in over 130 countries, the group provides trusted solutions to promote sound environmental and societal practices across diverse sectors, including agri-food, cosmetics, textiles, and forestry. By ensuring rigorous standards in organic farming, fair trade, and corporate social responsibility, Ecocert helps organizations build stakeholder trust and act for a sustainable world.',
+    //     'website' => 'https://www.ecocert.com/en/home',
+    //     'image_width' => '170px',
+    // ],
 
     [
         'img' => '/assets/show-info_2026/phoa.webp',
@@ -174,12 +174,13 @@ return [
         'website' => 'https://www.facebook.com/magayoncoffee/',
     ],],
 
-    'official_token_partners' => [    
-        [
-        'img' => '/assets/show-info_2026/chop-value.webp',
-        'company_name' => 'ChopValue Philippines',
-        'description' => 'ChopValue is the world’s first circular economy franchise specializing in decentralized manufacturing. The company transforms underutilized urban resources, primarily discarded bamboo chopsticks, into high-performance, carbon-negative wood alternatives. Through its network of local Microfactories, ChopValue diverts waste from landfills to create sustainable furniture and interior solutions for homes and businesses, demonstrating how sustainability and profitability can work together.',
-        'website' => 'https://chopvalue.com/',
-    ],],
+    // 'official_token_partners' => [    
+    //     [
+    //     'img' => '/assets/show-info_2026/chop-value.webp',
+    //     'company_name' => 'ChopValue Philippines',
+    //     'description' => 'ChopValue is the world’s first circular economy franchise specializing in decentralized manufacturing. The company transforms underutilized urban resources, primarily discarded bamboo chopsticks, into high-performance, carbon-negative wood alternatives. Through its network of local Microfactories, ChopValue diverts waste from landfills to create sustainable furniture and interior solutions for homes and businesses, demonstrating how sustainability and profitability can work together.',
+    //     'website' => 'https://chopvalue.com/',
+    // ],
+    // ],
 
 ];
