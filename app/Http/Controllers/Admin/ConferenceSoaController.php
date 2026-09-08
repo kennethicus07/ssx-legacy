@@ -130,6 +130,41 @@ class ConferenceSoaController extends Controller
         ];
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | PRIVATE - SUBSIDY / ESF DISCOUNT DETECTION
+    |--------------------------------------------------------------------------
+    |
+    | Any discount whose description contains the ESF Circular
+    | reference will be treated as a subsidy discount instead of
+    | a regular discount.
+    |
+    */
+
+private function isSubsidyDiscount($discount): bool
+{
+    $description = strtolower(
+        trim((string) $discount->description)
+    );
+
+    $subsidyKeywords = [
+        'export support fund',
+        'funding assistance',
+        'subsidy',
+        'esf',
+    ];
+
+    foreach ($subsidyKeywords as $keyword) {
+
+        if (str_contains($description, $keyword)) {
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
 
     /**
      * Generate SOA / Billing Statement
@@ -238,14 +273,14 @@ class ConferenceSoaController extends Controller
         |--------------------------------------------------------------------------
         */
 
-    $participantCount =
-    $baseBreakdown
-        ? (int) $baseBreakdown->count
-        : $conference
-            ->conferenceDelegates
-            ->where('is_visitor_buyer', 0)
-            ->where('is_speaker', 0)
-            ->count();
+        $participantCount =
+            $baseBreakdown
+                ? (int) $baseBreakdown->count
+                : $conference
+                    ->conferenceDelegates
+                    ->where('is_visitor_buyer', 0)
+                    ->where('is_speaker', 0)
+                    ->count();
 
 
         /*
@@ -283,9 +318,15 @@ class ConferenceSoaController extends Controller
         |--------------------------------------------------------------------------
         | Discounts
         |--------------------------------------------------------------------------
+        |
+        | Regular discounts and subsidy / ESF discounts are both
+        | stored as discount breakdown items. We split them here
+        | based on description so they can be rendered in separate
+        | sections on the PDF.
+        |
         */
 
-        $discounts = $conference
+        $allDiscounts = $conference
             ->conferenceBreakdown
             ->filter(function ($item) {
 
@@ -296,6 +337,25 @@ class ConferenceSoaController extends Controller
                         SSXConferenceBreakdown::TYPE_ADD_DISCOUNT,
                     ]
                 );
+            });
+
+        /*
+         * Subsidy / ESF Discounts
+         */
+        $subsidyDiscounts = $allDiscounts
+            ->filter(function ($item) {
+
+                return $this->isSubsidyDiscount($item);
+            })
+            ->values();
+
+        /*
+         * Regular Discounts
+         */
+        $discounts = $allDiscounts
+            ->reject(function ($item) {
+
+                return $this->isSubsidyDiscount($item);
             })
             ->values();
 
@@ -333,10 +393,14 @@ class ConferenceSoaController extends Controller
         |--------------------------------------------------------------------------
         | Discount Total
         |--------------------------------------------------------------------------
+        |
+        | Includes both regular discounts and subsidy discounts,
+        | since both still reduce the final amount the same way.
+        |
         */
 
         $discountTotal =
-            $discounts->sum(function ($item) {
+            $allDiscounts->sum(function ($item) {
 
                 return (float) $item->value;
             });
@@ -456,7 +520,7 @@ class ConferenceSoaController extends Controller
                         $conference,
 
                     'event' =>
-            $conference->event,
+                        $conference->event,
 
                     /*
                      * SOA
@@ -496,6 +560,9 @@ class ConferenceSoaController extends Controller
                      */
                     'discounts' =>
                         $discounts,
+
+                    'subsidy_discounts' =>
+                        $subsidyDiscounts,
 
                     'discount_total' =>
                         $discountTotal,
@@ -712,216 +779,207 @@ class ConferenceSoaController extends Controller
     }
 
     public function submitForApproval($id)
-{
-    $conference = SSXConference::find($id);
+    {
+        $conference = SSXConference::find($id);
 
-    if (!$conference) {
+        if (!$conference) {
+            return response()->json([
+                'message' => 'Conference not found.',
+            ], 404);
+        }
+
+        // Only generated SOA/Billing can be submitted for approval.
+
+        if ((int) $conference->billing_status !== SSXConference::BILLING_GENERATED) {
+            return response()->json([
+                'message' => 'Only generated SOA/Billing can be submitted for approval.',
+            ], 422);
+        }
+
+        // Submit for Approval
+
+        $conference->billing_status =
+            SSXConference::BILLING_FOR_APPROVAL;
+
+        $conference->save();
+
         return response()->json([
-            'message' => 'Conference not found.',
-        ], 404);
+            'message' => 'SOA / Billing submitted for approval successfully.',
+            'billing_status' => $conference->billing_status,
+        ], 200);
     }
 
-// Only generated SOA/Billing can be submitted for approval.
-    
+    public function returnToGenerated($id)
+    {
+        $conference = SSXConference::find($id);
 
-    if ((int) $conference->billing_status !== SSXConference::BILLING_GENERATED) {
-        return response()->json([
-            'message' => 'Only generated SOA/Billing can be submitted for approval.',
-        ], 422);
-    }
+        if (!$conference) {
+            return response()->json([
+                'message' => 'Conference not found.',
+            ], 404);
+        }
 
-   // Submit for Approval
-  
+        // Validate Billing Status
 
-    $conference->billing_status =
-        SSXConference::BILLING_FOR_APPROVAL;
+        if ((int) $conference->billing_status !== SSXConference::BILLING_FOR_APPROVAL) {
+            return response()->json([
+                'message' => 'Only billing submitted for approval can be returned.',
+            ], 422);
+        }
 
-    $conference->save();
+        // Get Latest SOA
 
-    return response()->json([
-        'message' => 'SOA / Billing submitted for approval successfully.',
-        'billing_status' => $conference->billing_status,
-    ], 200);
-}
-
-public function returnToGenerated($id)
-{
-    $conference = SSXConference::find($id);
-
-    if (!$conference) {
-        return response()->json([
-            'message' => 'Conference not found.',
-        ], 404);
-    }
-
-   // Validate Billing Status
-  
-    if ((int) $conference->billing_status !== SSXConference::BILLING_FOR_APPROVAL) {
-        return response()->json([
-            'message' => 'Only billing submitted for approval can be returned.',
-        ], 422);
-    }
-
-   // Get Latest SOA
-   
-
-    $soa = SSXConferenceSoa::where(
-        'ssx_conference_id',
-        $conference->id
-    )
-    ->latest('id')
-    ->first();
-
-   // Reject SOA
-   
-
-    if ($soa) {
-        $soa->status = SSXConferenceSoa::STATUS_REJECTED;
-        $soa->updated_by = Auth::id();
-        $soa->save();
-    }
-
-   // Return Billing to Generated
-  
-
-    $conference->billing_status =
-        SSXConference::BILLING_GENERATED;
-
-    $conference->save();
-
-    return response()->json([
-        'message' =>
-            'SOA / Billing returned to generated status successfully.',
-
-        'billing_status' =>
-            $conference->billing_status,
-
-        'soa_status' =>
-            $soa ? $soa->status : null,
-    ], 200);
-}
-
-
-public function approveBilling($id)
-{
-    $conference = SSXConference::find($id);
-
-    if (!$conference) {
-        return response()->json([
-            'message' => 'Conference not found.',
-        ], 404);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Validate Billing Status
-    |--------------------------------------------------------------------------
-    */
-
-    if (
-        (int) $conference->billing_status
-        !== SSXConference::BILLING_FOR_APPROVAL
-    ) {
-        return response()->json([
-            'message' =>
-                'Only billing submitted for approval can be approved.',
-        ], 422);
-    }
-
-   // Get Latest SOA
-    $soa = SSXConferenceSoa::where(
-        'ssx_conference_id',
-        $conference->id
-    )
+        $soa = SSXConferenceSoa::where(
+            'ssx_conference_id',
+            $conference->id
+        )
         ->latest('id')
         ->first();
 
-    if (!$soa) {
-        return response()->json([
-            'message' => 'Statement of Account not found.',
-        ], 422);
-    }
+        // Reject SOA
 
-    $event = Event::where(
-        'fair_code',
-        $conference->fair_code
-    )->first();
-
-    // Approve SOA
-
-    $soa->status = SSXConferenceSoa::STATUS_APPROVED;
-    $soa->updated_by = Auth::id();
-    $soa->save();
-
-   // Store Approved SOA as Conference Billing File
-  
-    $conference->billing_file = $soa->soa_file;
-
-  // Approve Billing
-   
-
-    $conference->billing_status =
-        SSXConference::BILLING_APPROVED;
-
-    $conference->save();
-
- // Send SOA Email
-   
-if (!empty($conference->company_email)) {
-
-    $soaPath = public_path(
-        'conference/billing/' . $soa->soa_file
-    );
-
-    if (!file_exists($soaPath)) {
-
-        Log::error('SSX SOA file not found.', [
-            'conference_id' => $conference->id,
-            'soa_file' => $soa->soa_file,
-            'soa_path' => $soaPath,
-        ]);
-
-    } else {
-
-       $mail = new ConferenceStatementOfAccount(
-            $conference,
-            $soaPath,
-            $event
-        );
-
-        if (env('APP_ENV') === 'local') {
-
-            Mail::to(
-                'kgtecson.citem@gmail.com'
-            )->send($mail);
-
-        } else {
-
-            Mail::to(
-                $conference->company_email
-            )->send($mail);
+        if ($soa) {
+            $soa->status = SSXConferenceSoa::STATUS_REJECTED;
+            $soa->updated_by = Auth::id();
+            $soa->save();
         }
+
+        // Return Billing to Generated
+
+        $conference->billing_status =
+            SSXConference::BILLING_GENERATED;
+
+        $conference->save();
+
+        return response()->json([
+            'message' =>
+                'SOA / Billing returned to generated status successfully.',
+
+            'billing_status' =>
+                $conference->billing_status,
+
+            'soa_status' =>
+                $soa ? $soa->status : null,
+        ], 200);
     }
-}
 
-    return response()->json([
-        'message' =>
-            'SOA / Billing approved successfully.',
 
-        'billing_status' =>
-            $conference->billing_status,
+    public function approveBilling($id)
+    {
+        $conference = SSXConference::find($id);
 
-        'soa_status' =>
-            $soa->status,
-    ], 200);
-}
+        if (!$conference) {
+            return response()->json([
+                'message' => 'Conference not found.',
+            ], 404);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Validate Billing Status
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            (int) $conference->billing_status
+            !== SSXConference::BILLING_FOR_APPROVAL
+        ) {
+            return response()->json([
+                'message' =>
+                    'Only billing submitted for approval can be approved.',
+            ], 422);
+        }
+
+        // Get Latest SOA
+        $soa = SSXConferenceSoa::where(
+            'ssx_conference_id',
+            $conference->id
+        )
+            ->latest('id')
+            ->first();
+
+        if (!$soa) {
+            return response()->json([
+                'message' => 'Statement of Account not found.',
+            ], 422);
+        }
+
+        $event = Event::where(
+            'fair_code',
+            $conference->fair_code
+        )->first();
+
+        // Approve SOA
+
+        $soa->status = SSXConferenceSoa::STATUS_APPROVED;
+        $soa->updated_by = Auth::id();
+        $soa->save();
+
+        // Store Approved SOA as Conference Billing File
+
+        $conference->billing_file = $soa->soa_file;
+
+        // Approve Billing
+
+        $conference->billing_status =
+            SSXConference::BILLING_APPROVED;
+
+        $conference->save();
+
+        // Send SOA Email
+
+        if (!empty($conference->company_email)) {
+
+            $soaPath = public_path(
+                'conference/billing/' . $soa->soa_file
+            );
+
+            if (!file_exists($soaPath)) {
+
+                Log::error('SSX SOA file not found.', [
+                    'conference_id' => $conference->id,
+                    'soa_file' => $soa->soa_file,
+                    'soa_path' => $soaPath,
+                ]);
+
+            } else {
+
+                $mail = new ConferenceStatementOfAccount(
+                    $conference,
+                    $soaPath,
+                    $event
+                );
+
+                if (env('APP_ENV') === 'local') {
+
+                    Mail::to(
+                        'kgtecson.citem@gmail.com'
+                    )->send($mail);
+
+                } else {
+
+                Mail::to($conference->company_email)->bcc('controllership@citem.com.ph')->send($mail);
+                }
+            }
+        }
+
+        return response()->json([
+            'message' =>
+                'SOA / Billing approved successfully.',
+
+            'billing_status' =>
+                $conference->billing_status,
+
+            'soa_status' =>
+                $soa->status,
+        ], 200);
+    }
 
     // Get the latest SOA for a conference.
-   
+
     public function show($conf_id)
     {
-      // Get Conference
-      
+        // Get Conference
 
         $conference =
             SSXConference::find(

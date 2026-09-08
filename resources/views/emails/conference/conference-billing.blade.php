@@ -1005,7 +1005,11 @@
 
                                         <td colspan="2"></td>
 
-                                        <td colspan="2"></td>
+                                        <td colspan="2" class="amt">
+                                            @if ($fee->count > 0)
+                                                {{ $fee->count }}
+                                            @endif
+                                        </td>
 
                                         <td
                                             colspan="2"
@@ -1072,7 +1076,7 @@
 
                                 <!-- SUBSIDY -->
 
-                                {{-- <tr>
+                                <tr>
 
                                     <td
                                         colspan="4"
@@ -1095,10 +1099,40 @@
                                         colspan="2"
                                         class="amt light-gray border-left"
                                     >
-                                        -
+                                        
                                     </td>
 
-                                </tr> --}}
+                                </tr>
+
+                                    @foreach ($subsidy_discounts as $subsidy_discount)
+
+                                    <tr>
+
+                                        <td colspan="4">
+                                     
+
+                                            {{ $subsidy_discount->description }}
+                                        </td>
+
+                                        <td colspan="2"></td>
+
+                                        <td colspan="2" class="amt">
+                                                   @if ($subsidy_discount->count > 0)
+                                                {{ $subsidy_discount->count }}
+                                            @endif
+                                        </td>
+
+                                        <td
+                                            colspan="2"
+                                            class="amt border-left"
+                                        >
+                                            -    {{ $conf->currency }} {{ number_format($subsidy_discount->value, 2) }}
+                                        </td>
+
+                                    </tr>
+
+                                @endforeach
+
 
                                 <!-- DISCOUNT/S -->
 
@@ -1139,16 +1173,18 @@
                                     <tr>
 
                                         <td colspan="4">
-                                            @if ($discount->count > 1)
-                                                {{ $discount->count }} x
-                                            @endif
-
+                                      
                                             {{ $discount->description }}
                                         </td>
 
                                         <td colspan="2"></td>
 
-                                        <td colspan="2"></td>
+                                        <td colspan="2">
+                                                  @if ($discount->count > 0)
+                                                {{ $discount->count }} x
+                                            @endif
+
+                                        </td>
 
                                         <td
                                             colspan="2"

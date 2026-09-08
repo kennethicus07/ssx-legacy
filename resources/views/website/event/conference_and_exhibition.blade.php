@@ -1830,7 +1830,63 @@ $speakerModalCounter = 0;
         </div>
 
     </section>
+ {{-- <section id="pitching" class="bg-forestdark py-16 md:py-20 px-6 md:px-16">
+        <div class="max-w-4xl mx-auto text-center text-white">
+            <iconify-icon icon="mdi:presentation-play" width="60" height="60"></iconify-icon>
+            <h2 class="font-display text-3xl md:text-4xl font-bold mt-3 mb-4">Pitching Competition</h2>
+            <p class="text-white/85 mb-10">Future Proof: The Green Innovation Pitch &mdash; a flagship event where sustainability startups present innovations to venture capitalists and industry experts.</p>
 
+            <div class="border-2 border-white/70 rounded-[24px] p-8 md:p-10 text-left">
+                <h3 class="font-display text-xl font-bold mb-3">Eligibility</h3>
+                <p class="mb-6"><strong>Participants must be an approved SSX exhibitor and meet the criteria below.</strong></p>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    @foreach($pitchCriteria as $criterion)
+                        <div>
+                            <h5 class="font-bold mb-2">{{ $criterion['title'] }}</h5>
+                            <ul class="list-disc list-inside space-y-1 text-white/85 text-sm">
+                                @foreach($criterion['items'] as $item)
+                                    <li>{{ $item }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endforeach
+                </div>
+
+                <hr class="border-white/40 mb-6">
+
+                <h3 class="font-display text-xl font-bold mb-4">Pitching Competition Guidelines</h3>
+                <ol class="list-decimal list-inside space-y-3 mb-6">
+                    <li>Register as an exhibitor via Sustainability.ph and select the <strong>"Pitching Competition"</strong> option (limit of one entry per category).</li>
+                    <li>
+                        Submit a concise paper covering:
+                        <ul class="list-disc list-inside ml-5 mt-2 space-y-1 text-white/85 text-sm">
+                            <li>Introduction & Problem Statement</li>
+                            <li>Proposed Solution & Sustainability Impact</li>
+                            <li>Scalability & Future Plans</li>
+                            <li>Conclusion / Call to Action</li>
+                        </ul>
+                    </li>
+                    <li>Submit a pitch video (maximum 3 minutes) highlighting your key innovations.</li>
+                </ol>
+
+                <div class="bg-white/95 text-forestdark rounded-xl p-4 mb-6 text-sm">
+                    <strong>Note:</strong> Overtime submissions will incur score deductions.
+                </div>
+
+                <h5 class="font-bold mb-2">Submission Format</h5>
+                <ul class="text-sm text-white/85 space-y-1">
+                    <li><strong>Paper:</strong> Pitching Paper_Company Name</li>
+                    <li><strong>Video:</strong> Video Presentation_Company Name</li>
+                </ul>
+            </div>
+
+            <button type="button" class="bg-white hover:bg-cream text-forestdark font-bold rounded-full px-10 py-3.5 mt-8 transition-all duration-200 hover:-translate-y-0.5"
+                onclick="window.open('{{ route('registration.supplier') }}','_blank')">
+                Register Now
+            </button>
+        </div>
+    </section> --}}
 </main>
 
 @endsection

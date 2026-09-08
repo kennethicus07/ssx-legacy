@@ -56,6 +56,10 @@
                     Thank you for registering for the Sustainability Solutions
                     Exchange Conference 2026
                 </h3>
+                <p>
+                    You will receive a separate email regarding updates to your
+                    registration.
+                </p>
                 <!-- <p>Billing information has been sent to {{ this.step3.company_email }}. <a href="https://citem.gov.ph/services/payment" target="_blank">Click here</a> to learn more about payment options for your registration.</p> -->
                 <!-- <p>
                     <a

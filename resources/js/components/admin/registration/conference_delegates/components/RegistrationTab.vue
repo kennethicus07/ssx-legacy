@@ -605,6 +605,26 @@ export default {
         },
 
         canModifyRegistration() {
+            const permissions = this.conference.permissions;
+
+            if (!permissions) {
+                return false;
+            }
+
+            // Super Admin can always modify
+            if (permissions.is_super_admin) {
+                return true;
+            }
+
+            // Accounting can modify as long as billing is NOT approved
+            if (
+                permissions.is_accounting &&
+                Number(this.conference.billing_status) !== 1
+            ) {
+                return true;
+            }
+
+            // Regular users can modify only if registration is not reviewed
             return this.conference.review !== "Yes";
         },
 
