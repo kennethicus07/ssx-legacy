@@ -183,7 +183,7 @@ Route::get('/dashboard/purchasers/summary', [AdminApi::class, 'purchaser_summary
 
 // ! For Fair Code
 Route::get('/dashboard/suppliers/summary/fair', [AdminApi::class, 'suppliers_summary_fair']);
-
 Route::get('/dashboard/purchasers/summary/fair', [AdminApi::class, 'purchaser_summary_fair']);
+Route::get('/dashboard/conference/summary/fair',[AdminApi::class, 'conference_summary_fair']);
 
 Route::get('/attendee-types', [ApiController::class, 'attendeeTypes']);

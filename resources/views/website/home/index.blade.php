@@ -267,7 +267,7 @@
 </div>
 @endif
 --}}
-    <widgets :id="41"></widgets>
+    {{-- <widgets :id="41"></widgets> --}}
     <div class="container-fluid section event-component">
         <div class="content">
             <div class="double flex-rev">

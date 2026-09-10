@@ -223,7 +223,7 @@
                                 target="_blank" class="lightgreen_btn arrow_btn">Download A Long-Term Vision of the
                                 Philippines</a>
                         </div>
-                        <p class="simple-lnk black"><a href="http://2040.neda.gov.ph/" target="_blank"
+                        <p class="simple-lnk black"><a href="https://2040.depdev.gov.ph/about-ambisyon-natin-2040/" target="_blank"
                                 class="arrow_btn">Learn more at neda.gov.ph</a></p>
                     </div>
                 </div>

@@ -270,6 +270,14 @@ public static function resolvePaymentLabel($attendance)
             : self::LABEL_SOA_NOT_GENERATED;
     }
 
+
+    public static function getLatestConforme($attendance)
+{
+    return Conforme::where('ff_code', $attendance->user_id)
+        ->where('fair_code', $attendance->fair_code)
+        ->latest('created_at')
+        ->first();
+}
     
     public function event()
 {
@@ -280,4 +288,254 @@ public function exhibitor()
 {
     return $this->belongsTo(Exhibitor::class, 'user_id', 'uid');
 }
+
+
+
+public static function dashboardSummary(): array
+{
+    $event = Event::latest('created_at')->first();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Summary
+    |--------------------------------------------------------------------------
+    */
+
+    $summary = [
+        'fair_code' => null,
+
+        'total_registered' => 0,
+
+        // Registration
+        'approved' => 0,
+        'incomplete' => 0,
+        'pending' => 0,
+        'reviewed' => 0,
+        'onhold' => 0,
+        'denied' => 0,
+
+        // Conforme / RTB
+        'pending_conforme_generation' => 0,
+        'awaiting_conforme_response' => 0,
+        'for_rtb' => 0,
+        'generated_rtb' => 0,
+
+        // SOA
+        'soa_not_generated' => 0,
+        'soa_generated' => 0,
+
+        // Payment
+        'unpaid' => 0,
+        'payment_pending' => 0,
+        'paid' => 0,
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | No Active Event
+    |--------------------------------------------------------------------------
+    */
+
+    if (!$event) {
+        return $summary;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get Supplier / Exhibitor Attendances
+    |--------------------------------------------------------------------------
+    */
+
+    $attendances = self::query()
+        ->where('fair_code', $event->fair_code)
+        ->get();
+
+    $summary['fair_code'] = $event->fair_code;
+    $summary['total_registered'] = $attendances->count();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Process Each Supplier / Exhibitor
+    |--------------------------------------------------------------------------
+    */
+
+    foreach ($attendances as $attendance) {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get Latest Conforme
+        |--------------------------------------------------------------------------
+        |
+        | Match using:
+        |   conforme_response.ff_code = exhibitor_attendance.user_id
+        |   conforme_response.fair_code = exhibitor_attendance.fair_code
+        |
+        */
+
+        $latestConforme = Conforme::query()
+            ->where('ff_code', $attendance->user_id)
+            ->where('fair_code', $attendance->fair_code)
+            ->latest('created_at')
+            ->first();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Attach Latest Conforme
+        |--------------------------------------------------------------------------
+        |
+        | resolveDisplayStatus() expects:
+        |
+        | $attendance->latestConforme
+        |
+        */
+
+        $attendance->setRelation(
+            'latestConforme',
+            $latestConforme
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Registration / Conforme / RTB
+        |--------------------------------------------------------------------------
+        */
+
+        $displayStatus = self::resolveDisplayStatus($attendance);
+
+        switch ($displayStatus) {
+
+            case self::LABEL_INCOMPLETE:
+
+                $summary['incomplete']++;
+
+                break;
+
+            case self::LABEL_PENDING_CONFORME_GENERATION:
+
+                $summary['pending_conforme_generation']++;
+
+                break;
+
+            case self::LABEL_AWAITING_CONFORME:
+
+                $summary['awaiting_conforme_response']++;
+
+                break;
+
+            case self::LABEL_READY_FOR_RTB:
+
+                $summary['for_rtb']++;
+
+                break;
+
+            case self::LABEL_GENERATED_RTB:
+
+                $summary['generated_rtb']++;
+
+                break;
+
+            case self::LABEL_PENDING:
+
+                $summary['pending']++;
+
+                break;
+
+            case self::LABEL_REVIEWED:
+
+                $summary['reviewed']++;
+
+                break;
+
+            case self::LABEL_ONHOLD:
+
+                $summary['onhold']++;
+
+                break;
+
+            case self::LABEL_DENIED:
+
+                $summary['denied']++;
+
+                break;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Approved
+        |--------------------------------------------------------------------------
+        |
+        | Approved means:
+        |
+        | attendance.status = 1
+        | AND conforme_review = 1
+        | AND latest conforme exists
+        | AND latest conforme.response = 1
+        |
+        | is_rtb_generated does NOT matter.
+        |
+        */
+
+        if (
+            (int) $attendance->status === self::STATUS_PENDING_CONFORME_GENERATION &&
+            (int) ($attendance->conforme_review ?? 0) === 1 &&
+            $latestConforme &&
+            (int) $latestConforme->response === 1
+        ) {
+            $summary['approved']++;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | SOA
+        |--------------------------------------------------------------------------
+        */
+
+$isApprovedAndRtbGenerated =
+    (int) $attendance->status === self::STATUS_PENDING_CONFORME_GENERATION &&
+    (int) ($attendance->conforme_review ?? 0) === 1 &&
+    $latestConforme &&
+    (int) $latestConforme->response === 1 &&
+    (bool) $attendance->is_rtb_generated;
+
+if ($isApprovedAndRtbGenerated) {
+
+    if ((bool) $attendance->is_soa_generated) {
+        $summary['soa_generated']++;
+    } else {
+        $summary['soa_not_generated']++;
+    }
+}
+        /*
+        |--------------------------------------------------------------------------
+        | Payment
+        |--------------------------------------------------------------------------
+        */
+
+switch ((int) $attendance->payment_status) {
+
+    case self::PAYMENT_PAID:
+
+        $summary['paid']++;
+
+        break;
+
+    case self::PAYMENT_PENDING:
+
+        $summary['payment_pending']++;
+
+        break;
+
+    default:
+
+        if ((bool) $attendance->is_soa_generated) {
+            $summary['unpaid']++;
+        }
+
+        break;
+}
+    }
+
+    return $summary;
+}
+
 }

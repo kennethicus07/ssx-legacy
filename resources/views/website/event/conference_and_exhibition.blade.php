@@ -767,7 +767,7 @@ $speakerModalCounter = 0;
         </div>
 
             <h3 class="font-display text-2xl font-bold text-forestdark mb-6">Delegate Registration</h3>
-            <p></p>
+            <p>*Free registration subject to qualification, evaluation, and approval of CITEM</p>
             <div class="grid lg:grid-cols-[1.4fr_1fr] gap-6 text-left">
                 <div class="{{ $card }} p-6 md:p-8 overflow-x-auto ssx-drag-scroll cursor-grab">
                     <div class="min-w-[480px]">

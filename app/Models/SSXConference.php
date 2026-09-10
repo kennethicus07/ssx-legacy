@@ -267,4 +267,292 @@ public function getWorkflowStatusAttribute(): ?string
     {
         return $query->where('status', '>', 0);
     }
+
+public static function dashboardSummary()
+{
+    // Get latest event
+    $event = Event::latest('created_at')->first();
+
+    if (! $event) {
+        return [
+            'fair_code' => null,
+
+            'total_registrations' => 0,
+
+            'total_speakers' => 0,
+
+            'total_visitor_buyers' => 0,
+
+            'sex' => [
+                'male' => 0,
+                'female' => 0,
+            ],
+
+            'categories' => [
+                'decision_maker' => 0,
+                'recommending_officer' => 0,
+                'technical_representative' => 0,
+            ],
+
+            'top_countries' => [],
+
+            'registration_sources' => [],
+        ];
+    }
+
+    $fairCode = $event->fair_code;
+
+    /*
+    |--------------------------------------------------------------------------
+    | 1. Get Conference Registrations
+    |--------------------------------------------------------------------------
+    |
+    | First get SSX Conference records using the Event fair_code.
+    |
+    */
+
+    $conferences = self::where('fair_code', $fairCode)
+        ->with([
+            'conferenceDelegates',
+            'conferenceKnowhow',
+        ])
+        ->get();
+
+    /*
+    |--------------------------------------------------------------------------
+    | 2. Get All Conference Delegates
+    |--------------------------------------------------------------------------
+    |
+    | This collection is used to calculate:
+    |
+    | - Total Speakers
+    | - Total Visitor Buyers
+    |
+    | before applying the normal registration exclusion.
+    |
+    */
+
+    $allDelegates = $conferences
+        ->flatMap(function ($conference) {
+            return $conference->conferenceDelegates;
+        })
+        ->values();
+
+    /*
+    |--------------------------------------------------------------------------
+    | 3. Total Speakers
+    |--------------------------------------------------------------------------
+    */
+
+    $totalSpeakers = $allDelegates
+        ->filter(function ($delegate) {
+            return (int) ($delegate->is_speaker ?? 0) === 1;
+        })
+        ->count();
+
+    /*
+    |--------------------------------------------------------------------------
+    | 4. Total Visitor / Buyers
+    |--------------------------------------------------------------------------
+    */
+
+    $totalVisitorBuyers = $allDelegates
+        ->filter(function ($delegate) {
+            return (int) ($delegate->is_visitor_buyer ?? 0) === 1;
+        })
+        ->count();
+
+    /*
+    |--------------------------------------------------------------------------
+    | 5. Get Conference Delegates
+    |--------------------------------------------------------------------------
+    |
+    | Exclude delegates where:
+    |
+    | is_visitor_buyer = 1
+    | OR
+    | is_speaker = 1
+    |
+    | Therefore:
+    |
+    | 0    = included
+    | NULL = included
+    | 1    = excluded
+    |
+    */
+
+    $delegates = $allDelegates
+        ->filter(function ($delegate) {
+            return (
+                (int) ($delegate->is_visitor_buyer ?? 0) !== 1 &&
+                (int) ($delegate->is_speaker ?? 0) !== 1
+            );
+        })
+        ->values();
+
+    /*
+    |--------------------------------------------------------------------------
+    | 6. Total Conference Registrations
+    |--------------------------------------------------------------------------
+    */
+
+    $totalRegistrations = $delegates->count();
+
+    /*
+    |--------------------------------------------------------------------------
+    | 7. Participants by Sex
+    |--------------------------------------------------------------------------
+    |
+    | Mr = Male
+    | Ms = Female
+    |
+    */
+
+    $male = $delegates
+        ->filter(function ($delegate) {
+            return strtoupper(
+                trim($delegate->salutation ?? '')
+            ) === 'MR';
+        })
+        ->count();
+
+    $female = $delegates
+        ->filter(function ($delegate) {
+            return strtoupper(
+                trim($delegate->salutation ?? '')
+            ) === 'MS';
+        })
+        ->count();
+
+    /*
+    |--------------------------------------------------------------------------
+    | 8. Delegates by Category
+    |--------------------------------------------------------------------------
+    |
+    | 1 = Decision-Maker
+    | 2 = Recommending Officer
+    | 3 = Technical Representative
+    |
+    */
+
+    $decisionMaker = $delegates
+        ->filter(function ($delegate) {
+            return (int) $delegate->delegate_category ===
+                SSXConferenceDelegate::CATEGORY_DECISION_MAKER;
+        })
+        ->count();
+
+    $recommendingOfficer = $delegates
+        ->filter(function ($delegate) {
+            return (int) $delegate->delegate_category ===
+                SSXConferenceDelegate::CATEGORY_RECOMMENDING_OFFICER;
+        })
+        ->count();
+
+    $technicalRepresentative = $delegates
+        ->filter(function ($delegate) {
+            return (int) $delegate->delegate_category ===
+                SSXConferenceDelegate::CATEGORY_TECHNICAL_REPRESENTATIVE;
+        })
+        ->count();
+
+    /*
+    |--------------------------------------------------------------------------
+    | 9. Top 5 Countries
+    |--------------------------------------------------------------------------
+    |
+    | Uses the `country` field from ssx_conference_delegates.
+    |
+    */
+
+    $topCountries = $delegates
+        ->filter(function ($delegate) {
+            return ! empty(
+                trim($delegate->country ?? '')
+            );
+        })
+        ->groupBy(function ($delegate) {
+            return trim($delegate->country);
+        })
+        ->map(function ($group, $country) {
+            return [
+                'country' => $country,
+                'count' => $group->count(),
+            ];
+        })
+        ->sortByDesc('count')
+        ->take(5)
+        ->values()
+        ->toArray();
+
+    /*
+    |--------------------------------------------------------------------------
+    | 10. Registration Source / Know How
+    |--------------------------------------------------------------------------
+    |
+    | Comes from:
+    |
+    | SSXConference
+    |      ↓
+    | conferenceKnowhow()
+    |      ↓
+    | ssx_conference_knowhow
+    |
+    */
+
+    $knowhow = $conferences
+        ->flatMap(function ($conference) {
+            return $conference->conferenceKnowhow;
+        })
+        ->filter(function ($item) {
+            return ! empty(
+                trim($item->value ?? '')
+            );
+        })
+        ->groupBy(function ($item) {
+            return trim($item->value);
+        })
+        ->map(function ($group, $source) {
+            return [
+                'source' => $source,
+                'count' => $group->count(),
+            ];
+        })
+        ->sortByDesc('count')
+        ->values()
+        ->toArray();
+
+        
+    /*
+    |--------------------------------------------------------------------------
+    | Return Dashboard Summary
+    |--------------------------------------------------------------------------
+    */
+
+    return [
+        'total_all' => $totalRegistrations + $totalSpeakers + $totalVisitorBuyers,
+        'fair_code' => $fairCode,
+
+        'total_registrations' => $totalRegistrations,
+
+        'total_speakers' => $totalSpeakers,
+
+        'total_visitor_buyers' => $totalVisitorBuyers,
+
+        'sex' => [
+            'male' => $male,
+            'female' => $female,
+        ],
+
+        'categories' => [
+            'decision_maker' => $decisionMaker,
+            'recommending_officer' => $recommendingOfficer,
+            'technical_representative' => $technicalRepresentative,
+        ],
+
+        'top_countries' => $topCountries,
+
+        'registration_sources' => $knowhow,
+    ];
+}
 }

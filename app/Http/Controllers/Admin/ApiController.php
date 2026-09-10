@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\SSXConference;
 use App\Models\Supplier\Event;
 use App\Models\Supplier\ExhibitorAttendance;
+
 use Artisan;
 
 class ApiController extends Controller
@@ -182,101 +184,30 @@ class ApiController extends Controller
 
     // ! For Fair 
 
-  public function suppliers_summary_fair()
+public function suppliers_summary_fair()
 {
-    // Get latest event
-    $event = Event::latest('created_at')->first();
-
-    if (! $event) {
-        return response()->json([
-            'approved' => 0,
-            'conforme_pending_generation' => 0,
-            'denied' => 0,
-            'pending' => 0,
-            'reviewed' => 0,
-            'onhold' => 0,
-            'incomplete' => 0,
-            'total_registered' => 0,
-        ]);
-    }
-
-    $fairCode = $event->fair_code;
-
-    $baseQuery = ExhibitorAttendance::where('fair_code', $fairCode);
-
-    $approved = (clone $baseQuery)
-        ->where('status', 1)
-        ->where('conforme_review', 1)
-        ->count();
-
-    $conformePending = (clone $baseQuery)
-        ->where('status', 1)
-        ->where(function ($q) {
-            $q->whereNull('conforme_review')
-              ->orWhere('conforme_review', 0);
-        })
-        ->count();
-
-    $denied = (clone $baseQuery)->where('status', 5)->count();
-    $pending = (clone $baseQuery)->where('status', 2)->count();
-    $reviewed = (clone $baseQuery)->where('status', 3)->count();
-    $onhold = (clone $baseQuery)->where('status', 4)->count();
-    $incomplete = (clone $baseQuery)->where('status', 0)->count();
-
-    $totalRegistered = (clone $baseQuery)->count();
-
-    return response()->json([
-        'approved'                     => number_format($approved),
-        'conforme_pending_generation'    => number_format($conformePending),
-        'denied'                       => number_format($denied),
-        'pending'                      => number_format($pending),
-        'reviewed'                     => number_format($reviewed),
-        'onhold'                       => number_format($onhold),
-        'incomplete'                   => number_format($incomplete),
-        'total_registered'             => number_format($totalRegistered),
-        'fair_code'                    => $fairCode,
-    ], 200);
+    return response()->json(
+        ExhibitorAttendance::dashboardSummary(),
+        200
+    );
 }
 
-   public function purchaser_summary_fair()
+
+
+
+public function purchaser_summary_fair()
 {
-    // Get latest event
-    $event = Event::latest('created_at')->first();
-
-    if (! $event) {
-        return response()->json([
-            'approved' => 0,
-            'denied' => 0,
-            'pending' => 0,
-            'reviewed' => 0,
-            'onhold' => 0,
-            'incomplete' => 0,
-            'total_registered' => 0,
-        ], 200);
-    }
-
-    $fairCode = $event->fair_code;
-
-    $baseQuery = BuyerAttendance::where('fair_code', $fairCode);
-
-    $approved   = (clone $baseQuery)->where('status', 1)->count();
-    $pending    = (clone $baseQuery)->where('status', 2)->count();
-    $reviewed   = (clone $baseQuery)->where('status', 3)->count();
-    $onhold     = (clone $baseQuery)->where('status', 4)->count();
-    $denied     = (clone $baseQuery)->where('status', 5)->count();
-    $incomplete = (clone $baseQuery)->where('status', 0)->count();
-
-    $totalRegistered = (clone $baseQuery)->count();
-
-    return response()->json([
-        'approved'         => number_format($approved),
-        'denied'           => number_format($denied),
-        'pending'          => number_format($pending),
-        'reviewed'         => number_format($reviewed),
-        'onhold'           => number_format($onhold),
-        'incomplete'       => number_format($incomplete),
-        'total_registered' => number_format($totalRegistered),
-        'fair_code'        => $fairCode,
-    ], 200);
+    return response()->json(
+        BuyerAttendance::dashboardSummary(),
+        200
+    );
 }
+
+ public function conference_summary_fair()
+    {
+        return response()->json(
+            SSXConference::dashboardSummary(),
+            200
+        );
+    }
 }

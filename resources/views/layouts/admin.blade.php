@@ -391,6 +391,7 @@
             </footer>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <script src="{{ mix('js/admin/ssx-vendors.js') }}"></script>
     <script src="{{ mix('js/admin/perfect-scrollbar.jquery.min.js') }}"></script>
     <script src="{{ mix('js/admin/sparkline.js') }}"></script>
