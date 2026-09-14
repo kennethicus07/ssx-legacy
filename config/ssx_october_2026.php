@@ -368,16 +368,21 @@ return [
                         ],
 
                         [
+                            'status' => 1,
+                            'image' => '/assets/show-info_2026/speakers/benito_bengzon.webp',
                             'name' => 'Mr. Benito C. Bengzon Jr.',
                             'position' => 'Executive Director',
                             'organization' => 'Philippine Hotel Owners Association (PHOA)',
+                            'website' => 'http://philhotelowners.com',
+                            'profile' => "Mr. Benito C. Bengzon, Jr. has almost 40 years of experience in tourism and hospitality. His expertise covers tourism planning, strategy formulation, bilateral negotiations, marketing and investment promotion. He is currently the Executive Director of the Philippine Hotel Owners Association, a leading organization composed of owners, developers and operators of 221 hotels all over the country. PHOA recently organized the Philippine Hotel Connect on July 24-25, 2025 at the Manila Marriott Hotel, which is considered the largest gathering of hotel owners and investors in the country.<br></br>Before joining the private sector, he was a career Undersecretary at the Department of Tourism where he was in charge of planning, policy formulation, marketing and product development. During his stint at the DOT, he created the Route Development team which spearheaded charter flights from China, Japan, Korea and Taiwan to various airports around the country including to Bohol. His team was also responsible for winning the bid to host the prestigious Routes Asia, which was held in Manila in 2016 and Cebu in 2019.<br></br>As DOT Undersecretary, he was a board member of various agencies including the Tourism Promotions Board, Duty Free Philippines, Civil Aeronautics Board, Civil Aviation Authority of the Philippines, Mactan-Cebu International Airport Authority and Clark International Airport Corporation. Mr. Bengzon was also a member of the Philippine air panel, which successfully negotiated for  new routes to various destinations.<br></br>Mr. Bengzon is a graduate of the University of the Philippines Diliman BS Hotel and Restaurant Administration. He also took up his Masters in Business Administration at the Ateneo Graduate School of Business and Masters in National Security Administration at the National Defense College of the Philippines.  He is currently enrolled in the Doctorate in Public Administration program in UP Diliman.<br></br>Mr. Bengzon is currently also the Honorary Consul of the Republic of Maldives in Manila."
                         ],
+                        
 
-                        // [
-                        //     'name' => 'Ms. Reida Ibabao',
-                        //     'position' => 'General Manager',
-                        //     'organization' => 'Dunbrae Philippines Inc.',
-                        // ],
+                        [
+                            'name' => 'Ms. Grace Flores',
+                            'position' => 'Sales and Marketing Head',
+                            'organization' => 'Lastic',
+                        ],
 
                         // [
                         //     'name' => 'Atty. Peter Irving C. Corvera',
@@ -480,15 +485,15 @@ return [
 
                     // ],
 
-                    'moderators' => [
+                    // 'moderators' => [
 
-                        [
-                            'name' => 'Dr. Oliver D. Evangelista',
-                            'position' => 'Senior Science Research Specialist, Food Processing Division',
-                            'organization' => 'DOST-ITDI',
-                        ],
+                    //     [
+                    //         'name' => 'Dr. Oliver D. Evangelista',
+                    //         'position' => 'Senior Science Research Specialist, Food Processing Division',
+                    //         'organization' => 'DOST-ITDI',
+                    //     ],
 
-                    ],
+                    // ],
                 ],
 
             ],
@@ -520,6 +525,11 @@ return [
                             'name' => 'Ms. Faith Nacarato',
                             'position' => 'President and Chief Client Officer',
                             'organization' => 'Oikos Sustainable Packaging',
+                        ],
+                          [
+                            'name' => 'John David Pestaño',
+                            'position' => 'VP for External Affairs',
+                            'organization' => 'Packaging Institute of the Philippines',
                         ],
 
                         // [
@@ -575,13 +585,13 @@ return [
                             <br></br>
                             They hold a Master in Public Management and Governance (MPMG) from the Universidad de Manila and a Bachelor's degree in Public Administration.",
                             ]
-                        ],
+                    ,
 
-                        [
-                            'name' => 'Ms. Czarina Constantino-Panopio',
-                            'position' => null,
-                            'organization' => 'WWF Philippines',
-                        ],
+                        // [
+                        //     'name' => 'Ms. Czarina Constantino-Panopio',
+                        //     'position' => null,
+                        //     'organization' => 'WWF Philippines',
+                        // ],
 
                         [
                             'status' => 0,
@@ -598,24 +608,22 @@ return [
                         ],
 
                     ],
+                 
 
-                    // 'moderators' => [
+                    'moderators' => [
 
-                    //     [
-                    //         'name' => 'Mr. Benjamin Villacorte',
-                    //         'position' => 'Sustainability Partner / Chair, Philippines’ Sustainability Reporting Committee',
-                    //         'organization' => 'EY Philippines',
-                    //     ],
+                        [
+                            'name' => 'Mr. Benjamin Villacorte',
+                            'position' => 'Sustainability Partner / Chair, Philippines’ Sustainability Reporting Committee',
+                            'organization' => 'EY Philippines',
+                        ],
 
-                    // ],
+                    ],
+                        ],
                 ],
 
             ],
-        ],
-
-      
-
-        [
+                 [
             'track_number' => 5,
             'track_name' => 'THE STEWARD ROOM',
             'track_category' => 'Governance, Finance & Policy',
@@ -626,34 +634,32 @@ return [
                     'start_time' => '13:45',
                     'end_time' => '14:45',
                     'duration' => '60 mins',
-
-                    'title' => 'Sustainability Reporting for SMEs: Utilizing Foundational GRI Frameworks for Market Credibility',
-
-                    'description' => 'Transparency builds corporate credibility. This practical starter kit helps small and medium enterprises organize internal energy, waste, and labor data into professional Global Reporting Initiative (GRI) disclosures that banks and international investors accept.',
+                    'title' => 'Unlocking Credibility: GRI Reporting, Strategic ESG Communication, and EPR Compliance for Growing Businesses',
+                    'description' => 'Designed for SMEs across manufacturing, retail, and consumer goods, this session provides a practical roadmap to collect operational data, satisfy Extended Producer Responsibility (EPR) Law requirements, and adopt GRI frameworks. Learn how to leverage strategic ESG storytelling, turn compliance metrics into market credibility and growth.',
 
                     'type' => 'technical_session',
 
-                    // 'speakers' => [
+                    'speakers' => [
 
-                    //     [
-                    //         'name' => 'Vincent de Paz',
-                    //         'position' => 'Country Manager',
-                    //         'organization' => 'Global Reporting Initiative (GRI)',
-                    //     ],
+                        // [
+                        //     'name' => 'Atty. Jonas Leones',
+                        //     'position' => 'Undersecretary for Policy, Planning, and International Affairs',
+                        //     'organization' => 'DENR',
+                        // ],
 
-                    //     [
-                    //         'name' => 'Ms. Ma. Victoria Tan',
-                    //         'position' => 'Head of Risk Management and Sustainability',
-                    //         'organization' => 'Ayala Corp',
-                    //     ],
+                        // [
+                        //     'name' => 'Dr. Marlon de Luna Era',
+                        //     'position' => 'President',
+                        //     'organization' => 'Solid Waste Management Association of the Philippines (SWAPP)',
+                        // ],
 
-                    //     [
-                    //         'name' => 'Mr. Chito Maniago',
-                    //         'position' => 'Senior Director and Head for Public Relations and Communications Strategy, Sustainability, and Corporate Communications Group',
-                    //         'organization' => 'Globe Telecom',
-                    //     ],
+                        [
+                            'name' => 'Mr. Harris Guevarra',
+                            'position' => 'Founder and CEO',
+                            'organization' => 'Drink Sustainability Communication',
+                        ],
 
-                    // ],
+                    ],
 
                     // 'moderators' => [
 
@@ -681,7 +687,15 @@ return [
                         //     'position' => null,
                         //     'organization' => 'BPI',
                         // ],
-
+                        [
+                            'status' => 1,
+                            'image' => '/assets/show-info_2026/speakers/marie_cortez.webp',
+                            'name' => 'Ms. Marie Antoinette Cortez',
+                            'position' => 'Senior Vice President',
+                            'organization' => 'Bank of the Philippine Islands',
+                            'website' => 'https://www.bpi.com.ph/ ',
+                            'profile' => "Ms. Cortez is the Head of Corporate and Commercial Credit of BPI’s Institutional Banking Group (IBG).  As a part of this role, she is responsible for the oversight of IBG’s specialized loan products, including Sustainable Development Finance and Structured Finance Divisions.  She has over 25 years of banking experience in corporate coverage and credit roles.<br></br>Founded in 1851, Bank of the Philippine Islands is the first bank in the Philippines and in the Southeast Asian region. BPI is a universal bank and together with its subsidiaries and affiliates, it offers a wide range of financial products and solutions that serve both retail and corporate clients.<br></br>BPI's services include consumer banking and lending, asset management, payments, insurance, securities brokerage and distribution, foreign exchange, leasing, and corporate and investment banking. "
+                        ],
                         [
                             'name' => 'Mr. Robert Bastillo',
                             'position' => 'President/CEO',
@@ -703,6 +717,11 @@ return [
 
             ],
         ],
+        ],
+
+      
+
+   
 
     ],
 ],
@@ -753,33 +772,24 @@ return [
 
                     'type' => 'technical_session',
 
-                    // 'speakers' => [
+                    'speakers' => [
 
-                    //     [
-                    //         'name' => 'Mr. Roberto Jose Locsin',
-                    //         'position' => 'President and CEO',
-                    //         'organization' => 'Manila Water Company, Inc.',
-                    //     ],
+                        [
+                            'name' => 'Engr. Edmundo Llagas',
+                            'position' => 'AVP and Head of Water Production MoTP and New Water',
+                            'organization' => 'Maynilad',
+                        ],
 
-                    //     [
-                    //         'name' => 'Ms. Anette Hernandez De Ocampo',
-                    //         'position' => 'Senior Asst VP and Head, Corporate Affairs and Communication',
-                    //         'organization' => 'Maynilad',
-                    //     ],
+                    
+                        [
+                            'name' => 'Atty. Claudine Orocio-Isorena',
+                            'position' => 'Deputy Administrator',
+                            'organization' => 'MWSS-RO',
+                        ],
 
-                    //     [
-                    //         'name' => 'Atty. Claudine Orocio-Isorena',
-                    //         'position' => 'Deputy Administrator',
-                    //         'organization' => 'MWSS-RO',
-                    //     ],
+                      
 
-                    //     [
-                    //         'name' => 'Ms. Joanne Babon',
-                    //         'position' => 'Assistant Vice President, Business Development & Regulatory & Industry Affairs',
-                    //         'organization' => 'Vivant Water',
-                    //     ],
-
-                    // ],
+                    ],
 
                     // 'moderators' => [
 
@@ -923,11 +933,11 @@ return [
                         //     'organization' => 'Bureau of Philippine Standards (BPS-DTI)',
                         // ],
 
-                        [
-                            'name' => 'Tatiana Santhachit',
-                            'position' => 'Lead Auditor',
-                            'organization' => 'ECOCERT',
-                        ],
+                        // [
+                        //     'name' => 'Tatiana Santhachit',
+                        //     'position' => 'Lead Auditor',
+                        //     'organization' => 'ECOCERT',
+                        // ],
 
                         [   
                             'status' => 1,
@@ -935,7 +945,7 @@ return [
                             'name' => 'Mr. Thomas Van Der Meulen',
                             'position' => 'Managing Director',
                             'organization' => 'Control Union Philippine',
-                            'profile' => 'Tom van der Meulen is the Managing Director of Control Union Philippines, part of the global Control Union Group, a leading provider of inspection, testing, certification, and sustainability assurance services. He works with manufacturers, retailers, exporters, agricultural producers, and supply chain stakeholders to help them meet international sustainability, quality, and compliance requirements. With more than a decade of international experience across Europe, Middle East and Asia, Tom has supported organizations in navigating complex certification schemes, sustainability standards, responsible sourcing programs, and regulatory frameworks. His expertise spans food safety, sustainable agriculture, recycling and circular economy initiatives, ESG assurance, supply chain traceability, and market-access certifications. Based in the Philippines, Tom actively works with businesses seeking to access global markets by aligning their operations with internationally recognized standards and certification programs. At SSX 2026, he will share practical insights on how companies can navigate green labels and certification pathways to meet retailer expectations, build consumer trust, and strengthen their competitive position in international markets. Short Version (for Event Program) Tom van der Meulen is the Managing Director of Control Union Philippines and a sustainability assurance professional with extensive international experience in inspection, testing, certification, and supply chain compliance. He works with exporters, manufacturers, and retailers to achieve internationally recognized certifications that support responsible sourcing, market access, and sustainable business growth. At SSX 2026, he will discuss how businesses can leverage green labels and certification programs to secure placement in global retail markets. '
+                            'profile' => 'Tom van der Meulen is the Managing Director of Control Union Philippines, part of the global Control Union Group, a leading provider of inspection, testing, certification, and sustainability assurance services. He works with manufacturers, retailers, exporters, agricultural producers, and supply chain stakeholders to help them meet international sustainability, quality, and compliance requirements. <br></br> With more than a decade of international experience across Europe, Middle East and Asia, Tom has supported organizations in navigating complex certification schemes, sustainability standards, responsible sourcing programs, and regulatory frameworks. His expertise spans food safety, sustainable agriculture, recycling and circular economy initiatives, ESG assurance, supply chain traceability, and market-access certifications. <br></br>Based in the Philippines, Tom actively works with businesses seeking to access global markets by aligning their operations with internationally recognized standards and certification programs. At SSX 2026, he will share practical insights on how companies can navigate green labels and certification pathways to meet retailer expectations, build consumer trust, and strengthen their competitive position in international markets.'
                         ],
 
                     ],
@@ -971,17 +981,22 @@ return [
                             'organization' => 'SEARCA',
                         ],
 
+                            [
+                            'status' => 1,
+                            'image' => '/assets/show-info_2026/speakers/raymund_aaron.webp',
+                            'name' => 'Mr. Raymund Aaron',
+                            'position' => 'Banana Chief',
+                            'organization' => 'Villa Socorro Farm',
+                            'profile' => "Raymund Vincent F. Aaron is a graduate of the Ateneo de Manila University and the Ateneo Graduate School of Business with a Masters in Entrepreneurship, Social Enterprise Development. He also holds a certificate for the Professional Chef Plus Program from the Center for Culinary Arts (CCA). <br></br> He is currently the Banana Chief of Villa Socorro Farm. Also a parttime lecturer on topics including Agribusiness and Marketing for organizations such as International School of Sustainable Tourism, Bayan Academy, Ateneo de Manila University and Ateneo Graduate School of Business. He is a 2019 Mansmith and Fielders, Young Market Masters Awardee for Advocacy Marketing, an Asia New Zealand Foundation Young Business Leaders Initiative Member, 2026 Agora Awardee for Social Entrepreneurship and The Banana Chief",
+                        ],
+
                         // [
                         //     'name' => 'Mr. Ignacio Sison',
                         //     'position' => 'Chief Sustainability Officer',
                         //     'organization' => 'Del Monte Philippines, Inc.',
                         // ],
 
-                        // [
-                        //     'name' => 'Ms. Maria Rita Matute',
-                        //     'position' => 'Executive Director',
-                        //     'organization' => 'Design Center of the Philippines',
-                        // ],
+                    
 
                     ],
                 ],
@@ -1049,27 +1064,33 @@ return [
 
                     'type' => 'technical_session',
 
-                    // 'speakers' => [
+                    'speakers' => [
 
-                    //     [
-                    //         'name' => 'Mr. Ben Chan',
-                    //         'position' => 'Chairman',
-                    //         'organization' => 'Bench',
-                    //     ],
+                           [
+                            'name' => 'Mr. Dave Pascual',
+                            'position' => 'Community Value',
+                            'organization' => 'Chopvalue',
+                        ],
 
-                    //     [
-                    //         'name' => 'Ms. Zarah Juan',
-                    //         'position' => 'President & Creative Director',
-                    //         'organization' => 'Zarah Juan',
-                    //     ],
+                        // [
+                        //     'name' => 'Mr. Ben Chan',
+                        //     'position' => 'Chairman',
+                        //     'organization' => 'Bench',
+                        // ],
 
-                    //     [
-                    //         'name' => 'Ms. Reichelle Vergara',
-                    //         'position' => 'Head of PR and Sustainability',
-                    //         'organization' => 'UNIQLO Philippines',
-                    //     ],
+                        // [
+                        //     'name' => 'Ms. Zarah Juan',
+                        //     'position' => 'President & Creative Director',
+                        //     'organization' => 'Zarah Juan',
+                        // ],
 
-                    // ],
+                        // [
+                        //     'name' => 'Ms. Reichelle Vergara',
+                        //     'position' => 'Head of PR and Sustainability',
+                        //     'organization' => 'UNIQLO Philippines',
+                        // ],
+
+                    ],
 
                     // 'facilitators' => [
 
@@ -1093,13 +1114,13 @@ return [
 
                     'type' => 'technical_session',
 
-                    'speakers' => [
+                    // 'speakers' => [
 
-                        [
-                            'name' => 'Engr. Reynaldo L. Esguerra',
-                            'position' => null,
-                            'organization' => 'DOST-ITDI',
-                        ],
+                        // [
+                        //     'name' => 'Engr. Reynaldo L. Esguerra',
+                        //     'position' => null,
+                        //     'organization' => 'DOST-ITDI',
+                        // ],
 
                         // [
                         //     'name' => 'Ms. Ginggay Hontiveros-Malvar',
@@ -1119,7 +1140,7 @@ return [
                         //     'organization' => 'Philippine Economic Zone Authority (PEZA)',
                         // ],
 
-                    ],
+                    // ],
                 ],
 
             ],
@@ -1144,13 +1165,26 @@ return [
                     'description' => 'Discussing institutional pathways to connect early-stage sustainable technology inventors with structured corporate sandboxes, public testing grants, and investment networks, and workforce development initiatives to strengthen entrepreneurial talent, green and digital skills, and the commercialization of sustainable solutions.',
 
                     'type' => 'technical_session',
+                    'presenters' => [
+                        [
+                            'status' => 1,
+                            'image' => '/assets/show-info_2026/speakers/brenda_valerio.webp',
+                            'name' => 'Ms. Brenda Valerio',
+                            'position' => 'Director of Venture Suppor',
+                            'organization' => 'Villgro Philippines',
+                            'profile' => "Brenda is the Director of Venture Support at Villgro Philippines. She has over 12 years of experience supporting entrepreneurs across technology, climate, and clean energy, with a focus on incubation, acceleration, market access, and investment readiness. Prior to Villgro, she led New Energy Nexus Philippines, supporting clean energy enterprises and building partnerships across government, industry, and finance. "
+                        ],
+                    ],
 
                     'speakers' => [
 
                         [
+                            'status' => 1,
+                            'image' => '/assets/show-info_2026/speakers/priya_thachadi.webp',
                             'name' => 'Ms. Priya Thachadi',
                             'position' => 'Co-founder & CEO',
                             'organization' => 'Villgro Philippines',
+                            'profile' => "Priya is an entrepreneur, investor and gender advocate working across South and Southeast Asia. She is the co-founder and CEO of Villgro Philippines, an early stage impact incubator that funds, mentors and nurtures social entrepreneurs, having supported more than 200 entrepreneurs across the region.<br></br>Priya is a passionate advocate for gender equity with a focus on unlocking capital to fuel the ambitions of women entrepreneurs. She co-founded and runs the Nüshu Network, an award winning platform for women entrepreneurs across Asia to connect to capital, coaching and community with 800+ members. Priya is the Chair of ANDE - East and Southeast Asia Regional Advisory Committee and a member of ANDE's Global Advisory Committee, championing the development of an inclusive entrepreneurship ecosystem.<br></br>Priya's work is focused on building innovative financing structures to unlock capital for the Missing Middle and supporting underrepresented Entrepreneurs. In 2020, she was recognized as a Youth Gender Champion by the UN Women WEPs Awards and also awarded the UN Women WEPs Awards for Innovative Financing in 2024 for her work towards closing the gender finance gap."
                         ],
 
                         // [
@@ -1278,8 +1312,8 @@ return [
                     'start_time' => '15:00',
                     'end_time' => '15:30',
                     'duration' => '30 mins',
-                    'title' => 'The 12-Month Roadmap for MSME Export Standardization: Establishing Integrated Fast-Track Clearance Channels',
-                    'description' => 'A transition from policy discussion to immediate operational execution. Five primary agency directors sign a formal cooperation framework establishing a single, streamlined clearance pathway over the next year to simplify licensing and deploy unified training networks for agricultural, fishery, and artisan MSMEs.',
+                    'title' => 'The Eco-Digital Synergy: Catalyzing the Circular Economy',
+                    'description' => 'Key agency leaders come together in a ceremonial act of unity, signing a shared vision for the Philippine circular economy. Merging digital technology with environmental leadership, this moment serves as a powerful call to action for diverse industries to collaborate, innovate, and shape a sustainable future together.',
                     'type' => 'panel',
                     'speakers' => [
                         // [
@@ -1292,6 +1326,12 @@ return [
                         //     'position' => 'Director',
                         //     'organization' => 'DENR Environmental Management Bureau (DENR-EMB)',
                         // ],
+                       
+                         [
+                            'name' => 'Ms. Maria Katrina D. Rivera',
+                            'position' => 'Assistant Director',
+                            'organization' => 'DTI - Export Marketing Bureau (DTI-EMB)',
+                        ],
                         [
                             'name' => 'Dr. Annabelle V. Briones',
                             'position' => null,
@@ -1371,12 +1411,12 @@ return [
         [
             'start_time' => '11:30',
             'end_time' => '13:30',
-            'duration' => null,
+            'duration' => '1 hour',
             'title' => 'The SSX Pitching Competition Awarding Ceremony & Networking Luncheon',
             'description' => 'The official closing ceremony and commercial matching luncheon are designed to pair technology exhibitors and sustainable MSMEs directly with corporate procurement heads, banking executives, and venture capital syndicates to finalize immediate supply partnerships.',
             'type' => 'awarding_ceremony',
 
-            'speakers' => [
+            'presenters' => [
                 [
                     'status' => 1,
                     'image' => '/assets/show-info_2026/speakers/alwyn_rosel.png',

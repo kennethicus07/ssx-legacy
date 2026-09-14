@@ -34,6 +34,7 @@ $cardcream = "bg-cream border-2 border-forest rounded-[24px] shadow-[8px_8px_0_r
 
 // Running counter used to give every speaker-with-profile a unique modal id.
 $speakerModalCounter = 0;
+$presenterModalCounter = 0;
 
 @endphp
 
@@ -310,6 +311,107 @@ $speakerModalCounter = 0;
                             </p>
                         @endif
 
+                               @if(!empty($session['presenters']))
+                            <div class="mt-2">
+                                <span class="text-xs font-bold uppercase tracking-wide text-forest">
+                                    Presenters:
+                                </span>
+
+                                @foreach($session['presenters'] as $presenter)
+                                    @php
+                                        $hasProfile = !empty($presenter['status']) && (int) $presenter['status'] === 1;
+                                        if ($hasProfile) {
+                                            $presenterModalCounter++;
+                                            $modalId = 'presenter-modal-' . $presenterModalCounter;
+                                        }
+                                    @endphp
+
+                                    <div class="text-sm leading-6">
+
+                                        @if($hasProfile)
+                                            <span
+                                                class="presenter-trigger font-semibold text-gray-900 cursor-pointer underline decoration-dotted decoration-forest/60 underline-offset-2 hover:text-forest transition"
+                                                onclick="togglePresenterModal('{{ $modalId }}', event)"
+                                                role="button"
+                                                tabindex="0"
+                                                onkeydown="if(event.key==='Enter'){togglePresenterModal('{{ $modalId }}', event);}"
+                                            >
+                                                {{ $presenter['name'] }}
+                                            </span>
+                                        @else
+                                            <span class="font-semibold text-gray-900">
+                                                {{ $presenter['name'] }}
+                                            </span>
+                                        @endif
+
+                                        @if(!empty($presenter['position']))
+                                            <span class="text-gray-500">
+                                                — {{ $presenter['position'] }}
+                                            </span>
+                                        @endif
+
+                                        @if(!empty($presenter['organization']))
+                                            <span class="text-forest font-medium">
+                                                · {{ $presenter['organization'] }}
+                                            </span>
+                                        @endif
+
+                                        @if($hasProfile)
+                                            {{-- PRESENTER PROFILE MODAL --}}
+                                            <div id="{{ $modalId }}" class="presenter-modal-overlay hidden" onclick="closePresenterModalOnOverlay(event, '{{ $modalId }}')">
+                                                <div class="presenter-modal-content" onclick="event.stopPropagation()">
+
+                                                    <button type="button" class="presenter-modal-close" onclick="togglePresenterModal('{{ $modalId }}', event)" aria-label="Close">
+                                                        <iconify-icon icon="mdi:close" width="22" height="22"></iconify-icon>
+                                                    </button>
+
+                                                    @if(!empty($presenter['image']))
+                                                        <img src="{{ asset($presenter['image']) }}" alt="{{ $presenter['name'] }}" class="presenter-modal-img">
+                                                    @endif
+
+                                                    <h4 class="font-display font-bold text-lg text-forestdark mb-1">
+                                                        {{ $presenter['name'] }}
+                                                    </h4>
+
+                                                    @if(!empty($presenter['position']))
+                                                        <p class="text-sm text-gray-600 mb-0.5">
+                                                            {{ $presenter['position'] }}
+                                                        </p>
+                                                    @endif
+
+                                                    @if(!empty($presenter['organization']))
+                                                        <p class="text-sm font-semibold text-forest mb-3">
+                                                            {{ $presenter['organization'] }}
+                                                        </p>
+                                                    @endif
+
+                                                    @if(!empty($presenter['profile']))
+                                                        <p class="text-sm text-gray-700 leading-relaxed presenter-modal-bio">
+                                                    {!! $presenter['profile'] !!}
+                                                        </p>
+                                                    @endif
+
+                                                    @if(!empty($presenter['website']))
+                                                        <a
+                                                            href="{{ $presenter['website'] }}"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline mt-3"
+                                                        >
+                                                            Visit Website
+                                                            <iconify-icon icon="mdi:open-in-new" class="text-base"></iconify-icon>
+                                                        </a>
+                                                    @endif
+
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+
                         @if(!empty($session['speakers']))
                             <div class="mt-2">
                                 <span class="text-xs font-bold uppercase tracking-wide text-forest">
@@ -556,12 +658,119 @@ $speakerModalCounter = 0;
                                                     @endif
 
 
+                                                       {{-- PRESSENTER --}}
+                                                    @if(!empty($session['presenters']))
+                                                        <div class="mt-2">
+
+                                                            <div class="text-xs font-bold uppercase tracking-wide text-forest mb-1">
+                                                                Presenters:
+                                                            </div>
+
+                                                            <div class="space-y-0.5">
+                                                                @foreach($session['presenters'] as $presenter)
+                                                                    @php
+                                                                        $hasProfile = !empty($presenter['status']) && (int) $presenter['status'] === 1;
+                                                                        if ($hasProfile) {
+                                                                            $presenterModalCounter++;
+                                                                            $modalId = 'presenter-modal-' . $presenterModalCounter;
+                                                                        }
+                                                                    @endphp
+
+                                                                    <div class="text-sm leading-6">
+
+                                                                        @if($hasProfile)
+                                                                            <span
+                                                                                class="presenter-trigger font-semibold text-gray-900 cursor-pointer underline decoration-dotted decoration-forest/60 underline-offset-2 hover:text-forest transition"
+                                                                                onclick="togglePresenterModal('{{ $modalId }}', event)"
+                                                                                role="button"
+                                                                                tabindex="0"
+                                                                                onkeydown="if(event.key==='Enter'){togglePresenterModal('{{ $modalId }}', event);}"
+                                                                            >
+                                                                                {{ $presenter['name'] }}
+                                                                            </span>
+                                                                        @else
+                                                                            <span class="font-semibold text-gray-900">
+                                                                                {{ $presenter['name'] }}
+                                                                            </span>
+                                                                        @endif
+
+                                                                        @if(!empty($presenter['position']))
+                                                                            <span class="text-gray-500">
+                                                                                — {{ $presenter['position'] }}
+                                                                            </span>
+                                                                        @endif
+
+                                                                        @if(!empty($presenter['organization']))
+                                                                            <span class="text-forest font-medium">
+                                                                                · {{ $presenter['organization'] }}
+                                                                            </span>
+                                                                        @endif
+
+                                                                        @if($hasProfile)
+                                                                            {{-- PRESENTER PROFILE MODAL --}}
+                                                                            <div id="{{ $modalId }}" class="presenter-modal-overlay hidden" onclick="closePresenterModalOnOverlay(event, '{{ $modalId }}')">
+                                                                                <div class="presenter-modal-content" onclick="event.stopPropagation()">
+
+                                                                                    <button type="button" class="presenter-modal-close" onclick="togglePresenterModal('{{ $modalId }}', event)" aria-label="Close">
+                                                                                        <iconify-icon icon="mdi:close" width="22" height="22"></iconify-icon>
+                                                                                    </button>
+
+                                                                                    @if(!empty($presenter['image']))
+                                                                                        <img src="{{ asset($presenter['image']) }}" alt="{{ $presenter['name'] }}" class="presenter-modal-img">
+                                                                                    @endif
+
+                                                                                    <h4 class="font-display font-bold text-lg text-forestdark mb-1">
+                                                                                        {{ $presenter['name'] }}
+                                                                                    </h4>
+
+                                                                                    @if(!empty($presenter['position']))
+                                                                                        <p class="text-sm text-gray-600 mb-0.5">
+                                                                                            {{ $presenter['position'] }}
+                                                                                        </p>
+                                                                                    @endif
+
+                                                                                    @if(!empty($presenter['organization']))
+                                                                                        <p class="text-sm font-semibold text-forest mb-3">
+                                                                                            {{ $presenter['organization'] }}
+                                                                                        </p>
+                                                                                    @endif
+
+                                                                                    @if(!empty($presenter['profile']))
+                                                                                        <p class="text-sm text-gray-700 leading-relaxed presenter-modal-bio">
+                                                                                       {!! $presenter['profile'] !!}
+                                                                                        </p>
+                                                                                    @endif
+
+                                                                                    @if(!empty($presenter['website']))
+                                                                                        <a
+                                                                                            href="{{ $presenter['website'] }}"
+                                                                                            target="_blank"
+                                                                                            rel="noopener noreferrer"
+                                                                                            class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline mt-3"
+                                                                                        >
+                                                                                            Visit Website
+                                                                                            <iconify-icon icon="mdi:open-in-new" class="text-base"></iconify-icon>
+                                                                                        </a>
+                                                                                    @endif
+
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+
+                                                                    </div>
+
+                                                                @endforeach
+                                                            </div>
+
+                                                        </div>
+                                                    @endif
+
                                                     {{-- SPEAKERS --}}
                                                     @if(!empty($session['speakers']))
                                                         <div class="mt-2">
 
                                                             <div class="text-xs font-bold uppercase tracking-wide text-forest mb-1">
-                                                                Speakers
+                                                                Speakers:
                                                             </div>
 
                                                             <div class="space-y-0.5">
@@ -1086,7 +1295,16 @@ $speakerModalCounter = 0;
                                rounded-2xl overflow-hidden
                                shadow-sm hover:shadow-lg
                                transition
-                               flex flex-col"
+                               flex flex-col
+                               cursor-pointer ssx-partner-clickable"
+                        onclick="openPartnerModal(this)"
+                        data-partner-img="{{ asset($partner['image']) }}"
+                        data-partner-name="{{ $partner['name'] }}"
+                        data-partner-website="{{ $partner['website'] ?? '' }}"
+                        data-partner-description="{{ $partner['description'] ?? '' }}"
+                        role="button"
+                        tabindex="0"
+                        onkeydown="if(event.key==='Enter'){openPartnerModal(this);}"
                     >
 
                         {{-- IMAGE --}}
@@ -1125,7 +1343,7 @@ $speakerModalCounter = 0;
                                     class="text-sm text-gray-600
                                            leading-relaxed line-clamp-5"
                                 >
-                                    {{ $partner['description'] }}
+                                    {!! $partner['description'] !!}
                                 </p>
 
                             @endif
@@ -1139,6 +1357,7 @@ $speakerModalCounter = 0;
                                         href="{{ $partner['website'] }}"
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        onclick="event.stopPropagation()"
                                         class="inline-flex items-center
                                                gap-2 text-sm
                                                font-semibold text-forest
@@ -1224,7 +1443,16 @@ $speakerModalCounter = 0;
                                rounded-2xl overflow-hidden
                                shadow-sm hover:shadow-lg
                                transition
-                               flex flex-col"
+                               flex flex-col
+                               cursor-pointer ssx-partner-clickable"
+                        onclick="openPartnerModal(this)"
+                        data-partner-img="{{ asset($partner['img']) }}"
+                        data-partner-name="{{ $partner['company_name'] }}"
+                        data-partner-website="{{ $partner['website'] ?? '' }}"
+                        data-partner-description="{{ $partner['description'] ?? '' }}"
+                        role="button"
+                        tabindex="0"
+                        onkeydown="if(event.key==='Enter'){openPartnerModal(this);}"
                     >
 
                         {{-- IMAGE --}}
@@ -1265,7 +1493,7 @@ $speakerModalCounter = 0;
                                     class="text-sm text-gray-600
                                            leading-relaxed line-clamp-5"
                                 >
-                                    {{ $partner['description'] }}
+                                    {!! $partner['description'] !!}
                                 </p>
 
                             @endif
@@ -1279,6 +1507,7 @@ $speakerModalCounter = 0;
                                         href="{{ $partner['website'] }}"
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        onclick="event.stopPropagation()"
                                         class="inline-flex items-center
                                                gap-2 text-sm
                                                font-semibold text-forest
@@ -1355,7 +1584,16 @@ $speakerModalCounter = 0;
 
                 <div class="event-partner-card">
 
-                    <div class="h-full bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col">
+                    <div class="h-full bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col cursor-pointer ssx-partner-clickable"
+                        onclick="openPartnerModal(this)"
+                        data-partner-img="{{ asset($partner['img']) }}"
+                        data-partner-name="{{ $partner['company_name'] }}"
+                        data-partner-website="{{ $partner['website'] ?? '' }}"
+                        data-partner-description="{{ $partner['description'] ?? '' }}"
+                        role="button"
+                        tabindex="0"
+                        onkeydown="if(event.key==='Enter'){openPartnerModal(this);}"
+                    >
 
                         {{-- LOGO --}}
                         <div class="h-40 bg-white flex items-center justify-center p-6">
@@ -1380,7 +1618,7 @@ $speakerModalCounter = 0;
 
                             @if(!empty($partner['description']))
                                 <p class="text-sm text-gray-600 leading-relaxed line-clamp-5">
-                                    {{ $partner['description'] }}
+                                    {!!   $partner['description'] !!}
                                 </p>
                             @endif
 
@@ -1392,6 +1630,7 @@ $speakerModalCounter = 0;
                                         href="{{ $partner['website'] }}"
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        onclick="event.stopPropagation()"
                                         class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline">
 
                                         Visit Website
@@ -1461,7 +1700,16 @@ $speakerModalCounter = 0;
 
                 <div class="event-partner-card">
 
-                    <div class="h-full bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col">
+                    <div class="h-full bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col cursor-pointer ssx-partner-clickable"
+                        onclick="openPartnerModal(this)"
+                        data-partner-img="{{ asset($partner['img']) }}"
+                        data-partner-name="{{ $partner['company_name'] }}"
+                        data-partner-website="{{ $partner['website'] ?? '' }}"
+                        data-partner-description="{{ $partner['description'] ?? '' }}"
+                        role="button"
+                        tabindex="0"
+                        onkeydown="if(event.key==='Enter'){openPartnerModal(this);}"
+                    >
 
                         {{-- LOGO --}}
                         <div class="h-40 bg-white flex items-center justify-center p-6">
@@ -1487,7 +1735,7 @@ $speakerModalCounter = 0;
 
                             @if(!empty($partner['description']))
                                 <p class="text-sm text-gray-600 leading-relaxed line-clamp-5">
-                                    {{ $partner['description'] }}
+                                    {!!  $partner['description'] !!}
                                 </p>
                             @endif
 
@@ -1499,6 +1747,7 @@ $speakerModalCounter = 0;
                                         href="{{ $partner['website'] }}"
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        onclick="event.stopPropagation()"
                                         class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline">
 
                                         Visit Website
@@ -1551,7 +1800,16 @@ $speakerModalCounter = 0;
         {{-- OFFICIAL TRAINING & EVENT PARTNER --}}
         @foreach($officialTrainingEventPartners as $partner)
 
-            <div class="bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col">
+            <div class="bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col cursor-pointer ssx-partner-clickable"
+                onclick="openPartnerModal(this)"
+                data-partner-img="{{ asset($partner['img']) }}"
+                data-partner-name="{{ $partner['company_name'] }}"
+                data-partner-website="{{ $partner['website'] ?? '' }}"
+                data-partner-description="{{ $partner['description'] ?? '' }}"
+                role="button"
+                tabindex="0"
+                onkeydown="if(event.key==='Enter'){openPartnerModal(this);}"
+            >
 
                 {{-- LOGO --}}
                 <div class="h-40 bg-white flex items-center justify-center p-6">
@@ -1579,7 +1837,7 @@ $speakerModalCounter = 0;
 
                     @if(!empty($partner['description']))
                         <p class="text-sm text-gray-600 leading-relaxed line-clamp-6">
-                            {{ $partner['description'] }}
+                            {!!   $partner['description'] !!}
                         </p>
                     @endif
 
@@ -1590,6 +1848,7 @@ $speakerModalCounter = 0;
                                 href="{{ $partner['website'] }}"
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onclick="event.stopPropagation()"
                                 class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline"
                             >
                                 Visit Website
@@ -1614,7 +1873,16 @@ $speakerModalCounter = 0;
         {{-- OFFICIAL BUSINESS LOUNGE PARTNER --}}
         @foreach($officialBusinessLoungePartners as $partner)
 
-            <div class="bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col">
+            <div class="bg-white border-2 border-forest/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col cursor-pointer ssx-partner-clickable"
+                onclick="openPartnerModal(this)"
+                data-partner-img="{{ asset($partner['img']) }}"
+                data-partner-name="{{ $partner['company_name'] }}"
+                data-partner-website="{{ $partner['website'] ?? '' }}"
+                data-partner-description="{{ $partner['description'] ?? '' }}"
+                role="button"
+                tabindex="0"
+                onkeydown="if(event.key==='Enter'){openPartnerModal(this);}"
+            >
 
                 {{-- LOGO --}}
                 <div class="h-40 bg-white flex items-center justify-center p-6">
@@ -1642,7 +1910,7 @@ $speakerModalCounter = 0;
 
                     @if(!empty($partner['description']))
                         <p class="text-sm text-gray-600 leading-relaxed line-clamp-6">
-                            {{ $partner['description'] }}
+                            {!!  $partner['description'] !!}
                         </p>
                     @endif
 
@@ -1653,6 +1921,7 @@ $speakerModalCounter = 0;
                                 href="{{ $partner['website'] }}"
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onclick="event.stopPropagation()"
                                 class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline"
                             >
                                 Visit Website
@@ -1830,6 +2099,38 @@ $speakerModalCounter = 0;
         </div>
 
     </section>
+
+    {{-- ===========================================
+         PARTNER PROFILE MODAL (shared by all partner carousels)
+    =========================================== --}}
+    <div id="partner-modal-overlay" class="partner-modal-overlay hidden" onclick="closePartnerModalOnOverlay(event)">
+        <div class="partner-modal-content" onclick="event.stopPropagation()">
+
+            <button type="button" class="partner-modal-close" onclick="closePartnerModal()" aria-label="Close">
+                <iconify-icon icon="mdi:close" width="22" height="22"></iconify-icon>
+            </button>
+
+            <img id="partner-modal-img" src="" alt="" class="partner-modal-img">
+
+            <h4 id="partner-modal-name" class="font-display font-bold text-lg text-forestdark mb-1"></h4>
+             <a
+                id="partner-modal-website"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 text-sm font-semibold text-forest hover:underline mb-3"
+            >
+                Visit Website
+                <iconify-icon icon="mdi:open-in-new" class="text-base"></iconify-icon>
+            </a>
+
+            <p id="partner-modal-description" class="text-sm text-gray-600 leading-relaxed mb-4 text-left"></p>
+
+           
+
+        </div>
+    </div>
+
  {{-- <section id="pitching" class="bg-forestdark py-16 md:py-20 px-6 md:px-16">
         <div class="max-w-4xl mx-auto text-center text-white">
             <iconify-icon icon="mdi:presentation-play" width="60" height="60"></iconify-icon>
@@ -2073,6 +2374,86 @@ $speakerModalCounter = 0;
 }
 
 /* ==========================================================
+   PARTNER CARD CLICK AFFORDANCE
+   ========================================================== */
+
+.ssx-partner-clickable:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 26px rgba(31,69,34,0.16) !important;
+}
+
+.ssx-partner-clickable {
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.ssx-partner-clickable:focus-visible {
+    outline: 2px solid #357937;
+    outline-offset: 2px;
+}
+
+/* ==========================================================
+   PARTNER PROFILE MODAL (Event / Session / Government / Institutional)
+   ========================================================== */
+
+.partner-modal-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(15, 30, 15, 0.6) !important;
+    z-index: 9999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+}
+
+.partner-modal-overlay.hidden {
+    display: none !important;
+}
+
+.partner-modal-content {
+    background: #fff;
+    border-radius: 20px;
+    max-width: 420px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 28px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    border: 2px solid #357937;
+    text-align: center;
+}
+
+.partner-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 9999px;
+    background: #FAFAEA;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1F4522;
+}
+
+.partner-modal-close:hover {
+    background: #357937;
+    color: #fff;
+}
+
+.partner-modal-img {
+    max-width: 100%;
+    max-height: 140px;
+    object-fit: contain;
+    margin: 0 auto 18px;
+    display: block;
+}
+
+/* ==========================================================
    SPEAKER PROFILE MODAL (status = 1 speakers)
    ========================================================== */
 
@@ -2145,12 +2526,152 @@ $speakerModalCounter = 0;
     outline-offset: 2px;
     border-radius: 3px;
 }
+
+/* Presenter */
+.presenter-modal-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(15, 30, 15, 0.6) !important;
+    z-index: 9999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+}
+
+.presenter-modal-overlay.hidden {
+    display: none !important;
+}
+
+.presenter-modal-content {
+    background: #fff;
+    border-radius: 20px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 28px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    border: 2px solid #357937;
+    text-align: left;
+}
+
+.presenter-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 9999px;
+    background: #FAFAEA;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1F4522;
+}
+
+.presenter-modal-close:hover {
+    background: #357937;
+    color: #fff;
+}
+
+.presenter-modal-img {
+    width: 96px;
+    height: 96px;
+    border-radius: 9999px;
+    object-fit: cover;
+    margin-bottom: 14px;
+    border: 3px solid #357937;
+}
+
+.presenter-modal-bio {
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+.presenter-trigger:focus-visible {
+    outline: 2px solid #357937;
+    outline-offset: 2px;
+    border-radius: 3px;
+}
     </style>
 @endpush
 
 @push('scripts')
 <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 
+<script>
+/* ==========================================================
+   PARTNER PROFILE MODAL
+   - Click a partner card (Event / Session / Government /
+     Institutional) to open a modal with its image, company
+     name, and website link.
+   - Reads data-partner-img / data-partner-name /
+     data-partner-website attributes off the clicked card, so
+     no extra per-card modal markup is needed.
+   - Clicking the dark overlay, the close (X) button, or
+     pressing Escape closes the modal.
+   ========================================================== */
+
+window.openPartnerModal = function (cardEl) {
+    if (!cardEl) return;
+
+    var img = cardEl.getAttribute('data-partner-img') || '';
+    var name = cardEl.getAttribute('data-partner-name') || '';
+    var website = cardEl.getAttribute('data-partner-website') || '';
+    var description = cardEl.getAttribute('data-partner-description') || '';
+
+    var overlay = document.getElementById('partner-modal-overlay');
+    var imgEl = document.getElementById('partner-modal-img');
+    var nameEl = document.getElementById('partner-modal-name');
+    var descriptionEl = document.getElementById('partner-modal-description');
+    var websiteEl = document.getElementById('partner-modal-website');
+
+    if (!overlay || !imgEl || !nameEl || !descriptionEl || !websiteEl) return;
+
+    imgEl.src = img;
+    imgEl.alt = name;
+    nameEl.textContent = name;
+
+    if (description) {
+        descriptionEl.innerHTML = description;
+        descriptionEl.style.display = 'block';
+    } else {
+        descriptionEl.innerHTML = '';
+        descriptionEl.style.display = 'none';
+    }
+
+    if (website) {
+        websiteEl.href = website;
+        websiteEl.style.display = 'inline-flex';
+    } else {
+        websiteEl.removeAttribute('href');
+        websiteEl.style.display = 'none';
+    }
+
+    overlay.classList.remove('hidden');
+};
+
+window.closePartnerModal = function () {
+    var overlay = document.getElementById('partner-modal-overlay');
+    if (overlay) {
+        overlay.classList.add('hidden');
+    }
+};
+
+window.closePartnerModalOnOverlay = function (event) {
+    window.closePartnerModal();
+};
+
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+        window.closePartnerModal();
+    }
+});
+</script>
 <script>
 /* ==========================================================
    SPEAKER PROFILE MODAL
@@ -2190,6 +2711,50 @@ window.closeSpeakerModalOnOverlay = function (event, id) {
 document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         document.querySelectorAll('.speaker-modal-overlay').forEach(function (modal) {
+            modal.classList.add('hidden');
+        });
+    }
+});
+</script>
+<script>
+/* ==========================================================
+   Presenter PROFILE MODAL
+   - Click a presenter name (status = 1) to open their profile.
+   - Clicking a different presenter closes the current one and
+     opens the new one.
+   - Clicking the dark overlay, the close (X) button, or
+     pressing Escape closes the open modal.
+   ========================================================== */
+
+window.togglePresenterModal = function (id, event) {
+    if (event) {
+        event.stopPropagation();
+    }
+
+    // Close every other open modal first.
+    document.querySelectorAll('.presenter-modal-overlay').forEach(function (modal) {
+        if (modal.id !== id) {
+            modal.classList.add('hidden');
+        }
+    });
+
+    var target = document.getElementById(id);
+    if (!target) return;
+
+    // Toggle the requested modal.
+    target.classList.toggle('hidden');
+};
+
+window.closePrensenterModalOnOverlay = function (event, id) {
+    var target = document.getElementById(id);
+    if (target) {
+        target.classList.add('hidden');
+    }
+};
+
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.presenter-modal-overlay').forEach(function (modal) {
             modal.classList.add('hidden');
         });
     }
@@ -2349,59 +2914,67 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let isResetting = false;
 
-        carousel.addEventListener('scroll', function () {
+  carousel.addEventListener('scroll', function () {
 
-            if (isResetting) return;
+    if (isResetting) return;
 
-            const totalOriginalWidth =
-                getOriginalSetWidth();
+    const totalOriginalWidth = getOriginalSetWidth();
 
-            if (!totalOriginalWidth) return;
+    if (!totalOriginalWidth) return;
 
+    /*
+    |--------------------------------------------------------------------------
+    | RESET WHEN MOVING TOO FAR RIGHT
+    |--------------------------------------------------------------------------
+    */
 
-            /*
-            |--------------------------------------------------------------------------
-            | LEFT
-            |--------------------------------------------------------------------------
-            */
+    if (carousel.scrollLeft >= totalOriginalWidth * 2) {
 
-            if (
-                carousel.scrollLeft <=
-                totalOriginalWidth * 0.1
-            ) {
+        isResetting = true;
 
-                isResetting = true;
+        carousel.style.scrollBehavior = 'auto';
 
-                carousel.scrollLeft +=
-                    totalOriginalWidth;
+        carousel.scrollLeft -= totalOriginalWidth;
 
-                requestAnimationFrame(function () {
-                    isResetting = false;
-                });
-            }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | RIGHT
-            |--------------------------------------------------------------------------
-            */
-
-            else if (
-                carousel.scrollLeft >=
-                totalOriginalWidth * 1.9
-            ) {
-
-                isResetting = true;
-
-                carousel.scrollLeft -=
-                    totalOriginalWidth;
-
-                requestAnimationFrame(function () {
-                    isResetting = false;
-                });
-            }
+        requestAnimationFrame(function () {
+            carousel.style.scrollBehavior = '';
+            isResetting = false;
         });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESET WHEN MOVING TOO FAR LEFT
+    |--------------------------------------------------------------------------
+    */
+
+    else if (carousel.scrollLeft <= totalOriginalWidth * 0.05) {
+
+        isResetting = true;
+
+        carousel.style.scrollBehavior = 'auto';
+
+        carousel.scrollLeft += totalOriginalWidth;
+
+        requestAnimationFrame(function () {
+            carousel.style.scrollBehavior = '';
+            isResetting = false;
+        });
+    }
+
+});
+        /*
+|--------------------------------------------------------------------------
+| PAUSE AUTO-SCROLL WHEN HOVERING CAROUSEL OR ARROWS
+|--------------------------------------------------------------------------
+*/
+carousel.parentElement.addEventListener('mouseenter', function () {
+    clearInterval(autoScrollTimer);
+});
+
+carousel.parentElement.addEventListener('mouseleave', function () {
+    startAutoScroll();
+});
 
 
         /*

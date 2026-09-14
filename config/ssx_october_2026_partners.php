@@ -47,17 +47,60 @@ return [
         'description' => 'Control Union Philippines, a proud member of the global Control Union group since 2009, provides certifications, commodity inspections, industrial inspections, collateral management services, and laboratory testing, with sustainable solutions across multiple industries.',
         'website' => 'https://philippines.controlunion.com/',
     ],
+     [
+        'img' => '/assets/show-info_2026/altera.webp',
+        'company_name' => 'Alterna Verde Corporation',
+        'description' => "Alterna Verde Corporation is an energy and waste management company dedicated to sustainable solutions, renewable energy, and resource recovery. <br></br>Driven by the vision of transforming waste into valuable assets, the company specializes in clean technologies such as bio-methanation, biofuels, wind energy, and hydroscrew systems. A core pillar of their operations is the SERRS (Sustainable Environmental Resource Re-genesis System) facility model—implemented in locations like San Pablo City, Goa, Buenavista, and Monkayo—which repurposes discarded materials to foster a greener, more sustainable future in collaboration with local communities and industry partners. ",
+        'website' => 'https://alternaverde.com/',
+    ],
     [
         'img' => '/assets/show-info_2026/mspectrum.png',
         'company_name' => 'MSpectrum',
         'description' => 'MSpectrum is a Renewable Energy provider in the Philippines and a member of The Meralco Group, delivering market-leading solar solutions through Meralco’s extensive energy expertise, grid integration capabilities, and safety track record.',
         'website' => 'https://www.mspectrum.com.ph/',
     ],
+        [
+        'img' => '/assets/show-info_2026/bpi.webp',
+        'company_name' => 'Bank of the Philippine Islands',
+        'description' => "Founded in 1851, Bank of the Philippine Islands is the first bank in the Philippines and in the Southeast Asian region. BPI is a universal bank and together with its subsidiaries and affiliates, it offers a wide range of financial products and solutions that serve both retail and corporate clients. BPI's services include consumer banking and lending, asset management, payments, insurance, securities brokerage and distribution, foreign exchange, leasing, and corporate and investment banking.",
+        'website' => 'https://www.bpi.com.ph/ ',
+        'image_width' => '180px'
+    ],
     [
         'img' => '/assets/show-info_2026/royal-pineda.png',
         'company_name' => 'Royal Pineda+',
         'description' => 'Royal Pineda+ is a premier architecture and design firm based in the Philippines, led by principal architect and CEO Ar. Royal Christopher L. Pineda. The firm champions Modern Filipino Architecture and Design through a progressive, identity-driven, and globally competitive design language.',
         'website' => 'https://royalpinedaplus.com/',
+    ],
+    [
+        'img' => '/assets/show-info_2026/ey.webp',
+        'company_name' => 'EY Philippines',
+        'description' => "EY Philippines (part of the global Ernst & Young organization) is a leading professional services firm dedicated to building a 'better working world.' Guided by its core purpose of creating long-term value for clients, people, and society, the firm builds trust in the capital markets through core capabilities in assurance, tax, consulting, and strategy and transactions. <br></br>Leveraging advanced data, technology, and AI-driven platforms like EY.ai, the firm helps businesses and organizations navigate complex transformations, manage risks, foster sustainable growth, and unlock new value across diverse industries. ",
+        'website' => 'https://www.ey.com/en_ph/',
+    ],
+    [
+        'img' => '/assets/show-info_2026/villgro.webp',
+        'company_name' => 'Villgro Philippines',
+        'description' => "Villgro Philippines is a gender-smart incubator that funds, mentors, and nurtures enterprises addressing the most pressing social and climate issues. Over the last 6 years, Villgro Philippines has supported more than 200 enterprises across climate, health, education, agriculture, affordable housing, and women and girls in South and Southeast Asia. <br></br> Villa Socorro Farm started as a retirement dream of Marcial “Mars” Aaron. Having worked for multinational company, Unilever for over thirty years, Farmer Mars wanted to follow his passion by going back to his roots in farming. In 1998, he started tilling the soil of his wife’s ancestral property in Pagsanjan, Laguna and this led to him calling the place, Villa Socorro Farm, named after Socorro, his wife.",
+        'website' => 'https://villgrophilippines.org/',
+    ],
+    [
+        'img' => '/assets/show-info_2026/villa_socorro_farm.webp',
+        'company_name' => 'Villa Socorro Farm',
+        'description' => "Fast forward to 2026, Villa Socorro Farm remains as a family affair being headed by their children, Banana Chief Raymund and Señorita Diana. It has now evolved into a social enterprise with a vision to “World-class Farming, Nurturing Farm-ilies. Its practices of integrated, entrepreneurial, sustainable farming model provides a case in the high potential of a Filipino Agribusiness. They engage in FarmFood Manufacturing, Farm Tourism, Farm Education, Farmniture Making and Farm Fashion while working with the local community via a Farmdation, showcasing the multitude of possibilities in local farming when approached with an entrepreneurial and innovative spirit with a heart, “may PUSO”.",
+        'website' => 'www.villasocorrofarm.com',
+    ],
+    [
+        'img' => '/assets/show-info_2026/geo_cycle.webp',
+        'company_name' => 'Geocycle',
+        'description' => "Geocycle (a Holcim Group company) is a leading global provider of industrial and municipal waste management and recycling solutions. Dedicated to advancing the circular economy, the company specializes in transforming waste into resources—helping to lower carbon emissions and reduce natural resource consumption. <br></br>By leveraging industrial co-processing (primarily utilizing cement kilns), Geocycle safely recovers non-recyclable materials and recycles waste for industries and local governments, enabling partners to achieve zero-waste and decarbonization targets safely and responsibly.",
+        'website' => 'https://www.geocycle.com/',
+    ],
+    [
+        'img' => '/assets/show-info_2026/lastic.webp',
+        'company_name' => 'Lastic',
+        'description' => 'Lastic Philippines is a sustainability-focused company dedicated to building a "world without waste" by providing practical, eco-friendly alternatives to traditional plastics. Specializing in industry-specific solutions for the food and beverage, packaging, and logistics sectors, Lastic offers products crafted from biodegradable, compostable, and recycled materials—such as bamboo, tapioca, and upcycled coffee grounds.',
+        'website' => 'https://lasticph.com/',
     ],
     [
         'img' => '/assets/show-info_2025/oikos_logo.png',
@@ -87,7 +130,14 @@ return [
         'company_name' => 'DENR Biodiversity Management Bureau (BMB)',
         'description' => 'The Biodiversity Management Bureau (BMB) is a bureau of the Department of Environment and Natural Resources (DENR) responsible for the conservation and management of the country’s biodiversity and protected areas.',
         'website' => 'https://www.bmb.gov.ph/',
-                  'image_width' => '100px',
+        'image_width' => '100px',
+    ],
+    [
+        'img' => '/assets/show-info_2026/small_business_corporation.webp',
+        'company_name' => 'Small Business Corporation (SBCorp)',
+        'description' => "Small Business Corporation (SBCorp) is a government-owned financial institution attached to the Department of Trade and Industry (DTI). Established in January 1991 under the Magna Carta for Micro, Small, and Medium Enterprises (Republic Act No. 6977, as amended), SBCorp is mandated to champion, develop, and provide accessible financing solutions to the country’s MSME sector. <br></br>Operating under the policy and administrative supervision of the MSME Development Council, SBCorp functions as a key catalyst for inclusive economic growth. It bridges the financial gap for underserved yet viable enterprises—including agri-aqua businesses, green enterprises, women-led ventures, and creative industries—through direct retail lending, wholesale credit programs, credit guarantees, and innovative digital lending initiatives designed to provide sustainable and non-usurious financial alternatives. ",
+        'website' => 'https://sbcorp.gov.ph/ ',
+                  
     ],
 
     [
@@ -99,12 +149,31 @@ return [
     ],
 
     [
+        'img' => '/assets/show-info_2026/dost-pcieerd.webp',
+        'company_name' => 'DOST-PCIEERD (Philippine Council for Industry, Energy and Emerging Technology Research and Development)',
+        'description' => "DOST-PCIEERD (Philippine Council for Industry, Energy and Emerging Technology Research and Development) is one of the sectoral councils under the Department of Science and Technology (DOST).<br></br>The council leads national efforts in driving research and development, policy formulation, technology transfer, and human resource building across critical sectors—including industry, energy, utilities, transportation, and advanced emerging technologies like artificial intelligence and green innovations. By funding strategic projects and partnering with academic institutions, startups, and industries, PCIEERD aims to foster a future-ready, competitive, and innovation-driven Philippine economy. ",
+        'website' => 'https://pcieerd.dost.gov.ph/ ',
+                  'image_width' => '90px',
+    ],
+
+
+    [
+        'img' => '/assets/show-info_2026/doe.webp',
+        'company_name' => 'Department of Energy (DOE)',
+        'description' => "Department of Energy (DOE) is the executive department of the Philippine government tasked with formulating, planning, coordinating, and supervising all policies, programs, and projects related to the country's energy sector. <br></br> Mandated to oversee energy exploration, development, utilization, distribution, and conservation, the DOE drives national initiatives spanning renewable energy adoption, oil and gas security, power industry regulation, and energy efficiency. Its mission is to ensure a secure, accessible, reliable, and sustainable energy supply to fuel the Philippines' economic growth and secure a cleaner energy future. ",
+        'website' => 'https://doe.gov.ph/',
+                  'image_width' => '100px',
+    ],
+
+    [
         'img' => '/assets/show-info_2026/peza.jpg',
         'company_name' => 'Philippine Economic Zone Authority (PEZA)',
         'description' => 'The Philippine Economic Zone Authority (PEZA) promotes the establishment of economic zones in the Philippines and facilitates foreign and domestic investments. PEZA provides assistance, registration, incentives, and support for investors operating export-oriented manufacturing and service facilities within designated PEZA Special Economic Zones.',
         'website' => 'https://www.peza.gov.ph/',
                   'image_width' => '100px',
     ],
+
+
 
     [
         'img' => '/assets/show-info_2026/bcda.png',
@@ -132,10 +201,18 @@ return [
     //     'image_width' => '170px',
     // ],
 
+        [
+        'img' => '/assets/show-info_2026/packaging_institute_of_the_philippines.webp',
+        'company_name' => 'Packaging Institute of the Philippines (PIP)',
+        'description' => 'The Packaging Institute of the Philippines (PIP) is a national association of users, manufacturers, and suppliers of packaging materials and services. <br></br>PIP was founded by 31 charter members in March 1967 and was registered in March 20, 1975 with the Securities and Exchange Commision as a non-stock, non profit corporation. ',
+        'website' => 'https://packaginginstituteph.com/',
+        'image_width' => '230px',
+    ],
+
     [
         'img' => '/assets/show-info_2026/phoa.webp',
         'company_name' => 'Philippine Hotel Owners Association, Inc. (PHOA)',
-        'description' => 'Founded in 1977, the Philippine Hotel Owners Association, Inc. (PHOA) is the foremost organization of hotel owners in the country. With a strong commitment to building a vibrant and united hospitality industry that fuels the country’s economy, PHOA plays a crucial role in advancing the business growth of hotel owners through advocacy, industry leadership, community engagement, and professional development.',
+        'description' => "Founded in 1977, the Philippine Hotel Owners Association, Inc. (PHOA) is the foremost organization of hotel owners in the country. With a strong commitment to building a vibrant and united hospitality industry that fuels the country's economy, PHOA plays a crucial role in advancing the business growth of hotel owners through advocacy, industry leadership, community engagement, and professional development.",
         'website' => 'https://philhotelowners.com/',
     ],
 
