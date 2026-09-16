@@ -223,10 +223,7 @@
                             <!-- <button
                                 class="btn btn-outline-success"
                                 @click="generateAllQr"
-                                :disabled="
-                                    loading ||
-                                    !conference.conference_delegates.length
-                                "
+                                :disabled="loading || !eligibleDelegates.length"
                             >
                                 <i class="mdi mdi-qrcode me-1"></i>
                                 Generate QR
@@ -241,7 +238,7 @@
                                     class="mdi mdi-file-document-outline me-1"
                                 ></i>
                                 SOA/Billing
-                            </button> -->
+                            </button>
 
                             <!-- Back -->
                             <a
@@ -506,12 +503,9 @@ export default {
          */
 
         generateAllQr() {
-            if (
-                !this.conference.conference_delegates ||
-                !this.conference.conference_delegates.length
-            ) {
+            if (!this.eligibleDelegates.length) {
                 this.$toast.open({
-                    message: "No delegates found.",
+                    message: "No eligible delegates found.",
                     type: "warning",
                     duration: 3000,
                 });
@@ -521,7 +515,7 @@ export default {
 
             this.$swal({
                 title: "Generate QR Codes?",
-                text: `This will generate QR codes for all ${this.conference.conference_delegates.length} delegates.`,
+                text: `This will generate QR codes for all  ${this.eligibleDelegates.length} delegates.`,
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonText: "Yes, Generate",
@@ -570,6 +564,18 @@ export default {
         },
     },
     computed: {
+        eligibleDelegates() {
+            if (!this.conference || !this.conference.conference_delegates) {
+                return [];
+            }
+
+            return this.conference.conference_delegates.filter(
+                (delegate) =>
+                    Number(delegate.is_speaker) === 0 &&
+                    Number(delegate.is_visitor_buyer) === 0
+            );
+        },
+
         billingStatusText() {
             if (!this.conference) {
                 return "Not Generated";

@@ -1189,98 +1189,101 @@ public function details($id)
         ]);
     }
 
-public function review($id)
-{
-    $conference = SSXConference::findOrFail($id);
+    public function review($id)
+    {
+        $conference = SSXConference::findOrFail($id);
 
-    // Only active registrations can be reviewed
-    if ((int) $conference->status !== SSXConference::STATUS_REGISTERED) {
-        return response()->json([
-            'message' => 'This registration cannot be reviewed.',
-        ], 422);
-    }
+        // Only active registrations can be reviewed
+        if ((int) $conference->status !== SSXConference::STATUS_REGISTERED) {
+            return response()->json([
+                'message' => 'This registration cannot be reviewed.',
+            ], 422);
+        }
 
-    // Already reviewed
-    if ((int) ($conference->is_review ?? 0) === 1) {
-        return response()->json([
-            'message' => 'This registration has already been reviewed.',
-        ], 422);
-    }
+        // Already reviewed
+        if ((int) ($conference->is_review ?? 0) === 1) {
+            return response()->json([
+                'message' => 'This registration has already been reviewed.',
+            ], 422);
+        }
 
-    $conference->is_review = 1;
-    $conference->review_by = Auth::id();
-    $conference->review_at = now();
+        $conference->is_review = 1;
+        $conference->review_by = Auth::id();
+        $conference->review_at = now();
 
-    $conference->save();
+        $conference->save();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Email Accounting
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Email Accounting
+        |--------------------------------------------------------------------------
+        */
 
-    if (app()->environment('local')) {
+        if (app()->environment('local')) {
 
-        $accountingEmails = [
-            'kgtecson.citem@gmail.com',
-        ];
+            $accountingEmails = [
+                'kgtecson.citem@gmail.com',
+            ];
 
-    } else {
+        } else {
 
-        $accountingEmails = EmailHelper::parseList(
-            env('BCC_Accounting')
-        );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Send Email
-    |--------------------------------------------------------------------------
-    */
-
-    if (!empty($accountingEmails)) {
-
-        Mail::to($accountingEmails)
-            ->send(
-                new ConferenceRegistrationForAccounting(
-                    $conference->registration_number,
-                    $conference->company_name,
-                    $conference->contact_person,
-                    $conference->company_email,
-                    $conference->final_amount
-                )
+            $accountingEmails = EmailHelper::parseList(
+                env('BCC_Accounting')
             );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Send Email
+        |--------------------------------------------------------------------------
+        */
+
+        if (!empty($accountingEmails)) {
+
+            Mail::to($accountingEmails)
+                ->send(
+                    new ConferenceRegistrationForAccounting(
+                        $conference->registration_number,
+                        $conference->company_name,
+                        $conference->contact_person,
+                        $conference->company_email,
+                        $conference->final_amount
+                    )
+                );
+        }
+
+        return response()->json([
+            'message' => 'Registration reviewed successfully.',
+            'review' => $conference->review_status,
+            'workflow_status' => $conference->workflow_status,
+        ]);
     }
 
-    return response()->json([
-        'message' => 'Registration reviewed successfully.',
-        'review' => $conference->review_status,
-        'workflow_status' => $conference->workflow_status,
-    ]);
-}
-
-public function generateAllQr($conferenceId)
+ public function generateAllQr($conferenceId)
 {
     $conference = SSXConference::findOrFail($conferenceId);
 
-    $delegates = $conference->conferenceDelegates()->get();
+    $delegates = $conference->conferenceDelegates()
+        ->where(function ($query) {
+            $query->where('is_speaker', 0)
+                ->orWhereNull('is_speaker');
+        })
+        ->where(function ($query) {
+            $query->where('is_visitor_buyer', 0)
+                ->orWhereNull('is_visitor_buyer');
+        })
+        ->get();
 
     if ($delegates->isEmpty()) {
         return response()->json([
-            'message' => 'No delegates found for this registration.'
+            'message' => 'No eligible delegates found for QR generation.'
         ], 422);
     }
 
     foreach ($delegates as $delegate) {
 
-        /*
-        |--------------------------------------------------------------------------
-        | Delete Existing QR
-        |--------------------------------------------------------------------------
-        */
-
+      
         if (!empty($delegate->qr_file)) {
-
             $oldQrPath = 'conference/qr/' . $delegate->qr_file;
 
             if (Storage::disk('public')->exists($oldQrPath)) {
@@ -1288,287 +1291,197 @@ public function generateAllQr($conferenceId)
             }
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Generate New Token
-        |--------------------------------------------------------------------------
-        */
-
         $delegate->qr_token = Str::random(32);
-
-        /*
-        |--------------------------------------------------------------------------
-        | QR Filename
-        |--------------------------------------------------------------------------
-        */
-
         $fileName = 'delegate_' . $delegate->id . '.png';
+        $firstName = trim($delegate->fname ?? '');
+        $lastName = trim($delegate->lname ?? '');
+        $country = trim($delegate->country ?? '');
+        $designation = trim($delegate->designation ?? '');
+        $email = trim($delegate->email ?? '');
 
-        /*
-        |--------------------------------------------------------------------------
-        | URL Encoded In QR
-        |--------------------------------------------------------------------------
-        */
+   
+        $vCard = "BEGIN:VCARD\r\n";
 
-        $scanUrl = url(
-            '/admin/registration/delegates/scan/' .
-            $delegate->qr_token
-        );
+        $vCard .= "FN:" . $firstName . "\r\n";
+        $vCard .= "LN:" . $lastName . "\r\n";
 
-        /*
-        |--------------------------------------------------------------------------
-        | Generate PNG QR
-        |--------------------------------------------------------------------------
-        */
+        if (!empty($country)) {
+            $vCard .= "ADR:" . $country . "\r\n";
+        }
 
+        // if (!empty($designation)) {
+        //     $vCard .= "TITLE:" . $designation . "\r\n";
+        // }
+
+        if (!empty($email)) {
+            $vCard .= "EMAIL:" . $email . "\r\n";
+        }
+
+    
+        $vCard .= "VRS:SSX\r\n";
+        $vCard .= "STATUS:NEW\r\n";
+        $vCard .= "VTYPE:CONFERENCE DELEGATE\r\n";
+        $vCard .= "RCODE:" . $delegate->id . "\r\n";
+        $vCard .= "END:VCARD\r\n";
+
+   
         QRCodeHelper::generate(
-            $scanUrl,
+            $vCard,
             $fileName
         );
 
-        /*
-        |--------------------------------------------------------------------------
-        | Save QR Filename
-        |--------------------------------------------------------------------------
-        */
-
+     
         $delegate->qr_file = $fileName;
-
         $delegate->save();
     }
 
     return response()->json([
         'message' => 'QR codes generated successfully.',
         'count' => $delegates->count(),
+        'fair_code' => $conference->fair_code,
     ]);
 }
 
-public function scanQr($token)
-{
-    $delegate = SSXConferenceDelegate::with('conference')
-        ->where('qr_token', $token)
-        ->first();
 
-    if (!$delegate) {
-        return response()->json([
-            'message' => 'Invalid QR code.'
-        ], 404);
-    }
+    public function sendEmail($id)
+    {
+        $delegate = SSXConferenceDelegate::with('conference')
+            ->findOrFail($id);
 
-    $conference = $delegate->conference;
+        /*
+        |--------------------------------------------------------------------------
+        | Get Internal Event
+        |--------------------------------------------------------------------------
+        */
 
-    return response()->json([
-        'message' => 'Delegate found.',
+        $event = null;
 
-        'conference' => [
-            'id' => $conference->id,
-            'registration_number' => $conference->registration_number,
-            'fair_code' => $conference->fair_code,
-            'business_type' => $conference->business_type,
-            'participant_count' => $conference->participant_count,
-            'currency' => $conference->currency,
-            'base_rate' => $conference->base_rate,
-            'amount' => $conference->amount,
-            'discount' => $conference->discount,
-            'final_amount' => $conference->final_amount,
-            'company_name' => $conference->company_name,
-            'company_address' => $conference->company_address,
-            'tin' => $conference->tin,
-            'contact_person' => $conference->contact_person,
-            'company_email' => $conference->company_email,
-            'contact_number' => $conference->contact_number,
-            'dietary' => $conference->dietary,
-            'dietary_details' => $conference->dietary_details,
-            'certificate' => $conference->certificate,
-            'promotional_email' => $conference->promotional_email,
-            'billing_file' => $conference->billing_file,
-            'status' => $conference->status,
-        ],
+        if ($delegate->conference) {
+            $event = Event::where(
+                'fair_code',
+                $delegate->conference->fair_code
+            )->first();
+        }
 
-        'delegate' => [
-            'id' => $delegate->id,
-            'salutation' => $delegate->salutation,
-            'fname' => $delegate->fname,
-            'lname' => $delegate->lname,
+        /*
+        |--------------------------------------------------------------------------
+        | Determine Recipient Type
+        |--------------------------------------------------------------------------
+        */
+
+        $isVisitorBuyer = (int) $delegate->is_visitor_buyer === 1;
+
+        $recipientType = $isVisitorBuyer
+            ? 'Visitor/Buyer'
+            : 'Delegate';
+
+        /*
+        |--------------------------------------------------------------------------
+        | Log for Testing
+        |--------------------------------------------------------------------------
+        */
+
+        Log::info('Conference Delegate Email', [
+            'delegate_id' => $delegate->id,
+
             'name' => trim(
                 $delegate->salutation . ' ' .
                 $delegate->fname . ' ' .
                 $delegate->lname
             ),
 
-            'country' => $delegate->country,
-            'designation' => $delegate->designation,
             'email' => $delegate->email,
 
-            'country_code_mobile' =>
-                $delegate->country_code_mobile,
+            'is_visitor_buyer' => $delegate->is_visitor_buyer,
 
-            'mobile_no' =>
-                $delegate->mobile_no,
+            'recipient_type' => $recipientType,
 
-            'mobile' => trim(
-                $delegate->country_code_mobile . ' ' .
-                $delegate->mobile_no
-            ),
+            'conference_id' => $delegate->conference
+                ? $delegate->conference->id
+                : null,
 
-            'addtnl_type' => $delegate->addtnl_type,
+            'registration_number' => $delegate->conference
+                ? $delegate->conference->registration_number
+                : null,
 
-            'senior' => (bool) $delegate->senior,
-            'pwd' => (bool) $delegate->pwd,
+            'fair_code' => $delegate->conference
+                ? $delegate->conference->fair_code
+                : null,
 
-            'id_file' => $delegate->id_file,
+            'event_name' => $event
+                ? $event->event_name
+                : null,
+        ]);
 
-            'delegate_category' =>
-                $delegate->delegate_category,
+        /*
+        |--------------------------------------------------------------------------
+        | Determine Email
+        |--------------------------------------------------------------------------
+        */
 
-            'delegate_category_text' =>
-                $delegate->delegateCategoryText(),
+        if ($isVisitorBuyer) {
 
-            'delegate_category_other' =>
-                $delegate->delegate_category_other,
-        ],
-    ]);
+            $mail = new ConferenceVisitorBuyerApproved(
+                $delegate,
+                $event
+            );
+
+        } else {
+
+            $mail = new ConferenceDelegateApproved(
+                $delegate,
+                $event
+            );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Send Email
+        |--------------------------------------------------------------------------
+        */
+
+        if (env('APP_ENV') != 'local') {
+
+            Mail::to($delegate->email)
+                ->send($mail);
+
+        } else {
+
+            Mail::to('kgtecson.citem@gmail.com')
+                ->send($mail);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Mark Email as Sent
+        |--------------------------------------------------------------------------
+        */
+
+        $delegate->is_email_sent = 1;
+        $delegate->email_sent_at = now();
+
+        $delegate->save();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Response
+        |--------------------------------------------------------------------------
+        */
+
+        return response()->json([
+            'message' => "Email sent successfully to {$recipientType}.",
+
+            'recipient_type' => $recipientType,
+
+            'email' => $delegate->email,
+
+            'event_name' => $event
+                ? $event->event_name
+                : null,
+
+            'is_email_sent' => $delegate->is_email_sent,
+
+            'email_sent_at' => $delegate->email_sent_at,
+        ]);
+    }
 }
-
-public function sendEmail($id)
-{
-    $delegate = SSXConferenceDelegate::with('conference')
-        ->findOrFail($id);
-
-    /*
-    |--------------------------------------------------------------------------
-    | Get Internal Event
-    |--------------------------------------------------------------------------
-    */
-
-    $event = null;
-
-    if ($delegate->conference) {
-        $event = Event::where(
-            'fair_code',
-            $delegate->conference->fair_code
-        )->first();
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Determine Recipient Type
-    |--------------------------------------------------------------------------
-    */
-
-    $isVisitorBuyer = (int) $delegate->is_visitor_buyer === 1;
-
-    $recipientType = $isVisitorBuyer
-        ? 'Visitor/Buyer'
-        : 'Delegate';
-
-    /*
-    |--------------------------------------------------------------------------
-    | Log for Testing
-    |--------------------------------------------------------------------------
-    */
-
-    Log::info('Conference Delegate Email', [
-        'delegate_id' => $delegate->id,
-
-        'name' => trim(
-            $delegate->salutation . ' ' .
-            $delegate->fname . ' ' .
-            $delegate->lname
-        ),
-
-        'email' => $delegate->email,
-
-        'is_visitor_buyer' => $delegate->is_visitor_buyer,
-
-        'recipient_type' => $recipientType,
-
-        'conference_id' => $delegate->conference
-            ? $delegate->conference->id
-            : null,
-
-        'registration_number' => $delegate->conference
-            ? $delegate->conference->registration_number
-            : null,
-
-        'fair_code' => $delegate->conference
-            ? $delegate->conference->fair_code
-            : null,
-
-        'event_name' => $event
-            ? $event->event_name
-            : null,
-    ]);
-
-    /*
-    |--------------------------------------------------------------------------
-    | Determine Email
-    |--------------------------------------------------------------------------
-    */
-
-    if ($isVisitorBuyer) {
-
-        $mail = new ConferenceVisitorBuyerApproved(
-            $delegate,
-            $event
-        );
-
-    } else {
-
-        $mail = new ConferenceDelegateApproved(
-            $delegate,
-            $event
-        );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Send Email
-    |--------------------------------------------------------------------------
-    */
-
-    if (env('APP_ENV') != 'local') {
-
-        Mail::to($delegate->email)
-            ->send($mail);
-
-    } else {
-
-        Mail::to('kgtecson.citem@gmail.com')
-            ->send($mail);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Mark Email as Sent
-    |--------------------------------------------------------------------------
-    */
-
-    $delegate->is_email_sent = 1;
-    $delegate->email_sent_at = now();
-
-    $delegate->save();
-
-    /*
-    |--------------------------------------------------------------------------
-    | Response
-    |--------------------------------------------------------------------------
-    */
-
-    return response()->json([
-        'message' => "Email sent successfully to {$recipientType}.",
-
-        'recipient_type' => $recipientType,
-
-        'email' => $delegate->email,
-
-        'event_name' => $event
-            ? $event->event_name
-            : null,
-
-        'is_email_sent' => $delegate->is_email_sent,
-
-        'email_sent_at' => $delegate->email_sent_at,
-    ]);
-}
-    }

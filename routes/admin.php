@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\UserAccountController;
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\BoothSystemAssignmentController;
 use App\Http\Controllers\Admin\BoothSystemAssignmentGroupController;
+use App\Http\Controllers\Admin\BuyerController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ConferenceController;
 use App\Http\Controllers\Admin\ConferenceDelegate\DelegateController;
@@ -300,7 +301,7 @@ Route::post(
         Route::post('/{id}/return-to-generated',[ConferenceSoaController::class, 'returnToGenerated'])->name('return-to-generated');
         Route::post('/{id}/approve-billing',[ConferenceSoaController::class, 'approveBilling'])->name('approve-billing');
         Route::post('/{conference}/generate-qr',[DelegateController::class, 'generateAllQr'])->name('generate-qr');
-        Route::get('/scan/{token}', [DelegateController::class, 'scanQr'])->name('scan');
+      
         
             
     //? Blade
@@ -498,15 +499,15 @@ Route::prefix('booth-system')->name('booth-system.')->group(function () {
 
     // ! Sponsorship
     Route::get('registration/sponsorship', [RegistrationController::class, 'sponsorship'])->name('sponsorship.registration');
-        Route::post('registration/suppliers/sponsorship-list', [RegistrationController::class, 'sponsorship_list'])->name('suppliers.registration.sponsorship.list')->middleware('permission:view reg_suppliers');
-
+    Route::post('registration/suppliers/sponsorship-list', [RegistrationController::class, 'sponsorship_list'])->name('suppliers.registration.sponsorship.list')->middleware('permission:view reg_suppliers');
     Route::get('registration/buyers', [RegistrationController::class, 'buyers'])->name('buyers.registration')->middleware('permission:view reg_buyers');
     Route::get('registration/buyers/create', [RegistrationController::class, 'purchaser_create'])->name('buyers.registration.create')->middleware('permission:add reg_purchaser');
     Route::post('registration/buyers/store', [RegistrationController::class, 'purchaser_store'])->name('buyers.registration.store')->middleware('permission:add reg_purchaser');
     Route::post('registration/buyers/update', [RegistrationController::class, 'purchaser_update'])->name('buyers.registration.update')->middleware('permission:update reg_purchaser');
     Route::post('registration/buyers/list', [RegistrationController::class, 'buyers_list'])->name('buyers.registration.list')->middleware('permission:view reg_buyers');
     Route::get('registration/buyers/{id}/{fair_code}/view', [RegistrationController::class, 'buyer_view'])->name('buyers.registration.view')->middleware('permission:view reg_buyers');
-         Route::get('registration/buyer-information/{id}/{fair_code}', [RegistrationController::class,'buyer_information'])->middleware('permission:view reg_buyers');
+    Route::get('registration/buyer-information/{id}/{fair_code}', [RegistrationController::class,'buyer_information'])->middleware('permission:view reg_buyers');
+    Route::post('registration/buyers/{buyer}/{fairCode}/generate-qr',[BuyerController::class, 'generateQr'])->name('buyers.registration.generate-qr');
 
     Route::get('pages', [PageController::class, 'index'])->name('pages.index')->middleware('permission:view pages');
     Route::get('pages/create', [PageController::class, 'create'])->name('pages.create')->middleware('permission:add pages');

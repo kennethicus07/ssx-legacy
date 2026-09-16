@@ -1040,6 +1040,23 @@
                     </div>
                     <div class="form-group row">
                         <hr class="w-100 mt-3" />
+                        <!-- <div class="d-grid gap-2 mb-2">
+                            <button
+                                class="btn btn-dark text-white"
+                                type="button"
+                                @click="generateQr"
+                                :disabled="isGeneratingQr"
+                            >
+                                <span v-if="isGeneratingQr">
+                                    <i class="fas fa-spinner fa-spin me-1"></i>
+                                    Generating QR...
+                                </span>
+                                <span v-else>
+                                    <i class="fas fa-qrcode me-1"></i>
+                                    Generate QR
+                                </span>
+                            </button>
+                        </div> -->
                         <div class="d-grid gap-2 mb-2">
                             <button
                                 class="btn btn-success text-white"
@@ -1175,6 +1192,8 @@ export default {
         return {
             isLoading: false,
             msg: "Please wait...",
+            isGeneratingQr: false,
+            qrCode: null,
             status: 0,
             buyerclass: 0,
             created_at: "",
@@ -1663,6 +1682,41 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error);
+                });
+        },
+        generateQr() {
+            this.isLoading = true;
+            this.msg = "Generating QR code...";
+
+            axios
+                .post(
+                    `/admin/registration/buyers/${this.id}/${this.event_fair_code}/generate-qr`
+                )
+                .then((response) => {
+                    this.isLoading = false;
+
+                    Vue.$toast.success(
+                        response.data.message ||
+                            "Buyer QR code generated successfully.",
+                        {
+                            position: "top-right",
+                        }
+                    );
+
+                    console.log("QR Response:", response.data);
+                })
+                .catch((error) => {
+                    this.isLoading = false;
+
+                    console.error(error);
+
+                    Vue.$toast.error(
+                        error.response?.data?.message ||
+                            "Failed to generate buyer QR code.",
+                        {
+                            position: "top-right",
+                        }
+                    );
                 });
         },
         reSendRegLink() {

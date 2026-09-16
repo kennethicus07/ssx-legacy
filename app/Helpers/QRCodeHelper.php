@@ -8,20 +8,21 @@ use Endroid\QrCode\Writer\PngWriter;
 class QRCodeHelper
 {
     public static function generate(
-        string $token,
-        string $fileName
+        string $data,
+        string $fileName,
+        string $directory = 'conference/qr'
     ): string {
-        $directory = storage_path('app/public/conference/qr');
+        $path = storage_path('app/public/' . $directory);
 
-        if (!is_dir($directory)) {
-            mkdir($directory, 0755, true);
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
         }
 
-        $filePath = $directory . '/' . $fileName;
+        $filePath = $path . '/' . $fileName;
 
         $result = Builder::create()
             ->writer(new PngWriter())
-            ->data($token)
+            ->data($data)
             ->size(500)
             ->margin(10)
             ->build();

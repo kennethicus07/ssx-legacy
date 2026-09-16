@@ -933,38 +933,70 @@ public function buyers_list(Request $request)
     });
 
     // --- Filters ---
-    if (!empty($filters)) {
-        if (!empty($filters['co_name'])) {
-            $buyers->where('co_name', 'like', '%'.$filters['co_name'].'%');
-        }
+// --- Filters ---
+if (!empty($filters)) {
 
-        if (!empty($filters['co_email'])) {
-            $buyers->where('co_email', $filters['co_email']);
-        }
+    // Company Name
+    if (!empty($filters['co_name'])) {
+        $buyers->where(
+            'co_name',
+            'like',
+            '%' . $filters['co_name'] . '%'
+        );
+    }
 
-        if (!empty($filters['fair_code'])) {
-            $buyers->where('fair_code', $filters['fair_code']);
-        }
+    // Company Email
+    if (!empty($filters['co_email'])) {
+        $buyers->where(
+            'co_email',
+            $filters['co_email']
+        );
+    }
 
-        if (isset($filters['status']) && $filters['status'] !== '') {
-            $status = $filters['status'];
+    // Fair Code
+    if (!empty($filters['fair_code'])) {
+        $buyers->where(
+            'fair_code',
+            $filters['fair_code']
+        );
+    }
 
-            $buyers->where(function ($query) use ($status, $fair_code) {
-              if ($status === 'incomplete') {
-    $query->whereDoesntHave('buyer_attendances', function ($q) use ($fair_code) {
-        if ($fair_code) {
-            $q->where('fair_code', $fair_code)
-              ->where('status', '>', 0);
+    // Status
+    if (isset($filters['status']) && $filters['status'] !== '') {
+
+        $status = $filters['status'];
+
+        if ($status === 'incomplete') {
+
+            // Incomplete:
+            // No attendance record for this fair with status > 0
+            $buyers->whereDoesntHave('buyer_attendances', function ($q) use ($fair_code) {
+
+                if ($fair_code) {
+                    $q->where('fair_code', $fair_code);
+                }
+
+                $q->where('status', '>', 0);
+            });
+
         } else {
-            $q->where('status', '>', 0);
-        }
-    });
-}
 
+            // Approved = 1
+            // Pending  = 2
+            // Reviewed = 3
+            // On hold  = 4
+            // Denied   = 5
+            $buyers->whereHas('buyer_attendances', function ($q) use ($status, $fair_code) {
+
+                if ($fair_code) {
+                    $q->where('fair_code', $fair_code);
+                }
+
+                $q->where('status', $status);
             });
         }
     }
-
+}
    
     if ($request->has('sort')) {
         $sort = json_decode($request->input('sort'), true);
