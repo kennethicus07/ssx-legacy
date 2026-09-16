@@ -75,72 +75,75 @@ class AuthController extends Controller
 
     
     
-    public function authenticate(Request $request)
-{
-    $email = $request->input('email');
-    $password = $request->input('password');
+   public function authenticate(Request $request)
+    {
+        $email = $request->input('email');
+        $password = $request->input('password');
 
-    $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required'],
-    ]);
+        $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-    $user = User::where('email', $email)
-                ->whereNotNull('email_verified_at')
-                ->first();
+        $user = User::where('email', $email)
+                    ->whereNotNull('email_verified_at')
+                    ->first();
+                    
 
-    if (!$user) {
-        return back()->withErrors(['email' => 'Invalid email address or password.']);
-    }
-
-    if (!Hash::check($password, $user->password)) {
-        return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
-    }
-
-    // Supplier login (NO status required)
-    if ($user->user_group == 5) {
-        if (Auth::guard('supplier')->attempt([
-            'email' => $email,
-            'password' => $password,
-        ], $request->filled('remember'))) {
-
-            $request->session()->regenerate();
-
-            activity('logged-in')
-                ->causedBy($user)
-                ->performedOn($user)
-                ->log('logged-in');
-
-            return redirect()->intended(route('supplier.dashboard'));
+        if (!$user) {
+            return back()->withErrors(['email' => 'Invalid email address or password.']);
         }
-    } 
-    // Other roles (require status = 1)
-    else {
-        if (Auth::guard('web')->attempt([
-            'email' => $email,
-            'password' => $password,
-            'status' => 1,
-        ], $request->filled('remember'))) {
 
-            $request->session()->regenerate();
+        if (!Hash::check($password, $user->password)) {
+            return back()->withErrors(['email' => 'The provided credentials do not match our records.']);
+        }
 
-            activity('logged-in')
-                ->causedBy($user)
-                ->performedOn($user)
-                ->log('logged-in');
+        if ($user->user_group == 5) {
+            if (Auth::guard('supplier')->attempt([
+                'email' => $email,
+                'password' => $password,
+            ], $request->filled('remember'))) {
 
-            if (in_array($user->user_group, [1, 4, 6, 7])) {
-                return redirect()->intended(route('admin.dashboard'));
-            } elseif (in_array($user->user_group, [2, 3])) {
-                return redirect()->intended(route('home'));
-            } else {
-                return redirect('/');
+                $request->session()->regenerate();
+
+                activity('logged-in')
+                    ->causedBy($user)
+                    ->performedOn($user)
+                    ->log('logged-in');
+
+                return redirect()->intended(route('supplier.dashboard'));
+            }
+        } 
+        
+        else {
+            if (Auth::guard('web')->attempt([
+                'email' => $email,
+                'password' => $password,
+                'status' => 1,
+            ], $request->filled('remember'))) {
+
+                $request->session()->regenerate();
+
+                activity('logged-in')
+                    ->causedBy($user)
+                    ->performedOn($user)
+                    ->log('logged-in');
+
+                if (in_array($user->user_group, [1, 4, 6, 7])) {
+                    return redirect()->intended(route('admin.dashboard'));
+                } elseif ($user->user_group == 3) {
+                    return redirect()->intended(route('buyer.dashboard'));
+                } elseif ($user->user_group == 2) {
+                    return redirect()->intended(route('home'));
+                } else {
+                    return redirect('/');
+                }
             }
         }
+
+        return back()->withErrors(['email' => 'Login failed. Please try again.']);
     }
 
-    return back()->withErrors(['email' => 'Login failed. Please try again.']);
-}
 
     public function loginvue(Request $request)
     {
@@ -148,7 +151,7 @@ class AuthController extends Controller
         $password = $request->input('password');
 
         $user = User::where('email', '=', $email)->whereNotNull('email_verified_at')->first();
-        //dd($user);
+ 
         if ($user) {
             //check password
             $result = [];

@@ -19,6 +19,7 @@ use App\Http\Controllers\Website\DelegateConferenceController;
 use App\Http\Controllers\Website\PagesController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ConformeController;
+use App\Http\Controllers\Website\BuyerController;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -282,3 +283,21 @@ Route::get('/conforme/{token}/{status}', [ConformeController::class, 'handle_con
 // This route is used to authorize the user and send them back to the B2B portal with a signed token.
 // DO NOT DELETE this route as it is used for SSO between the main site and the B2B portal.
 Route::get('/sso/authorize', [\App\Http\Controllers\SSOController::class, 'authorizeB2B']);
+
+// ==========================================
+// BUYER PORTAL ROUTES (user_group = 3)
+// ==========================================
+Route::middleware(['auth'])->prefix('buyer')->name('buyer.')->group(function () {
+    Route::get('/dashboard', [BuyerController::class, 'dashboard'])->name('dashboard');
+    
+    // My Account Management Feature
+    Route::get('/account', [BuyerController::class, 'account'])->name('account');
+    Route::put('/account/update', [BuyerController::class, 'updateAccount'])->name('account.update');
+    
+    // Events Management Feature
+    Route::get('/events', [BuyerController::class, 'events'])->name('events');
+    
+    // Bookmark Feature
+    Route::get('/bookmarks', [BuyerController::class, 'bookmarks'])->name('bookmarks');
+    Route::post('/bookmarks/toggle', [BuyerController::class, 'toggleBookmark'])->name('bookmarks.toggle');
+});
