@@ -790,8 +790,7 @@ public function supplier_list(Request $request)
     $total_exhibitors = $exhibitors->count();
 
     // --- Fetch records ---
-$records = $exhibitors->offset($offset)
-    ->limit($per_page)
+$records = $exhibitors
     ->get()
     ->map(function ($exhibitor) {
         $attendance = $exhibitor->attendances->first();
