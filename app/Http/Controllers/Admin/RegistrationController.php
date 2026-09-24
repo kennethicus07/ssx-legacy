@@ -700,204 +700,731 @@ if (
 
 
 
+// public function supplier_list(Request $request)
+// {
+//     $per_page = $request->input('per_page', 10);
+//     $page = $request->input('page', 1);
+//     $offset = ($page - 1) * $per_page;
+
+//     $filters = $request->has('filter') ? json_decode($request->input('filter'), true) : [];
+
+//     // --- Determine fair_code ---
+//     $fair_code = $filters['fair_code'] ?? null;
+//     if (!$fair_code) {
+//         $latestEvent = Event::latest()->first();
+//         $fair_code = $latestEvent ? $latestEvent->fair_code : null;
+//         $filters['fair_code'] = $fair_code;
+//     }
+
+//     // --- Base query ---
+//     $exhibitors = Exhibitor::with([
+//         'user',
+//         'reviewer',
+//         'approver',
+//         'disapprover',
+//         'onholder',
+//         'attendances' => fn($q) => $fair_code ? $q->where('fair_code', $fair_code) : null,
+//         'conformes' => fn($q) => $fair_code ? $q->where('fair_code', $fair_code)->latest() : null,
+//     ])->whereHas('user', fn($q) => $q->where('user_group', 5));
+
+//     // --- Filters ---
+//     if (!empty($filters)) {
+//         if (!empty($filters['co_name'])) {
+//             $exhibitors->where('co_name', 'like', '%' . $filters['co_name'] . '%');
+//         }
+//         if (!empty($filters['co_email'])) {
+//             $exhibitors->where('co_email', $filters['co_email']);
+//         }
+//         if (!empty($filters['fair_code'])) {
+//             $exhibitors->where('fair_code', $filters['fair_code']);
+//         }
+//     if (isset($filters['status']) && $filters['status'] !== '') {
+//         $statusFilter = (int) $filters['status'];
+
+//         // First, fetch exhibitors without overly complex RTB/Awaiting filters
+//         if (in_array($statusFilter, [0, 1, 2, 3, 4, 5])) {
+//             $exhibitors->where(function ($q) use ($statusFilter, $fair_code) {
+//                 switch ($statusFilter) {
+//                     case 0: // Incomplete
+//                         $q->whereDoesntHave('attendances', fn($qq) =>
+//                             $qq->when($fair_code, fn($q2) => $q2->where('fair_code', $fair_code))
+//                             ->where('status', '>', 0)
+//                         );
+//                         break;
+
+//                     case 1: // Pending Conforme Generation (awaiting generation)
+//                         $q->whereHas('attendances', fn($qq) =>
+//                             $qq->when($fair_code, fn($q2) => $q2->where('fair_code', $fair_code))
+//                             ->where('status', ExhibitorAttendance::STATUS_PENDING_CONFORME_GENERATION)
+//                             ->where(function($q2) {
+//                                 $q2->where('conforme_review', 0)
+//                                     ->orWhereNull('conforme_review');
+//                             })
+//                         );
+//                         break;
+
+//                     default: // 2,3,4,5
+//                         $q->whereHas('attendances', fn($qq) =>
+//                             $qq->when($fair_code, fn($q2) => $q2->where('fair_code', $fair_code))
+//                             ->where('status', $statusFilter)
+//                         );
+//                 }
+//             });
+//         }
+
+        
+    
+//     }
+//     }
+
+//     if ($request->has('sort')) {
+//     $sort = json_decode($request->input('sort'), true);
+
+//     if (in_array($sort['field'], ['co_name', 'co_email', 'fair_code', 'created_at'])) {
+//         $exhibitors->orderBy($sort['field'], $sort['type']);
+//     }
+    
+// }
+
+
+//     $total_exhibitors = $exhibitors->count();
+
+//     // --- Fetch records ---
+// $records = $exhibitors
+//     ->get()
+//     ->map(function ($exhibitor) {
+//         $attendance = $exhibitor->attendances->first();
+//         $conforme = $exhibitor->conformes->first();
+
+//         $status = $attendance->status ?? ExhibitorAttendance::STATUS_INCOMPLETE;
+
+//         $exhibitor->status = $status;
+//         $exhibitor->created_at = $attendance->created_at ?? null; 
+//         $exhibitor->registration_agreed_at = $attendance->registration_agreed_at ?? null;
+//         $exhibitor->user_name = $exhibitor->user->name ?? null;
+//         $exhibitor->id = $exhibitor->uid;
+
+//         $exhibitor->display_status = ExhibitorAttendance::resolveDisplayStatus($attendance);
+//         $exhibitor->soa_status = ExhibitorAttendance::resolveSOALabel($attendance);
+//         $exhibitor->payment_status = ExhibitorAttendance::resolvePaymentLabel($attendance);
+//         $exhibitor->is_soa_generated = $attendance->is_soa_generated ?? false;
+
+    
+//         switch ($exhibitor->display_status) {
+//             case ExhibitorAttendance::LABEL_READY_FOR_RTB:
+//                 $exhibitor->sort_order = 1; break;
+//             case ExhibitorAttendance::LABEL_AWAITING_CONFORME:
+//                 $exhibitor->sort_order = 2; break;
+//             case ExhibitorAttendance::LABEL_PENDING_CONFORME_GENERATION:
+//                 $exhibitor->sort_order = 3; break;
+//             case ExhibitorAttendance::LABEL_INCOMPLETE:
+//                 $exhibitor->sort_order = 4; break;
+//             case ExhibitorAttendance::LABEL_PENDING:
+//                 $exhibitor->sort_order = 5; break;
+//             case ExhibitorAttendance::LABEL_REVIEWED:
+//                 $exhibitor->sort_order = 6; break;
+//             case ExhibitorAttendance::LABEL_ONHOLD:
+//                 $exhibitor->sort_order = 7; break;
+//             case ExhibitorAttendance::LABEL_DENIED:
+//                 $exhibitor->sort_order = 8; break;
+//             case 'New Status 6':
+//                 $exhibitor->sort_order = 9; break;
+//             case 'New Status 7':
+//                 $exhibitor->sort_order = 10; break;
+//             default:
+//                 $exhibitor->sort_order = 99;
+//         }
+
+//         return $exhibitor;
+//     });
+
+
+// if (Auth::user()->user_group == 6) {
+//     $records = $records->filter(function ($ex) {
+//         return $ex->display_status === 'Generated RTB';
+//     })->values();
+// }
+
+
+// if (isset($filters['status']) && in_array($filters['status'], [6, 7])) {
+//     $statusFilter = (int) $filters['status'];
+
+//     $records = $records->filter(function ($ex) use ($statusFilter) {
+//         switch ($statusFilter) {
+//             case 6: // For RTB
+//                 return $ex->display_status === ExhibitorAttendance::LABEL_READY_FOR_RTB;
+//             case 7: // Awaiting Conforme
+//                 return $ex->display_status === ExhibitorAttendance::LABEL_AWAITING_CONFORME;
+//             case 8:
+//                 return $ex->display_status === ExhibitorAttendance::LABEL_GENERATED_RTB;
+//         }
+//     })->values();
+// }
+
+// if (isset($filters['soa_status']) && $filters['soa_status'] !== '') {
+//     $soaFilter = (int) $filters['soa_status'];
+
+//     $exhibitors->whereHas('attendances', function ($q) use ($soaFilter, $fair_code) {
+//         $q->when($fair_code, fn($q2) => $q2->where('fair_code', $fair_code))
+//           ->where('is_soa_generated', $soaFilter);
+//     });
+// }
+
+  
+//     if ($request->has('sort')) {
+//         $sort = json_decode($request->input('sort'), true);
+//         if ($sort['field'] === 'display_status') {
+//             $records = $records->sortBy(fn($ex) => $ex->sort_order, SORT_REGULAR, $sort['type'] === 'desc')->values();
+//         } elseif (!in_array($sort['field'], ['co_name', 'co_email', 'fair_code'])) {
+//             $records = $records->sortBy($sort['field'], SORT_REGULAR, $sort['type'] === 'desc')->values();
+//         }
+//     }
+
+
+//     $arr_permissions = [
+//         'can_view' => Auth::user()->can('view reg_suppliers'),
+//         'can_resend' => Auth::user()->can('resend reg_suppliers'),
+//         'can_approved' => Auth::user()->can('approve reg_suppliers'),
+//         'can_review' => Auth::user()->can('review reg_suppliers'),
+//         'can_hold' => Auth::user()->can('onhold reg_suppliers'),
+//         'can_deny' => Auth::user()->can('disapprove reg_suppliers'),
+//         'can_edit' => Auth::user()->can('edit reg_suppliers'),
+//         'can_add' => Auth::user()->can('add reg_suppliers'),
+//         'can_conforme' => Auth::user()->can('conforme reg_suppliers'),
+//         'can_soa' => Auth::user()->can('soa reg_suppliers'),
+//     ];
+
+//     return response()->json([
+//         'total' => $total_exhibitors,
+//         'data' => $records,
+//         'permissions' => $arr_permissions
+//     ], 200);
+// }
+
+
 public function supplier_list(Request $request)
 {
-    $per_page = $request->input('per_page', 10);
-    $page = $request->input('page', 1);
-    $offset = ($page - 1) * $per_page;
+    $per_page = (int) $request->input('per_page', 10);
+    $page = (int) $request->input('page', 1);
 
-    $filters = $request->has('filter') ? json_decode($request->input('filter'), true) : [];
+    $filters = $request->has('filter')
+        ? json_decode($request->input('filter'), true)
+        : [];
 
-    // --- Determine fair_code ---
-    $fair_code = $filters['fair_code'] ?? null;
+    /*
+    |--------------------------------------------------------------------------
+    | Determine Fair Code
+    |--------------------------------------------------------------------------
+    */
+
+    $fair_code = isset($filters['fair_code'])
+        ? $filters['fair_code']
+        : null;
+
     if (!$fair_code) {
         $latestEvent = Event::latest()->first();
-        $fair_code = $latestEvent ? $latestEvent->fair_code : null;
+
+        $fair_code = $latestEvent
+            ? $latestEvent->fair_code
+            : null;
+
         $filters['fair_code'] = $fair_code;
     }
 
-    // --- Base query ---
+    /*
+    |--------------------------------------------------------------------------
+    | Base Query
+    |--------------------------------------------------------------------------
+    */
+
     $exhibitors = Exhibitor::with([
         'user',
         'reviewer',
         'approver',
         'disapprover',
         'onholder',
-        'attendances' => fn($q) => $fair_code ? $q->where('fair_code', $fair_code) : null,
-        'conformes' => fn($q) => $fair_code ? $q->where('fair_code', $fair_code)->latest() : null,
-    ])->whereHas('user', fn($q) => $q->where('user_group', 5));
 
-    // --- Filters ---
-    if (!empty($filters)) {
-        if (!empty($filters['co_name'])) {
-            $exhibitors->where('co_name', 'like', '%' . $filters['co_name'] . '%');
-        }
-        if (!empty($filters['co_email'])) {
-            $exhibitors->where('co_email', $filters['co_email']);
-        }
-        if (!empty($filters['fair_code'])) {
-            $exhibitors->where('fair_code', $filters['fair_code']);
-        }
-    if (isset($filters['status']) && $filters['status'] !== '') {
+        'attendances' => function ($q) use ($fair_code) {
+            if ($fair_code) {
+                $q->where('fair_code', $fair_code);
+            }
+        },
+
+        'conformes' => function ($q) use ($fair_code) {
+            if ($fair_code) {
+                $q->where('fair_code', $fair_code)
+                    ->latest();
+            }
+        },
+
+    ])->whereHas('user', function ($q) {
+        $q->where('user_group', 5);
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Basic Filters
+    |--------------------------------------------------------------------------
+    */
+
+    if (!empty($filters['co_name'])) {
+        $exhibitors->where(
+            'co_name',
+            'like',
+            '%' . $filters['co_name'] . '%'
+        );
+    }
+
+    if (!empty($filters['co_email'])) {
+        $exhibitors->where(
+            'co_email',
+            'like',
+            '%' . $filters['co_email'] . '%'
+        );
+    }
+
+    if (!empty($filters['fair_code'])) {
+        $exhibitors->where(
+            'fair_code',
+            $filters['fair_code']
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sorting
+    |--------------------------------------------------------------------------
+    */
+
+    $sort = $request->has('sort')
+        ? json_decode($request->input('sort'), true)
+        : [
+            'field' => 'created_at',
+            'type' => 'desc',
+        ];
+
+    if (
+        isset($sort['field']) &&
+        in_array($sort['field'], [
+            'co_name',
+            'co_email',
+            'fair_code',
+            'created_at',
+        ])
+    ) {
+        $exhibitors->orderBy(
+            $sort['field'],
+            isset($sort['type']) ? $sort['type'] : 'desc'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Build Records
+    |--------------------------------------------------------------------------
+    */
+
+    $records = $exhibitors
+        ->get()
+        ->map(function ($exhibitor) {
+
+            $attendance = $exhibitor->attendances->first();
+
+            $conforme = $exhibitor->conformes->first();
+
+            $status = $attendance
+                ? $attendance->status
+                : ExhibitorAttendance::STATUS_INCOMPLETE;
+
+            $exhibitor->status = $status;
+
+            $exhibitor->created_at = $attendance
+                ? $attendance->created_at
+                : null;
+
+            $exhibitor->registration_agreed_at = $attendance
+                ? $attendance->registration_agreed_at
+                : null;
+
+            $exhibitor->user_name = $exhibitor->user
+                ? $exhibitor->user->name
+                : null;
+
+            /*
+            |--------------------------------------------------------------------------
+            | Keep UID as Frontend ID
+            |--------------------------------------------------------------------------
+            */
+
+            $exhibitor->id = $exhibitor->uid;
+
+            /*
+            |--------------------------------------------------------------------------
+            | Resolve Display Values
+            |--------------------------------------------------------------------------
+            */
+
+            $exhibitor->display_status =
+                ExhibitorAttendance::resolveDisplayStatus(
+                    $attendance
+                );
+
+            $exhibitor->soa_status =
+                ExhibitorAttendance::resolveSOALabel(
+                    $attendance
+                );
+
+            $exhibitor->payment_status =
+                ExhibitorAttendance::resolvePaymentLabel(
+                    $attendance
+                );
+
+            $exhibitor->is_soa_generated = $attendance
+                ? ($attendance->is_soa_generated ?? false)
+                : false;
+
+            /*
+            |--------------------------------------------------------------------------
+            | Reviewer / Approver
+            |--------------------------------------------------------------------------
+            */
+
+            $exhibitor->modified_by_name = null;
+
+            if ($status === 1) {
+
+                $exhibitor->modified_by_name =
+                    $exhibitor->approver
+                        ? $exhibitor->approver->name
+                        : null;
+
+            } elseif ($status === 3) {
+
+                $exhibitor->modified_by_name =
+                    $exhibitor->reviewer
+                        ? $exhibitor->reviewer->name
+                        : null;
+
+            } elseif ($status === 4) {
+
+                $exhibitor->modified_by_name =
+                    $exhibitor->onholder
+                        ? $exhibitor->onholder->name
+                        : null;
+
+            } elseif ($status === 5) {
+
+                $exhibitor->modified_by_name =
+                    $exhibitor->disapprover
+                        ? $exhibitor->disapprover->name
+                        : null;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Status Sort Order
+            |--------------------------------------------------------------------------
+            */
+
+            switch ($exhibitor->display_status) {
+
+                case ExhibitorAttendance::LABEL_READY_FOR_RTB:
+
+                    $exhibitor->sort_order = 1;
+
+                    break;
+
+                case ExhibitorAttendance::LABEL_AWAITING_CONFORME:
+
+                    $exhibitor->sort_order = 2;
+
+                    break;
+
+                case ExhibitorAttendance::LABEL_PENDING_CONFORME_GENERATION:
+
+                    $exhibitor->sort_order = 3;
+
+                    break;
+
+                case ExhibitorAttendance::LABEL_INCOMPLETE:
+
+                    $exhibitor->sort_order = 4;
+
+                    break;
+
+                case ExhibitorAttendance::LABEL_PENDING:
+
+                    $exhibitor->sort_order = 5;
+
+                    break;
+
+                case ExhibitorAttendance::LABEL_REVIEWED:
+
+                    $exhibitor->sort_order = 6;
+
+                    break;
+
+                case ExhibitorAttendance::LABEL_ONHOLD:
+
+                    $exhibitor->sort_order = 7;
+
+                    break;
+
+                case ExhibitorAttendance::LABEL_DENIED:
+
+                    $exhibitor->sort_order = 8;
+
+                    break;
+
+                case ExhibitorAttendance::LABEL_GENERATED_RTB:
+
+                    $exhibitor->sort_order = 9;
+
+                    break;
+
+                default:
+
+                    $exhibitor->sort_order = 99;
+
+                    break;
+            }
+
+            return $exhibitor;
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Group 6
+    |--------------------------------------------------------------------------
+    */
+
+    if (Auth::user()->user_group == 6) {
+
+        $records = $records
+            ->filter(function ($ex) {
+
+                return $ex->display_status ===
+                    ExhibitorAttendance::LABEL_GENERATED_RTB;
+
+            })
+            ->values();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | STATUS FILTER
+    |--------------------------------------------------------------------------
+    |
+    | The table uses display_status, so filter using the resolved
+    | display status rather than attendance.status.
+    |
+    */
+
+    if (
+        isset($filters['status']) &&
+        $filters['status'] !== ''
+    ) {
+
+        $statusMap = [
+            0 => ExhibitorAttendance::LABEL_INCOMPLETE,
+            1 => ExhibitorAttendance::LABEL_PENDING_CONFORME_GENERATION,
+            2 => ExhibitorAttendance::LABEL_PENDING,
+            3 => ExhibitorAttendance::LABEL_REVIEWED,
+            4 => ExhibitorAttendance::LABEL_ONHOLD,
+            5 => ExhibitorAttendance::LABEL_DENIED,
+            6 => ExhibitorAttendance::LABEL_READY_FOR_RTB,
+            7 => ExhibitorAttendance::LABEL_AWAITING_CONFORME,
+            8 => ExhibitorAttendance::LABEL_GENERATED_RTB,
+        ];
+
         $statusFilter = (int) $filters['status'];
 
-        // First, fetch exhibitors without overly complex RTB/Awaiting filters
-        if (in_array($statusFilter, [0, 1, 2, 3, 4, 5])) {
-            $exhibitors->where(function ($q) use ($statusFilter, $fair_code) {
-                switch ($statusFilter) {
-                    case 0: // Incomplete
-                        $q->whereDoesntHave('attendances', fn($qq) =>
-                            $qq->when($fair_code, fn($q2) => $q2->where('fair_code', $fair_code))
-                            ->where('status', '>', 0)
-                        );
-                        break;
+        if (array_key_exists($statusFilter, $statusMap)) {
 
-                    case 1: // Pending Conforme Generation (awaiting generation)
-                        $q->whereHas('attendances', fn($qq) =>
-                            $qq->when($fair_code, fn($q2) => $q2->where('fair_code', $fair_code))
-                            ->where('status', ExhibitorAttendance::STATUS_PENDING_CONFORME_GENERATION)
-                            ->where(function($q2) {
-                                $q2->where('conforme_review', 0)
-                                    ->orWhereNull('conforme_review');
-                            })
-                        );
-                        break;
+            $records = $records
+                ->filter(function ($ex) use (
+                    $statusMap,
+                    $statusFilter
+                ) {
 
-                    default: // 2,3,4,5
-                        $q->whereHas('attendances', fn($qq) =>
-                            $qq->when($fair_code, fn($q2) => $q2->where('fair_code', $fair_code))
-                            ->where('status', $statusFilter)
-                        );
-                }
-            });
+                    return $ex->display_status ===
+                        $statusMap[$statusFilter];
+
+                })
+                ->values();
         }
-
-        
-    
-    }
     }
 
-    if ($request->has('sort')) {
-    $sort = json_decode($request->input('sort'), true);
+    /*
+    |--------------------------------------------------------------------------
+    | SOA FILTER
+    |--------------------------------------------------------------------------
+    */
 
-    if (in_array($sort['field'], ['co_name', 'co_email', 'fair_code', 'created_at'])) {
-        $exhibitors->orderBy($sort['field'], $sort['type']);
+    if (
+        isset($filters['soa_status']) &&
+        $filters['soa_status'] !== ''
+    ) {
+
+        $soaFilter = $filters['soa_status'];
+
+        $records = $records
+            ->filter(function ($ex) use ($soaFilter) {
+
+                return $ex->soa_status === $soaFilter;
+
+            })
+            ->values();
     }
-    
-}
 
+    /*
+    |--------------------------------------------------------------------------
+    | PAYMENT FILTER
+    |--------------------------------------------------------------------------
+    */
 
-    $total_exhibitors = $exhibitors->count();
+    if (
+        isset($filters['payment_status']) &&
+        $filters['payment_status'] !== ''
+    ) {
 
-    // --- Fetch records ---
-$records = $exhibitors
-    ->get()
-    ->map(function ($exhibitor) {
-        $attendance = $exhibitor->attendances->first();
-        $conforme = $exhibitor->conformes->first();
+        $paymentFilter = $filters['payment_status'];
 
-        $status = $attendance->status ?? ExhibitorAttendance::STATUS_INCOMPLETE;
+        $records = $records
+            ->filter(function ($ex) use ($paymentFilter) {
 
-        $exhibitor->status = $status;
-        $exhibitor->created_at = $attendance->created_at ?? null; 
-        $exhibitor->registration_agreed_at = $attendance->registration_agreed_at ?? null;
-        $exhibitor->user_name = $exhibitor->user->name ?? null;
-        $exhibitor->id = $exhibitor->uid;
+                return $ex->payment_status === $paymentFilter;
 
-        $exhibitor->display_status = ExhibitorAttendance::resolveDisplayStatus($attendance);
-        $exhibitor->soa_status = ExhibitorAttendance::resolveSOALabel($attendance);
-        $exhibitor->payment_status = ExhibitorAttendance::resolvePaymentLabel($attendance);
-        $exhibitor->is_soa_generated = $attendance->is_soa_generated ?? false;
+            })
+            ->values();
+    }
 
-    
-        switch ($exhibitor->display_status) {
-            case ExhibitorAttendance::LABEL_READY_FOR_RTB:
-                $exhibitor->sort_order = 1; break;
-            case ExhibitorAttendance::LABEL_AWAITING_CONFORME:
-                $exhibitor->sort_order = 2; break;
-            case ExhibitorAttendance::LABEL_PENDING_CONFORME_GENERATION:
-                $exhibitor->sort_order = 3; break;
-            case ExhibitorAttendance::LABEL_INCOMPLETE:
-                $exhibitor->sort_order = 4; break;
-            case ExhibitorAttendance::LABEL_PENDING:
-                $exhibitor->sort_order = 5; break;
-            case ExhibitorAttendance::LABEL_REVIEWED:
-                $exhibitor->sort_order = 6; break;
-            case ExhibitorAttendance::LABEL_ONHOLD:
-                $exhibitor->sort_order = 7; break;
-            case ExhibitorAttendance::LABEL_DENIED:
-                $exhibitor->sort_order = 8; break;
-            case 'New Status 6':
-                $exhibitor->sort_order = 9; break;
-            case 'New Status 7':
-                $exhibitor->sort_order = 10; break;
-            default:
-                $exhibitor->sort_order = 99;
-        }
+    /*
+    |--------------------------------------------------------------------------
+    | Sorting
+    |--------------------------------------------------------------------------
+    */
 
-        return $exhibitor;
-    });
+    if (
+        isset($sort['field']) &&
+        isset($sort['type'])
+    ) {
 
+        $directionDesc =
+            strtolower($sort['type']) === 'desc';
 
-if (Auth::user()->user_group == 6) {
-    $records = $records->filter(function ($ex) {
-        return $ex->display_status === 'Generated RTB';
-    })->values();
-}
+        /*
+        |--------------------------------------------------------------------------
+        | Display Status Sorting
+        |--------------------------------------------------------------------------
+        */
 
-
-if (isset($filters['status']) && in_array($filters['status'], [6, 7])) {
-    $statusFilter = (int) $filters['status'];
-
-    $records = $records->filter(function ($ex) use ($statusFilter) {
-        switch ($statusFilter) {
-            case 6: // For RTB
-                return $ex->display_status === ExhibitorAttendance::LABEL_READY_FOR_RTB;
-            case 7: // Awaiting Conforme
-                return $ex->display_status === ExhibitorAttendance::LABEL_AWAITING_CONFORME;
-            case 8:
-                return $ex->display_status === ExhibitorAttendance::LABEL_GENERATED_RTB;
-        }
-    })->values();
-}
-
-if (isset($filters['soa_status']) && $filters['soa_status'] !== '') {
-    $soaFilter = (int) $filters['soa_status'];
-
-    $exhibitors->whereHas('attendances', function ($q) use ($soaFilter, $fair_code) {
-        $q->when($fair_code, fn($q2) => $q2->where('fair_code', $fair_code))
-          ->where('is_soa_generated', $soaFilter);
-    });
-}
-
-  
-    if ($request->has('sort')) {
-        $sort = json_decode($request->input('sort'), true);
         if ($sort['field'] === 'display_status') {
-            $records = $records->sortBy(fn($ex) => $ex->sort_order, SORT_REGULAR, $sort['type'] === 'desc')->values();
-        } elseif (!in_array($sort['field'], ['co_name', 'co_email', 'fair_code'])) {
-            $records = $records->sortBy($sort['field'], SORT_REGULAR, $sort['type'] === 'desc')->values();
+
+            $records = $records
+                ->sortBy(
+                    function ($ex) {
+                        return $ex->sort_order;
+                    },
+                    SORT_REGULAR,
+                    $directionDesc
+                )
+                ->values();
+
+        /*
+        |--------------------------------------------------------------------------
+        | SOA / Payment / Created At Sorting
+        |--------------------------------------------------------------------------
+        */
+
+        } elseif (
+            in_array($sort['field'], [
+                'soa_status',
+                'payment_status',
+                'created_at',
+            ])
+        ) {
+
+            $records = $records
+                ->sortBy(
+                    $sort['field'],
+                    SORT_REGULAR,
+                    $directionDesc
+                )
+                ->values();
         }
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Total AFTER Filters
+    |--------------------------------------------------------------------------
+    */
+
+    $total_exhibitors = $records->count();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Pagination
+    |--------------------------------------------------------------------------
+    */
+
+    $records = $records
+        ->slice(
+            ($page - 1) * $per_page,
+            $per_page
+        )
+        ->values();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Permissions
+    |--------------------------------------------------------------------------
+    */
 
     $arr_permissions = [
-        'can_view' => Auth::user()->can('view reg_suppliers'),
-        'can_resend' => Auth::user()->can('resend reg_suppliers'),
-        'can_approved' => Auth::user()->can('approve reg_suppliers'),
-        'can_review' => Auth::user()->can('review reg_suppliers'),
-        'can_hold' => Auth::user()->can('onhold reg_suppliers'),
-        'can_deny' => Auth::user()->can('disapprove reg_suppliers'),
-        'can_edit' => Auth::user()->can('edit reg_suppliers'),
-        'can_add' => Auth::user()->can('add reg_suppliers'),
-        'can_conforme' => Auth::user()->can('conforme reg_suppliers'),
-        'can_soa' => Auth::user()->can('soa reg_suppliers'),
+
+        'can_view' =>
+            Auth::user()->can('view reg_suppliers'),
+
+        'can_resend' =>
+            Auth::user()->can('resend reg_suppliers'),
+
+        'can_approved' =>
+            Auth::user()->can('approve reg_suppliers'),
+
+        'can_review' =>
+            Auth::user()->can('review reg_suppliers'),
+
+        'can_hold' =>
+            Auth::user()->can('onhold reg_suppliers'),
+
+        'can_deny' =>
+            Auth::user()->can('disapprove reg_suppliers'),
+
+        'can_edit' =>
+            Auth::user()->can('edit reg_suppliers'),
+
+        'can_add' =>
+            Auth::user()->can('add reg_suppliers'),
+
+        'can_conforme' =>
+            Auth::user()->can('conforme reg_suppliers'),
+
+        'can_soa' =>
+            Auth::user()->can('soa reg_suppliers'),
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Response
+    |--------------------------------------------------------------------------
+    */
 
     return response()->json([
         'total' => $total_exhibitors,
         'data' => $records,
-        'permissions' => $arr_permissions
+        'permissions' => $arr_permissions,
     ], 200);
 }
 

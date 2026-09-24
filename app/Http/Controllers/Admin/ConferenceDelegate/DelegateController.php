@@ -21,6 +21,8 @@ use App\Mail\ConferenceDelegateApproved;
 use App\Mail\ConferenceVisitorBuyerApproved;
 use App\Models\Supplier\Event;
 use App\Models\SSXConferenceSoa;
+use App\Exports\DelegateCertificationsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DelegateController extends Controller
 {
@@ -294,73 +296,164 @@ private function recalculateConferenceAmount(SSXConference $conference)
     |--------------------------------------------------------------------------
     */
 
-    $data = collect($records->items())->map(function ($conference) {
+$data = collect($records->items())->map(function ($conference) {
 
-        return [
+    $delegates = $conference->conferenceDelegates;
 
-            'id' => $conference->id,
+    /*
+    |--------------------------------------------------------------------------
+    | Participant Counts
+    |--------------------------------------------------------------------------
+    |
+    | Regular Delegate:
+    | is_visitor_buyer = 0/null
+    | AND
+    | is_speaker = 0/null
+    |
+    */
 
-            'registration_number' => $conference->registration_number,
+    $delegateCount = $delegates
+        ->filter(function ($delegate) {
+            return
+                (int) ($delegate->is_visitor_buyer ?? 0) !== 1 &&
+                (int) ($delegate->is_speaker ?? 0) !== 1;
+        })
+        ->count();
 
-            'company_name' => $conference->company_name,
+    /*
+    |--------------------------------------------------------------------------
+    | Visitor / Buyer Count
+    |--------------------------------------------------------------------------
+    */
 
-            'contact_person' => $conference->contact_person,
+    $visitorBuyerCount = $delegates
+        ->filter(function ($delegate) {
+            return (int) ($delegate->is_visitor_buyer ?? 0) === 1;
+        })
+        ->count();
 
-            'company_email' => $conference->company_email,
+    /*
+    |--------------------------------------------------------------------------
+    | Speaker Count
+    |--------------------------------------------------------------------------
+    */
 
-            'contact_number' => $conference->contact_number,
+    $speakerCount = $delegates
+        ->filter(function ($delegate) {
+            return (int) ($delegate->is_speaker ?? 0) === 1;
+        })
+        ->count();
 
-            'fair_code' => $conference->fair_code,
+    /*
+    |--------------------------------------------------------------------------
+    | Total Participants
+    |--------------------------------------------------------------------------
+    */
 
-            'participant_count' => $conference->participant_count,
+    $participantCount = $delegates->count();
 
-            'status' => $conference->status,
+    return [
+        'id' => $conference->id,
 
-            /*
-            |--------------------------------------------------------------------------
-            | Review / SOA Billing
-            |--------------------------------------------------------------------------
-            */
+        'registration_number' =>
+            $conference->registration_number,
 
-            'review' => $conference->review_status,
+        'company_name' =>
+            $conference->company_name,
 
+        'contact_person' =>
+            $conference->contact_person,
 
-'billing_status' =>
-    (int) $conference->billing_status,
+        'company_email' =>
+            $conference->company_email,
 
-            'created_at' => optional($conference->created_at)
+        'contact_number' =>
+            $conference->contact_number,
+
+        'fair_code' =>
+            $conference->fair_code,
+
+        /*
+        |--------------------------------------------------------------------------
+        | Participant Counts
+        |--------------------------------------------------------------------------
+        */
+
+        'delegate_count' =>
+            $delegateCount,
+
+        'visitor_buyer_count' =>
+            $visitorBuyerCount,
+
+        'speaker_count' =>
+            $speakerCount,
+
+        'participant_count' =>
+            $participantCount,
+
+        /*
+        |--------------------------------------------------------------------------
+        | Status
+        |--------------------------------------------------------------------------
+        */
+
+        'status' =>
+            $conference->status,
+
+        /*
+        |--------------------------------------------------------------------------
+        | Review / SOA Billing
+        |--------------------------------------------------------------------------
+        */
+
+        'review' =>
+            $conference->review_status,
+
+        'billing_status' =>
+            (int) $conference->billing_status,
+
+        /*
+        |--------------------------------------------------------------------------
+        | Created
+        |--------------------------------------------------------------------------
+        */
+
+        'created_at' =>
+            optional($conference->created_at)
                 ->format('Y-m-d H:i:s'),
 
-            /*
-            |--------------------------------------------------------------------------
-            | Delegates
-            |--------------------------------------------------------------------------
-            */
+        /*
+        |--------------------------------------------------------------------------
+        | Delegates
+        |--------------------------------------------------------------------------
+        */
 
-            'delegates' => $conference->conferenceDelegates->map(function ($delegate) {
+        'delegates' =>
+            $delegates->map(function ($delegate) {
 
                 return [
+                    'id' =>
+                        $delegate->id,
 
-                    'id' => $delegate->id,
+                    'name' =>
+                        $delegate->name,
 
-                    'name' => $delegate->name,
+                    'email' =>
+                        $delegate->email,
 
-                    'email' => $delegate->email,
+                    'designation' =>
+                        $delegate->designation,
 
-                    'designation' => $delegate->designation,
+                    'company' =>
+                        $delegate->company,
 
-                    'company' => $delegate->company,
-
-                    'mobile' => $delegate->mobile,
-
+                    'mobile' =>
+                        $delegate->mobile,
                 ];
 
             }),
-
-        ];
-
-    });
-
+    ];
+});
     
 
     return response()->json([
@@ -1478,4 +1571,16 @@ public function deleteBreakdown($id)
             'email_sent_at' => $delegate->email_sent_at,
         ]);
     }
+
+public function downloadCertifications(Request $request)
+{
+    $fileName = 'ssx_conference_certification_participants_' .
+        now()->format('Ymd_His') .
+        '.xlsx';
+
+    return Excel::download(
+        new DelegateCertificationsExport($request),
+        $fileName
+    );
+}
 }

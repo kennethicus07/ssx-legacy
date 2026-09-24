@@ -76,6 +76,47 @@
                                 </select>
                             </div>
 
+                            <div class="col-md-3">
+                                <label for="soa_status" class="form-label">
+                                    SOA Status
+                                </label>
+
+                                <select
+                                    id="soa_status"
+                                    class="form-select form-select-sm"
+                                    v-model="
+                                        serverParams.columnFilters.soa_status
+                                    "
+                                >
+                                    <option :value="''">-- Select --</option>
+                                    <option value="SOA Generated">
+                                        SOA Generated
+                                    </option>
+                                    <option value="SOA Not Generated">
+                                        SOA Not Generated
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="payment_status" class="form-label">
+                                    Payment Status
+                                </label>
+
+                                <select
+                                    id="payment_status"
+                                    class="form-select form-select-sm"
+                                    v-model="
+                                        serverParams.columnFilters
+                                            .payment_status
+                                    "
+                                >
+                                    <option :value="''">-- Select --</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Unpaid">Unpaid</option>
+                                </select>
+                            </div>
+
                             <div class="col mt-3 text-end">
                                 <a
                                     role="button"
@@ -792,6 +833,8 @@ export default {
                     co_email: "",
                     status: "",
                     fair_code: "",
+                    soa_status: "",
+                    payment_status: "",
                 },
                 sort: {
                     field: "created_at",
@@ -913,6 +956,8 @@ export default {
                 co_email: "",
                 status: "",
                 fair_code: defaultFairCode,
+                soa_status: "",
+                payment_status: "",
             };
             this.selectedFairCode = defaultFairCode;
             this.getLists();

@@ -301,8 +301,7 @@ Route::post(
         Route::post('/{id}/return-to-generated',[ConferenceSoaController::class, 'returnToGenerated'])->name('return-to-generated');
         Route::post('/{id}/approve-billing',[ConferenceSoaController::class, 'approveBilling'])->name('approve-billing');
         Route::post('/{conference}/generate-qr',[DelegateController::class, 'generateAllQr'])->name('generate-qr');
-      
-        
+        Route::get('/certifications/download',[DelegateController::class, 'downloadCertifications'])->name('certifications.download');
             
     //? Blade
         Route::get('/', [DelegateController::class, 'index'])->name('index');

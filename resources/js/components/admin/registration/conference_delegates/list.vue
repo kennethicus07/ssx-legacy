@@ -139,17 +139,29 @@
             <div class="col-12 mt-3">
                 <div class="card">
                     <div class="card-body">
-                        <div
-                            class="d-flex justify-content-between align-items-end mb-4"
-                        >
-                            <div>
-                                <h5 class="card-title mb-1">
-                                    Conference Delegate Registrations
-                                </h5>
+                        <div class="pb-4">
+                            <div
+                                class="d-flex justify-content-between align-items-end"
+                            >
+                                <div>
+                                    <h5 class="card-title mb-1">
+                                        Conference Delegate Registrations
+                                    </h5>
 
-                                <small class="text-muted">
-                                    Registered companies and their delegates
-                                </small>
+                                    <small class="text-muted">
+                                        Registered companies and their delegates
+                                    </small>
+                                </div>
+
+                                <div>
+                                    <a
+                                        :href="downloadCertificationsUrl()"
+                                        class="btn btn-secondary btn-sm"
+                                    >
+                                        <i class="mdi mdi-download me-1"></i>
+                                        Download Certifications
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
@@ -223,18 +235,50 @@
                                             props.column.field ==
                                             'participant_count'
                                         "
+                                        class="d-inline-flex align-items-center gap-1"
                                     >
-                                        {{ props.row.participant_count }}
+                                        <!-- Delegates -->
+                                        <span
+                                            v-tooltip.top="'Delegates'"
+                                            class="badge bg-secondary"
+                                        >
+                                            D: {{ props.row.delegate_count }}
+                                        </span>
+
+                                        <!-- Visitor / Buyers -->
+                                        <span
+                                            v-tooltip.top="'Visitor / Buyers'"
+                                            class="badge bg-secondary"
+                                        >
+                                            V:
+                                            {{ props.row.visitor_buyer_count }}
+                                        </span>
+
+                                        <!-- Speakers -->
+                                        <span
+                                            v-tooltip.top="'Speakers'"
+                                            class="badge bg-secondary"
+                                        >
+                                            S: {{ props.row.speaker_count }}
+                                        </span>
+
+                                        <!-- Total -->
+                                        <span
+                                            v-tooltip.top="'Total Participants'"
+                                            class="badge bg-secondary"
+                                        >
+                                            T: {{ props.row.participant_count }}
+                                        </span>
                                     </span>
 
                                     <!-- Event -->
-                                    <span
+                                    <!-- <span
                                         v-else-if="
                                             props.column.field == 'fair_code'
                                         "
                                     >
                                         {{ props.row.fair_code }}
-                                    </span>
+                                    </span> -->
 
                                     <!-- Status -->
                                     <span
@@ -287,7 +331,7 @@
                                         "
                                     >
                                         <span
-                                            class="badge"
+                                            class="badge text-white align-items-start"
                                             :class="
                                                 billingStatusClass(
                                                     props.row.billing_status
@@ -498,14 +542,7 @@ export default {
                     label: "Participants",
                     field: "participant_count",
                     sortable: true,
-                    tdClass: "align-middle text-center",
-                },
-
-                {
-                    label: "Event",
-                    field: "fair_code",
-                    sortable: true,
-                    tdClass: "align-middle",
+                    tdClass: "align-middle ",
                 },
 
                 {
@@ -519,14 +556,14 @@ export default {
                     label: "Review",
                     field: "review",
                     sortable: false,
-                    tdClass: "align-middle text-center",
+                    tdClass: "align-middle ",
                 },
 
                 {
                     label: "SOA/Billing",
                     field: "billing_status",
                     sortable: false,
-                    tdClass: "align-middle text-center",
+                    tdClass: "align-middle ",
                 },
 
                 {
@@ -787,6 +824,13 @@ export default {
                 default:
                     return "bg-secondary";
             }
+        },
+        downloadCertificationsUrl() {
+            const filters = this.serverParams.columnFilters;
+
+            const params = new URLSearchParams(filters);
+
+            return `/admin/registration/delegates/certifications/download?${params.toString()}`;
         },
     },
 

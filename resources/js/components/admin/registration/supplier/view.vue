@@ -3404,8 +3404,9 @@ export default {
             if (
                 this.attendance_info.participation_type !== 1 ||
                 this.business_info.start_up !== 0
-            )
+            ) {
                 return true; // Not individual non-startup, skip
+            }
 
             await this.getCart(); // make sure cart is up-to-date
 
@@ -3422,26 +3423,22 @@ export default {
                 );
 
                 if (res.data.has_invalid) {
-                    // if (res.data.reason === "only_one") {
-                    //     Vue.$toast.error("Only 1 booth/package allowed.", {
-                    //         position: "top-right",
-                    //     });
-                    // } else
-
                     if (res.data.reason === "invalid_size") {
                         Vue.$toast.error("Selected booth is invalid.", {
                             position: "top-right",
                         });
+
+                        return false;
                     } else if (res.data.reason === "invalid_quantity") {
-                        Vue.$toast.error("Quantity must be 1.", {
-                            position: "top-right",
-                        });
+                        // Temporarily allow quantity > 1.
+                        return true;
                     } else {
                         Vue.$toast.error("Your selection is invalid.", {
                             position: "top-right",
                         });
+
+                        return false;
                     }
-                    return false; // validation failed
                 }
 
                 return true; // validation passed
@@ -3450,6 +3447,7 @@ export default {
                     "Failed to validate booth sizes. Please try again.",
                     { position: "top-right" }
                 );
+
                 return false;
             }
         },
