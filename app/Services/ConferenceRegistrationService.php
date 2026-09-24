@@ -21,7 +21,7 @@ class ConferenceRegistrationService
      *
      * This means:
      * - Registration created on/before Aug 31, 2026 = Early Bird rate
-     * - Registration created after Aug 31, 2026 = Regular rate
+     * - Registration created after October 30, 2026 = Regular rate
      *
      * Adding/updating/deleting delegates later will NOT change the rate.
      * --------------------------------------------------------------------------
@@ -30,7 +30,7 @@ class ConferenceRegistrationService
     {
         $deadline = Carbon::create(
             2026,
-            8,
+            10,
             31,
             23,
             59,
@@ -136,7 +136,7 @@ class ConferenceRegistrationService
          *
          * Therefore, if the registration was created during Early Bird,
          * its discount remains based on the Early Bird rate even if an admin
-         * adds a delegate after August 31, 2026.
+         * adds a delegate after respected date
          * ----------------------------------------------------------------------
          */
         $isForeign = $conference->business_type === 'foreign';

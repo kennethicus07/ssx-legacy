@@ -906,33 +906,27 @@ public function details($id)
 
     }
 
-    public function deleteBreakdown($id)
-    {
-        $breakdown = SSXConferenceBreakdown::findOrFail($id);
 
-        if (!in_array($breakdown->type, [
-            SSXConferenceBreakdown::TYPE_ADD_FEE,
-            SSXConferenceBreakdown::TYPE_ADD_DISCOUNT,
-        ])) {
-            return response()->json([
-                'message' => 'This breakdown cannot be deleted.'
-            ], 422);
-        }
+public function deleteBreakdown($id)
+{
+    $breakdown = SSXConferenceBreakdown::findOrFail($id);
 
-        $conference = SSXConference::findOrFail(
-            $breakdown->ssx_conference_id
-        );
+    $conference = SSXConference::findOrFail(
+        $breakdown->ssx_conference_id
+    );
 
-        $breakdown->delete();
+    $breakdown->delete();
 
-        $totals = $this->recalculateConferenceAmount($conference);
+    $totals = $this->recalculateConferenceAmount($conference);
 
-       return response()->json([
-    'message' => 'Adjustment removed successfully.',
-    'id' => $breakdown->id,
-    'totals' => $totals,
-]);
-    }
+    return response()->json([
+        'message' => 'Adjustment removed successfully.',
+        'id' => $breakdown->id,
+        'totals' => $totals,
+    ]);
+}
+
+
 
   public function addDelegate(Request $request, $conferenceId)
     {

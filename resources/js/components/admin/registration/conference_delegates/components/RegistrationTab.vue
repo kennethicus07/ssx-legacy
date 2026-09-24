@@ -176,10 +176,7 @@
                             <!-- Action -->
                             <div class="col-1 text-center">
                                 <button
-                                    v-if="
-                                        item.type === 'add_discount' &&
-                                        canDeleteDiscount
-                                    "
+                                    v-if="canDeleteDiscount"
                                     class="btn btn-sm btn-outline-danger"
                                     @click="deleteBreakdown(item)"
                                 >

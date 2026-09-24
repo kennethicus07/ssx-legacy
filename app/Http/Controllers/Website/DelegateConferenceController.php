@@ -32,7 +32,7 @@ class DelegateConferenceController extends Controller
         
 
         $reg_cutoff = Carbon::create(2026, 8, 31);
-        $deadline = Carbon::create(2026, 8, 31);
+        $deadline = Carbon::create(2026, 10, 31);
         $today = Carbon::now('Asia/Manila')->startOfDay();
 
         $this->reg_open = $today->lte($reg_cutoff) ? true : false;
